@@ -11,13 +11,14 @@
 #include<vector>
 #include <sstream>
 #include "Game.h"
+#include "Board.h"
 using namespace std;
 
 #define MAX_PENDING_CONNECTIONS 10
 #define MAX_NUMBER_CONNECTIONS 30
 #define MAX_MESSAGE_LENGTH 255
 
-string startBoard =
+const string startBoard =
                          "0 3 0 3 0 3 0 3 "
                          "3 0 3 0 3 0 3 0 "
                          "0 3 0 3 0 3 0 3 "
@@ -131,6 +132,7 @@ vector<string> getSplitMessages(string messages){
     return splitMessages;
 }
 
+
 int resolveNextMove(Game* game){
 
     vector<string> splitMessages = getSplitMessages(getResponse(game->GetCurrentPlayer()));
@@ -141,12 +143,16 @@ int resolveNextMove(Game* game){
     return 0;
 }
 
+
 int main(int argc, char const *argv[])
 {
     std::cout <<  "Server up" << std::endl;
-
     setUp();
 
+    Board board(startBoard);
+    board.FlipBoard();
+
+    cout << board.BoardToString();
 
     for(;;){
         std::cout <<  "Listening..." << std::endl;
@@ -163,8 +169,10 @@ int main(int argc, char const *argv[])
 
             Game* game = new Game(player1, player2);
 
+
+
             sendMessage(player1, "p", startBoard);
-            sendMessage(player2, "p", startBoard);
+            sendMessage(player2, "p", board.BoardToString());
             sendMessage(player1, "w", "");
 
             while(true){
@@ -197,27 +205,6 @@ int main(int argc, char const *argv[])
     close(serverSocket);
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
