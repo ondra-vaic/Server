@@ -8,14 +8,16 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <iostream>
-
+#include<vector>
+#include <sstream>
 #include "Game.h"
+using namespace std;
 
 #define MAX_PENDING_CONNECTIONS 10
 #define MAX_NUMBER_CONNECTIONS 30
 #define MAX_MESSAGE_LENGTH 255
 
-const char* startBoard = "p"
+string startBoard =
                          "0 3 0 3 0 3 0 3 "
                          "3 0 3 0 3 0 3 0 "
                          "0 3 0 3 0 3 0 3 "
@@ -26,57 +28,114 @@ const char* startBoard = "p"
                          "1 0 1 0 1 0 1 0";
 
 int serverSocket;
-void error(const char *msg){
-    perror(msg);
-    exit(1);
+void error(int code, const char *msg){
+    if(code != 0){
+        perror(msg);
+        exit(1);
+    }
 }
 
-void setUp(){
+void setUp() {
+
+    int return_value;
+    int param = 1;
+
     //socket
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    return_value = setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (const char *) &param, sizeof(int));
+    error(return_value, "Setsockopt Error");
 
     //server adress
     struct sockaddr_in serverAdress;
     serverAdress.sin_family = AF_INET;
     serverAdress.sin_port = htons(9002);
-    serverAdress.sin_addr.s_addr =  INADDR_ANY;
+    serverAdress.sin_addr.s_addr = INADDR_ANY;
 
     //bind socket
-    bind(serverSocket, (struct sockaddr*) &serverAdress, sizeof(serverAdress));
+    return_value = bind(serverSocket, (struct sockaddr *) &serverAdress, sizeof(serverAdress));
+    error(return_value, "Bind Error");
+
+    //listen
+    return_value = listen(serverSocket, MAX_PENDING_CONNECTIONS);
+    error(return_value, "Listen Error");
 }
 
-char* getResponse(int clientId){
-    char* response = new char[255];
+string getResponse(int clientId){
+    char* response = new char[MAX_MESSAGE_LENGTH];
     recv(clientId, response, sizeof(response), 0);
     printf("Recieved -[%s]- from %d\n", response, clientId);
 
-    return response;
+    string reponseString(response);
+    return reponseString;
 }
 
-bool validateMove(char* move){
-    return true;
+void sendMessage(int clientId, const string& identifier, const string& message){
+
+    string completeMessage = identifier + message + "|";
+    send(clientId, completeMessage.c_str(), completeMessage.length(), 0);\
+
+    cout << "Sent [" << completeMessage << "]" << "to " << clientId << endl;
 }
 
-void sendMessage(int clientId, const char* message){
-
-    char *completeMessage = new char[255];
-
-    strcpy(completeMessage, message);
-    strcat(completeMessage, "|");
-
-    send(clientId, completeMessage, strlen(completeMessage), 0);
-    printf("Sent -[%s]- to %d\n", completeMessage, clientId);
+char getIdentifier(string message){
+    return message[0];
 }
 
+string getRawMessage(const string& message){
+    return message.substr(1, message.size());
+}
+
+void resolveMessage(const string& message){
+
+    char identifier = getIdentifier(message);
+    string rawMessage = getRawMessage(message);
+    cout << rawMessage << " " << identifier;
+//
+//    switch (identifier)
+//    {
+//        case 'd':
+//            resolveDelete(rawMessage);
+//            break;
+//        case 'm':
+//            resolveMove(rawMessage);
+//            break;
+//        case 'w':
+//            //gameManager.SetTurn();
+//            break;
+//        case 'p':
+//            resolvePlace(rawMessage);
+//            break;
+//    }
+//
+//    if(validateMove(message)){
+//        sendMessage(game->GetOtherPlayer(), message);
+//    }else{
+//        printf("Invalid Move");
+//    }
+}
+
+
+vector<string> getSplitMessages(string messages){
+    vector<string> splitMessages;
+
+    size_t position = 0;
+    string message;
+    while ((position = messages.find('|')) != string::npos) {
+        message = messages.substr(0, position);
+        splitMessages.push_back(message);
+        messages.erase(0, position + 1);
+    }
+
+    //splitMessages.pop_back();
+
+    return splitMessages;
+}
 
 int resolveNextMove(Game* game){
 
-    char* message = getResponse(game->GetCurrentPlayer());
-
-    if(validateMove(message)){
-        sendMessage(game->GetOtherPlayer(), message);
-    }else{
-        error("Invalid Move");
+    vector<string> splitMessages = getSplitMessages(getResponse(game->GetCurrentPlayer()));
+    for (const string& message : splitMessages) {
+        resolveMessage(message);
     }
 
     return 0;
@@ -87,9 +146,7 @@ int main(int argc, char const *argv[])
     std::cout <<  "Server up" << std::endl;
 
     setUp();
-    std::cout <<  "Server is set up" << std::endl;
 
-    listen(serverSocket, MAX_PENDING_CONNECTIONS);
 
     for(;;){
         std::cout <<  "Listening..." << std::endl;
@@ -106,9 +163,9 @@ int main(int argc, char const *argv[])
 
             Game* game = new Game(player1, player2);
 
-            sendMessage(player1, startBoard);
-            sendMessage(player2, startBoard);
-            sendMessage(player1, "w");
+            sendMessage(player1, "p", startBoard);
+            sendMessage(player2, "p", startBoard);
+            sendMessage(player1, "w", "");
 
             while(true){
                 resolveNextMove(game);

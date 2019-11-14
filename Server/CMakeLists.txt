@@ -3,4 +3,4 @@ project(Server)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Server Main.cpp Game.cpp Game.h)
+add_executable(Server Main.cpp Game.cpp Game.h Validator.cpp Validator.h)
