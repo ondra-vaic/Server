@@ -41,7 +41,7 @@ bool Utils::CanBeValidWalk(int x0, int y0, int x1, int y1){
 Vector2D Utils::CalculateEnemyPosition(int x0, int y0, int x1, int y1){
 
     Vector2D startPosition{x0, y0};
-    Vector2D endPosition{x0, y0};
+    Vector2D endPosition{x1, y1};
 
     Vector2D jumpDelta = endPosition - startPosition;
     Vector2D position = startPosition;

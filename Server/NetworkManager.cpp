@@ -26,7 +26,7 @@ string NetworkManager::GetResponse(int clientId){
 }
 
 void NetworkManager::SendMove(int player, int x0, int y0, int x1, int y1){
-    sendMessage(player, "m",to_string(x0) + " " + to_string(y0) + " " + to_string(x1) + " " + to_string(y1));
+    sendMessage(player, "m",to_string(x0) + " " + to_string(7 - y0) + " " + to_string(x1) + " " + to_string(7 - y1));
 }
 
 void NetworkManager::SendWake(int player){
@@ -38,13 +38,13 @@ void NetworkManager::SendPlace(int player, const string& board){
 }
 
 void NetworkManager::SendDelete(int player, int x, int y){
-    sendMessage(player, "d", to_string(x) + " " + to_string(y));
+    sendMessage(player, "d", to_string(x) + " " + to_string(7 - y));
 }
 
 void NetworkManager::sendMessage(int clientId, const string& identifier, const string& message){
 
     string completeMessage = identifier + message + "|";
-    send(clientId, completeMessage.c_str(), completeMessage.length(), 0);\
+    send(clientId, completeMessage.c_str(), completeMessage.length(), 0);
 
     cout << "Sent [" << completeMessage << "]" << "to " << clientId << endl;
 }

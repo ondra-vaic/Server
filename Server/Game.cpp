@@ -84,27 +84,23 @@ void Game::tryToCrownFigurine(int x, int y){
 
 void Game::endTurn(){
     turnEnded = true;
+    cout << "turn ended for " << GetCurrentPlayer() << endl;
 }
 
 void Game::Switch(){
+    NetworkManager::SendWake(getOtherPlayer());
     player1Turn = !player1Turn;
     hasMoved = false;
-    turnEnded = true;
+    turnEnded = false;
     board->FlipBoard();
-    NetworkManager::SendWake(getOtherPlayer());
 }
 
 bool Game::TurnHasEnded(){return turnEnded;}
 
 bool Game::ResolvePick(const string& message) {
 
-    cout << "started picking" << endl;
-
     int x = message[0] - '0';
     int y = message[2] - '0';
-
-    cout << x << y << endl;
-
 
     int figurine = board->GetFigurine(x, y);
 
@@ -128,9 +124,7 @@ bool Game::ResolvePick(const string& message) {
 }
 
 bool Game::ResolveMove(const string& message){
-
-    cout << "started moving" << endl;
-
+    
     int xStart = message[0] - '0';
     int yStart = message[2] - '0';
 
@@ -143,23 +137,33 @@ bool Game::ResolveMove(const string& message){
     if(!isPickedField(xStart, yStart))
         return false;
 
-    if (Utils::IsFigurine(figurine))
+    cout << "is picked field" << endl;
+
+    if (!Utils::IsFigurine(figurine))
         return false;
+
+    cout << "there is figurine on picked field" << endl;
 
     if (!Utils::IsEmptyField(figurineInWay))
         return false;
 
+    cout << "target field is empty field" << endl;
+
     if (!Utils::IsDiagonal(xStart, yStart, xEnd, yEnd))
         return false;
+
+    cout << "the move is diagonal" << endl;
 
     if (Utils::CanBeValidWalk(xStart, yStart, xEnd, yEnd))
     {
         moveFigurine(xStart, yStart, xEnd, yEnd);
         endTurn();
+        cout << "moved" << endl;
     }
     else if (Utils::CanBeValidJump(board, xStart, yStart, xEnd, yEnd))
     {
         jumpFigurine(xStart, yStart, xEnd, yEnd);
+        cout << "jump" << endl;
     }
     else if (Utils::IsKing(figurine))
     {
@@ -168,11 +172,11 @@ bool Game::ResolveMove(const string& message){
         bool isValidMove = Utils::ValidateKingMove(capturedFigurines, board, xStart, yStart, xEnd, yEnd);
         if (isValidMove)
         {
+            cout << "king move" << endl;
             resolveKingMove(capturedFigurines, xStart, yStart, xEnd, yEnd);
         }
     }
 
-    cout << "moved" << endl;
 
     return true;
 }

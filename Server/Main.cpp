@@ -25,10 +25,10 @@ const string startBoard =
                          "3 0 3 0 3 0 3 0 "
                          "0 3 0 3 0 3 0 3 "
                          "0 0 0 0 0 0 0 0 "
-                         "0 0 0 0 0 0 0 0 "
-                         "1 0 1 0 1 0 1 0 "
+                         "0 0 0 3 0 0 0 0 "
+                         "1 0 1 0 0 0 1 0 "
                          "0 1 0 1 0 1 0 1 "
-                         "1 0 1 0 1 0 1 0";
+                         "1 0 1 0 1 0 0 0";
 
 int serverSocket;
 void error(int code, const char *msg){
@@ -124,11 +124,11 @@ int main(int argc, char const *argv[])
         }else{
 
             Board* board = new Board(startBoard);
-            board->FlipBoard();
             Game* game = new Game(player1, player2, board);
 
-
+            board->FlipBoard();
             NetworkManager::SendPlace(player2, board->BoardToString());
+
             board->FlipBoard();
             NetworkManager::SendPlace(player1, board->BoardToString());
             NetworkManager::SendWake(player1);
