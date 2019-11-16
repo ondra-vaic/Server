@@ -13,17 +13,20 @@ class Board {
 
 private:
     int** board;
-    int** stringToBoard(const string& boardString);
+    static int** stringToBoard(const string& boardString);
     static int** initializeBoardArray();
-
-    int** flipBoard(int** board);
-
+    
 public:
-    Board(const string& board);
-    Board(int** board);
+    explicit Board(const string &board);
+    explicit Board(int **board);
+
     string BoardToString();
     void FlipBoard();
-
+    int GetFigure(int x, int y);
+    void SetFigure(int figurine, int x, int y);
+    bool IsFigurine(int figurine);
+    bool IsKing(int figurine);
+    bool IsPlayer1(int figurine);
 };
 
 

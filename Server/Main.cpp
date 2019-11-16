@@ -86,27 +86,27 @@ string getRawMessage(const string& message){
     return message.substr(1, message.size());
 }
 
-void resolveMessage(const string& message){
+void resolveMessage(Game* game, const string& message){
 
     char identifier = getIdentifier(message);
     string rawMessage = getRawMessage(message);
     cout << rawMessage << " " << identifier;
-//
-//    switch (identifier)
-//    {
+
+    switch (identifier)
+    {
 //        case 'd':
 //            resolveDelete(rawMessage);
 //            break;
-//        case 'm':
-//            resolveMove(rawMessage);
-//            break;
-//        case 'w':
-//            //gameManager.SetTurn();
-//            break;
+        case 'm':
+            game->ResolveMove(rawMessage);
+            break;
+        case 'w':
+            //gameManager.SetTurn();
+            break;
 //        case 'p':
 //            resolvePlace(rawMessage);
 //            break;
-//    }
+    }
 //
 //    if(validateMove(message)){
 //        sendMessage(game->GetOtherPlayer(), message);
@@ -114,7 +114,6 @@ void resolveMessage(const string& message){
 //        printf("Invalid Move");
 //    }
 }
-
 
 vector<string> getSplitMessages(string messages){
     vector<string> splitMessages;
@@ -132,12 +131,12 @@ vector<string> getSplitMessages(string messages){
     return splitMessages;
 }
 
-
 int resolveNextMove(Game* game){
 
     vector<string> splitMessages = getSplitMessages(getResponse(game->GetCurrentPlayer()));
+
     for (const string& message : splitMessages) {
-        resolveMessage(message);
+        resolveMessage(game, message);
     }
 
     return 0;
@@ -149,10 +148,6 @@ int main(int argc, char const *argv[])
     std::cout <<  "Server up" << std::endl;
     setUp();
 
-    Board board(startBoard);
-    board.FlipBoard();
-
-    cout << board.BoardToString();
 
     for(;;){
         std::cout <<  "Listening..." << std::endl;
@@ -167,12 +162,14 @@ int main(int argc, char const *argv[])
             close(player2);
         }else{
 
-            Game* game = new Game(player1, player2);
+            Board* board = new Board(startBoard);
+            board->FlipBoard();
+            Game* game = new Game(player1, player2, board);
 
 
-
-            sendMessage(player1, "p", startBoard);
             sendMessage(player2, "p", board.BoardToString());
+            board->FlipBoard();
+            sendMessage(player1, "p", board.BoardToString());
             sendMessage(player1, "w", "");
 
             while(true){
@@ -181,26 +178,6 @@ int main(int argc, char const *argv[])
         }
     }
 
-
-    close(serverSocket);
-    return 0;
-
-
-
-
-
-    /*
-    //int player2 = accept(serverSocket, nullptr, nullptr);
-
-    //Game* game = new Game(player1, player2);
-
-    sendMessage(player1, startBoard);
-    //sendMessage(player2, startBoard);
-    sendMessage(player1, "w");
-
-
-
-    */
 
     close(serverSocket);
     return 0;
