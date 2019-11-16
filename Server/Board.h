@@ -22,11 +22,8 @@ public:
 
     string BoardToString();
     void FlipBoard();
-    int GetFigure(int x, int y);
+    int GetFigurine(int x, int y);
     void SetFigure(int figurine, int x, int y);
-    bool IsFigurine(int figurine);
-    bool IsKing(int figurine);
-    bool IsPlayer1(int figurine);
 };
 
 

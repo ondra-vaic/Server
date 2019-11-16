@@ -16,21 +16,28 @@ private:
     int player2;
     bool player1Turn;
     bool hasMoved;
+    bool turnEnded;
+    Vector2D pickedField;
     Board* board;
+
+
     void moveFigurine(int x0, int y0, int x1, int y1);
     void jumpFigurine(int x0, int y0, int x1, int y1);
-    void resolveKingMove(const vector<int>& capturedFigurines, int x0, int y0, int x1, int y1);
+    void resolveKingMove(const vector<Vector2D>& capturedFigurines, int x0, int y0, int x1, int y1);
     void tryToCrownFigurine(int x0, int y0);
     void endTurn();
+    bool isPickedField(int x, int y);
+    void setPickedField(int x, int y);
+    void deleteFigurine(int x, int y);
 
 public:
     Game(int player1, int player2, Board* board);
     int GetCurrentPlayer();
-    int GetOtherPlayer();
-    void SetPlayer1Turn();
+    int getOtherPlayer();
     bool ResolveMove(const string& message);
-    Vector2D calculateEnemyPosition(int x0, int y0, int x1, int y1);
-
+    bool ResolvePick(const string& message);
+    bool TurnHasEnded();
+    void Switch();
 };
 
 

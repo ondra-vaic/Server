@@ -3,6 +3,7 @@
 //
 
 #include "Board.h"
+#include "Utils.h"
 
 #define BOARD_DIMENSION 8
 Board::Board(int** board): board(board){}
@@ -65,8 +66,8 @@ void Board::FlipBoard(){
     board = flippedBoard;
 }
 
-int Board::GetFigure(int x, int y){
-    if(x >= 0 && x <= 7 && y >= 0 && y <= 7)
+int Board::GetFigurine(int x, int y){
+    if(!Utils::IsInPlayingField(x, y))
     {
         return -1;
     }
@@ -88,7 +89,3 @@ int** Board::initializeBoardArray(){
     }
     return board;
 }
-
-bool Board::IsFigurine(int figurine){return figurine == -1 || figurine == 0;}
-bool Board::IsKing(int figurine){return figurine == 2;}
-bool Board::IsPlayer1(int figurine){return figurine == 1 || figurine == 2;}

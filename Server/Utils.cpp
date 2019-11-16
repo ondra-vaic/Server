@@ -8,19 +8,17 @@
 #include "Vector2D.h"
 #include "Board.h"
 
-
-bool Utils::ValidateKingMove(const vector<int>& capturedFigurines, int x0, int y0, int x1, int y1){
-    return false;
-}
-
 bool Utils::CanBeValidJump(Board* board, int x0, int y0, int x1, int y1){
     Vector2D possibleEnemyPosition = CalculateEnemyPosition(x0, y0, x1, y1);
-    int possibleEnemy = board->GetFigure(possibleEnemyPosition.x, possibleEnemyPosition.y);
+    int possibleEnemy = board->GetFigurine(possibleEnemyPosition.x, possibleEnemyPosition.y);
 
-    if (!board->IsFigurine(possibleEnemy))
+    if(!Utils::IsInPlayingField(x1, y1))
         return false;
 
-    if (board->IsPlayer1(possibleEnemy))
+    if (!Utils::IsFigurine(possibleEnemy))
+        return false;
+
+    if (Utils::IsPlayer1(possibleEnemy))
         return false;
 
     //if enemy is one diagonally then I can jump over him
@@ -36,7 +34,7 @@ bool Utils::CanBeValidWalk(int x0, int y0, int x1, int y1){
     int xDelta = x1 - x0;
     int yDelta = y1 - y0;
 
-    return yDelta == 1 && (xDelta == 1 || xDelta == -1);
+    return yDelta == 1 && (xDelta == 1 || xDelta == -1) && IsInPlayingField(x1, y1);
 }
 
 
@@ -60,3 +58,44 @@ Vector2D Utils::CalculateEnemyPosition(int x0, int y0, int x1, int y1){
 
     return position;
 }
+
+bool Utils::ValidateKingMove(vector<Vector2D>& capturedFigurines, Board* board, int x0, int y0, int x1, int y1){
+    Vector2D jumpDelta = {x0 - x1, y0 - y1};
+    Vector2D checkPosition = Vector2D{x0, y0};
+
+    int jumpLength = abs(jumpDelta.x);
+
+    for (int i = 1; i < jumpLength; i++)
+    {
+        checkPosition.x += sign(jumpDelta.x);
+        checkPosition.y += sign(jumpDelta.y);
+
+        int checkedFigurine =  board->GetFigurine(checkPosition.x, checkPosition.y);
+
+        if(!IsEnemy(checkedFigurine)){
+            return false;
+        }
+
+        capturedFigurines.push_back(checkPosition);
+    }
+
+    return true;
+
+}
+
+int Utils::sign(int n){
+    if(n < 0)
+        return -1;
+    if(n > 0)
+        return 1;
+
+    return 0;
+}
+
+bool Utils::IsInPlayingField(int x, int y){return (x >= 0 && x <= 7 && y >= 0 && y <= 7);}
+bool Utils::IsEmptyField(int figurine){return figurine == 0;}
+bool Utils::IsFigurine(int figurine){return !(figurine == -1 || figurine == 0);}
+bool Utils::IsKing(int figurine){return figurine == 2;}
+bool Utils::IsPlayer1(int figurine){return figurine == 1 || figurine == 2;}
+bool Utils::IsEnemy(int figurine){return IsFigurine(figurine) && !IsPlayer1(figurine);}
+

@@ -9,15 +9,17 @@
 struct Vector2D {
     int x;
     int y;
+
+    Vector2D operator+(Vector2D v){
+        return Vector2D{this->x + v.x, this->y + v.y};
+    }
+
+    Vector2D operator-(Vector2D v){
+        return Vector2D{this->x - v.x, this->y - v.y};
+    }
+
 };
 
-Vector2D operator+(Vector2D v0, Vector2D v1){
-    return Vector2D{v0.x + v1.x, v0.y + v1.y};
-}
-
-Vector2D operator-(Vector2D v0, Vector2D v1){
-    return Vector2D{v0.x - v1.x, v0.y - v1.y};
-}
 
 
 #endif //SERVER_VECTOR2D_H

@@ -12,6 +12,8 @@
 #include <sstream>
 #include "Game.h"
 #include "Board.h"
+#include "NetworkManager.h"
+
 using namespace std;
 
 #define MAX_PENDING_CONNECTIONS 10
@@ -61,85 +63,45 @@ void setUp() {
     error(return_value, "Listen Error");
 }
 
-string getResponse(int clientId){
-    char* response = new char[MAX_MESSAGE_LENGTH];
-    recv(clientId, response, sizeof(response), 0);
-    printf("Recieved -[%s]- from %d\n", response, clientId);
+bool resolveMessage(Game* game, const string& message){
 
-    string reponseString(response);
-    return reponseString;
-}
-
-void sendMessage(int clientId, const string& identifier, const string& message){
-
-    string completeMessage = identifier + message + "|";
-    send(clientId, completeMessage.c_str(), completeMessage.length(), 0);\
-
-    cout << "Sent [" << completeMessage << "]" << "to " << clientId << endl;
-}
-
-char getIdentifier(string message){
-    return message[0];
-}
-
-string getRawMessage(const string& message){
-    return message.substr(1, message.size());
-}
-
-void resolveMessage(Game* game, const string& message){
-
-    char identifier = getIdentifier(message);
-    string rawMessage = getRawMessage(message);
-    cout << rawMessage << " " << identifier;
+    char identifier = NetworkManager::GetIdentifier(message);
+    string rawMessage = NetworkManager::GetRawMessage(message);
+   // cout << rawMessage << " " << identifier;
 
     switch (identifier)
     {
-//        case 'd':
-//            resolveDelete(rawMessage);
-//            break;
+        case 's':
+            game->ResolvePick(rawMessage);
+            break;
         case 'm':
             game->ResolveMove(rawMessage);
-            break;
-        case 'w':
-            //gameManager.SetTurn();
             break;
 //        case 'p':
 //            resolvePlace(rawMessage);
 //            break;
     }
+
 //
 //    if(validateMove(message)){
 //        sendMessage(game->GetOtherPlayer(), message);
 //    }else{
 //        printf("Invalid Move");
 //    }
+
+    return false;
 }
 
-vector<string> getSplitMessages(string messages){
-    vector<string> splitMessages;
-
-    size_t position = 0;
-    string message;
-    while ((position = messages.find('|')) != string::npos) {
-        message = messages.substr(0, position);
-        splitMessages.push_back(message);
-        messages.erase(0, position + 1);
-    }
-
-    //splitMessages.pop_back();
-
-    return splitMessages;
-}
-
-int resolveNextMove(Game* game){
-
-    vector<string> splitMessages = getSplitMessages(getResponse(game->GetCurrentPlayer()));
+void resolveNextMove(Game* game){
+    vector<string> splitMessages = NetworkManager::GetSplitMessages(NetworkManager::GetResponse(game->GetCurrentPlayer()));
 
     for (const string& message : splitMessages) {
         resolveMessage(game, message);
+        if(game->TurnHasEnded()){
+            game->Switch();
+            break;
+        }
     }
-
-    return 0;
 }
 
 
@@ -147,7 +109,6 @@ int main(int argc, char const *argv[])
 {
     std::cout <<  "Server up" << std::endl;
     setUp();
-
 
     for(;;){
         std::cout <<  "Listening..." << std::endl;
@@ -167,10 +128,10 @@ int main(int argc, char const *argv[])
             Game* game = new Game(player1, player2, board);
 
 
-            sendMessage(player2, "p", board.BoardToString());
+            NetworkManager::SendPlace(player2, board->BoardToString());
             board->FlipBoard();
-            sendMessage(player1, "p", board.BoardToString());
-            sendMessage(player1, "w", "");
+            NetworkManager::SendPlace(player1, board->BoardToString());
+            NetworkManager::SendWake(player1);
 
             while(true){
                 resolveNextMove(game);
