@@ -36,7 +36,8 @@ public:
     int getOtherPlayer();
     bool ResolveMove(const string& message);
     bool ResolvePick(const string& message);
-    bool TurnHasEnded();
+    bool HasTurnEnded();
+    void EndTurn();
     void Switch();
 };
 

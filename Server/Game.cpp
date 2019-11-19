@@ -26,6 +26,10 @@ int Game::getOtherPlayer() {
     return player1Turn ?  player2 : player1;
 }
 
+void Game::EndTurn(){
+    turnEnded = true;
+}
+
 bool Game::isPickedField(int x, int y){return x == pickedField.x && y == pickedField.y;}
 
 void Game::setPickedField(int x, int y){
@@ -34,11 +38,10 @@ void Game::setPickedField(int x, int y){
 }
 
 void Game::moveFigurine(int x0, int y0, int x1, int y1){
-    board->SetFigure(board->GetFigurine(x0, y1), x1, y1);
+    board->SetFigure(board->GetFigurine(x0, y0), x1, y1);
     board->SetFigure(0, x0, y0);
-    tryToCrownFigurine(x1, y1);
-
     NetworkManager::SendMove(getOtherPlayer(), x0, y0, x1, y1);
+    tryToCrownFigurine(x1, y1);
 }
 
 void Game::deleteFigurine(int x, int y){
@@ -79,6 +82,7 @@ void Game::tryToCrownFigurine(int x, int y){
     if(y == 7)
     {
         board->SetFigure(2, x, y);
+        NetworkManager::SendCrown(getOtherPlayer(), x, y);
     }
 }
 
@@ -95,7 +99,7 @@ void Game::Switch(){
     board->FlipBoard();
 }
 
-bool Game::TurnHasEnded(){return turnEnded;}
+bool Game::HasTurnEnded(){return turnEnded;}
 
 bool Game::ResolvePick(const string& message) {
 
@@ -138,6 +142,7 @@ bool Game::ResolveMove(const string& message){
         return false;
 
     cout << "is picked field" << endl;
+    cout << "figurine is " << figurine << endl;
 
     if (!Utils::IsFigurine(figurine))
         return false;

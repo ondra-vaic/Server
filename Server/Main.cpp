@@ -21,9 +21,9 @@ using namespace std;
 #define MAX_MESSAGE_LENGTH 255
 
 const string startBoard =
-                         "0 3 0 3 0 3 0 3 "
-                         "3 0 3 0 3 0 3 0 "
-                         "0 3 0 3 0 3 0 3 "
+                         "0 3 0 3 0 0 0 3 "
+                         "3 0 3 0 1 0 3 0 "
+                         "0 3 0 3 0 0 0 3 "
                          "0 0 0 0 0 0 0 0 "
                          "0 0 0 3 0 0 0 0 "
                          "1 0 1 0 0 0 1 0 "
@@ -67,7 +67,6 @@ bool resolveMessage(Game* game, const string& message){
 
     char identifier = NetworkManager::GetIdentifier(message);
     string rawMessage = NetworkManager::GetRawMessage(message);
-   // cout << rawMessage << " " << identifier;
 
     switch (identifier)
     {
@@ -77,17 +76,12 @@ bool resolveMessage(Game* game, const string& message){
         case 'm':
             game->ResolveMove(rawMessage);
             break;
+        case 'e':
+            game->EndTurn();
 //        case 'p':
 //            resolvePlace(rawMessage);
 //            break;
     }
-
-//
-//    if(validateMove(message)){
-//        sendMessage(game->GetOtherPlayer(), message);
-//    }else{
-//        printf("Invalid Move");
-//    }
 
     return false;
 }
@@ -97,7 +91,7 @@ void resolveNextMove(Game* game){
 
     for (const string& message : splitMessages) {
         resolveMessage(game, message);
-        if(game->TurnHasEnded()){
+        if(game->HasTurnEnded()){
             game->Switch();
             break;
         }

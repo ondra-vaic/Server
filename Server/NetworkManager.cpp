@@ -25,6 +25,10 @@ string NetworkManager::GetResponse(int clientId){
     return buffer;
 }
 
+void NetworkManager::SendCrown(int player, int x, int y){
+    sendMessage(player, "c", to_string(x) + " " + to_string(7 - y));
+}
+
 void NetworkManager::SendMove(int player, int x0, int y0, int x1, int y1){
     sendMessage(player, "m",to_string(x0) + " " + to_string(7 - y0) + " " + to_string(x1) + " " + to_string(7 - y1));
 }
