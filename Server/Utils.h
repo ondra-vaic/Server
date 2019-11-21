@@ -27,6 +27,7 @@ public:
     static bool IsInPlayingField(int x, int y);
     static bool IsEnemy(int figurine);
     static int sign(int n);
+    static bool CanMoveAnywhere(int** board, int x, int y);
 
 };
 

@@ -22,8 +22,8 @@ using namespace std;
 
 const string startBoard =
                          "0 3 0 3 0 0 0 3 "
-                         "3 0 3 0 1 0 3 0 "
-                         "0 3 0 3 0 0 0 3 "
+                         "3 0 3 0 3 0 3 0 "
+                         "0 3 0 1 0 0 0 3 "
                          "0 0 0 0 0 0 0 0 "
                          "0 0 0 3 0 0 0 0 "
                          "1 0 1 0 0 0 1 0 "
@@ -67,6 +67,10 @@ bool resolveMessage(Game* game, const string& message){
 
     char identifier = NetworkManager::GetIdentifier(message);
     string rawMessage = NetworkManager::GetRawMessage(message);
+    int messageNumber = NetworkManager::GetMessageNumber(message);
+
+    if(messageNumber < game->GetCurrentMessageNumber())
+        return false;
 
     switch (identifier)
     {
@@ -78,6 +82,10 @@ bool resolveMessage(Game* game, const string& message){
             break;
         case 'e':
             game->EndTurn();
+            break;
+        case 'f':
+            game->SetForfeited();
+
 //        case 'p':
 //            resolvePlace(rawMessage);
 //            break;
@@ -91,8 +99,28 @@ void resolveNextMove(Game* game){
 
     for (const string& message : splitMessages) {
         resolveMessage(game, message);
+
+        if(game->IsJustWon()){
+            NetworkManager::SendLoose(game->GetOtherPlayer());
+            NetworkManager::SendWin(game->GetCurrentPlayer());
+            return;
+        }
+
+        if(game->HasForfeited()){
+            NetworkManager::SendLoose(game->GetCurrentPlayer());
+            NetworkManager::SendWin(game->GetOtherPlayer());
+            return;
+        }
+
         if(game->HasTurnEnded()){
             game->Switch();
+
+            if(!game->CanMove()){
+                NetworkManager::SendLoose(game->GetCurrentPlayer());
+                NetworkManager::SendWin(game->GetCurrentPlayer());
+                return;
+            }
+
             break;
         }
     }
@@ -101,8 +129,8 @@ void resolveNextMove(Game* game){
 
 int main(int argc, char const *argv[])
 {
-    std::cout <<  "Server up" << std::endl;
     setUp();
+    std::cout <<  "Server up" << std::endl;
 
     for(;;){
         std::cout <<  "Listening..." << std::endl;
@@ -122,6 +150,7 @@ int main(int argc, char const *argv[])
 
             board->FlipBoard();
             NetworkManager::SendPlace(player2, board->BoardToString());
+            NetworkManager::SendMessageNumber(player2, 1);
 
             board->FlipBoard();
             NetworkManager::SendPlace(player1, board->BoardToString());
@@ -130,6 +159,9 @@ int main(int argc, char const *argv[])
             while(true){
                 resolveNextMove(game);
             }
+
+            close(player1);
+            close(player2);
         }
     }
 

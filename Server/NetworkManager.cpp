@@ -45,6 +45,18 @@ void NetworkManager::SendDelete(int player, int x, int y){
     sendMessage(player, "d", to_string(x) + " " + to_string(7 - y));
 }
 
+void NetworkManager::SendMessageNumber(int player, int num){
+    sendMessage(player, "n", to_string(num));
+}
+
+void NetworkManager::SendLoose(int player){
+    sendMessage(player, "l", "");
+}
+
+void NetworkManager::SendWin(int player){
+    sendMessage(player, "v", "");
+}
+
 void NetworkManager::sendMessage(int clientId, const string& identifier, const string& message){
 
     string completeMessage = identifier + message + "|";
@@ -58,7 +70,11 @@ char NetworkManager::GetIdentifier(string message){
 }
 
 string NetworkManager::GetRawMessage(const string& message){
-    return message.substr(1, message.size());
+    return message.substr(message.find(',') + 1, message.size());
+}
+
+int NetworkManager::GetMessageNumber(const string& message){
+    return stoi(message.substr(1, message.find(',') - 1));
 }
 
 vector<string> NetworkManager::GetSplitMessages(string messages){

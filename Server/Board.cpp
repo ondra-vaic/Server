@@ -13,8 +13,6 @@ Board::Board(const string& board){
     this->board = stringToBoard(board);
 }
 
-
-
 string Board::BoardToString(){
     string boardString;
     for (int j = 0; j < BOARD_DIMENSION; ++j) {
@@ -82,8 +80,6 @@ void Board::SetFigure(int figurine, int x, int y){
     board[x][y] = figurine;
 }
 
-
-
 int** Board::initializeBoardArray(){
     int** board = new int*[BOARD_DIMENSION];
 
@@ -91,4 +87,29 @@ int** Board::initializeBoardArray(){
         board[i] = new int[BOARD_DIMENSION];
     }
     return board;
+}
+
+bool Board::IsWin(){
+    for (int j = 0; j < BOARD_DIMENSION; ++j) {
+        for (int i = 0; i < BOARD_DIMENSION; ++i) {
+            if(Utils::IsEnemy(board[i][j]))
+                return false;
+        }
+    }
+    return true;
+}
+
+bool Board::CanMove(){
+    for (int j = 0; j < BOARD_DIMENSION; ++j) {
+        for (int i = 0; i < BOARD_DIMENSION; ++i) {
+            if(Utils::IsPlayer1(board[i][j]))
+            {
+                if(Utils::CanMoveAnywhere(board, i, j)){
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }

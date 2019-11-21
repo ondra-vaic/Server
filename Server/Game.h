@@ -14,9 +14,11 @@ class Game {
 private:
     int player1;
     int player2;
+    int messageNumber;
     bool player1Turn;
     bool hasMoved;
     bool turnEnded;
+    bool forfeited;
     Vector2D pickedField;
     Board* board;
 
@@ -33,12 +35,17 @@ private:
 public:
     Game(int player1, int player2, Board* board);
     int GetCurrentPlayer();
-    int getOtherPlayer();
+    int GetCurrentMessageNumber();
+    int GetOtherPlayer();
     bool ResolveMove(const string& message);
     bool ResolvePick(const string& message);
     bool HasTurnEnded();
+    bool IsJustWon();
+    bool CanMove();
     void EndTurn();
     void Switch();
+    void SetForfeited();
+    bool HasForfeited();
 };
 
 

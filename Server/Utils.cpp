@@ -60,7 +60,7 @@ Vector2D Utils::CalculateEnemyPosition(int x0, int y0, int x1, int y1){
 }
 
 bool Utils::ValidateKingMove(vector<Vector2D>& capturedFigurines, Board* board, int x0, int y0, int x1, int y1){
-    Vector2D jumpDelta = {x0 - x1, y0 - y1};
+    Vector2D jumpDelta = {x1 - x0, y1 - y0};
     Vector2D checkPosition = Vector2D{x0, y0};
 
     int jumpLength = abs(jumpDelta.x);
@@ -72,11 +72,13 @@ bool Utils::ValidateKingMove(vector<Vector2D>& capturedFigurines, Board* board, 
 
         int checkedFigurine =  board->GetFigurine(checkPosition.x, checkPosition.y);
 
-        if(!IsEnemy(checkedFigurine)){
+        if(IsPlayer1(checkedFigurine)){
             return false;
         }
 
-        capturedFigurines.push_back(checkPosition);
+        if(IsEnemy(checkedFigurine)){
+            capturedFigurines.push_back(checkPosition);
+        }
     }
 
     return true;
@@ -90,6 +92,10 @@ int Utils::sign(int n){
         return 1;
 
     return 0;
+}
+
+bool Utils::CanMoveAnywhere(int** board, int x, int y){
+
 }
 
 bool Utils::IsInPlayingField(int x, int y){return (x >= 0 && x <= 7 && y >= 0 && y <= 7);}

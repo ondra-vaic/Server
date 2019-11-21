@@ -24,6 +24,9 @@ public:
     void FlipBoard();
     int GetFigurine(int x, int y);
     void SetFigure(int figurine, int x, int y);
+    bool IsWin();
+    bool CanMove();
+
 };
 
 
