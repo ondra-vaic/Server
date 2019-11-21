@@ -20,8 +20,8 @@ using namespace std;
 #define MAX_NUMBER_CONNECTIONS 30
 #define MAX_MESSAGE_LENGTH 255
 
-const string startBoard ="0 0 3 0 0 0 3 0 "
-                         "0 0 0 3 0 3 0 0 "
+const string startBoard ="0 0 3 0 3 1 3 2 "
+                         "0 0 0 1 0 1 3 0 "
                          "0 0 0 0 0 0 0 0 "
                          "0 0 0 1 0 0 0 0 "
                          "0 0 0 0 0 0 0 0 "

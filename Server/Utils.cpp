@@ -39,6 +39,20 @@ bool Utils::CanBeValidWalk(int x0, int y0, int x1, int y1){
     return yDelta == 1 && (xDelta == 1 || xDelta == -1) && IsInPlayingField(x1, y1);
 }
 
+int Utils::InvertFigurineType(int figurineType){
+    switch (figurineType){
+        case 1:
+            return 3;
+        case 2:
+            return 4;
+        case 3:
+            return 1;
+        case 4:
+            return 2;
+        default:
+            return 0;
+    }
+}
 
 Vector2D Utils::CalculateEnemyPosition(int x0, int y0, int x1, int y1){
 

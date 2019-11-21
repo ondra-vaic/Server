@@ -54,12 +54,8 @@ void Board::FlipBoard(){
 
     for (int j = 0; j < BOARD_DIMENSION; ++j) {
         for (int i = 0; i < BOARD_DIMENSION; ++i) {
-
-            int figureType = board[i][BOARD_DIMENSION - 1 - j];
-            if(figureType != 0){
-                figureType = 4 - figureType;
-            }
-            flippedBoard[i][j] = figureType;
+            int figurineType = board[i][BOARD_DIMENSION - 1 - j];
+            flippedBoard[i][j] = Utils::InvertFigurineType(figurineType);
         }
     }
 

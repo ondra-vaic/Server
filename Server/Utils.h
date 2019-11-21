@@ -34,6 +34,7 @@ public:
     static bool IsEnemy(int figurine);
     static bool CanMoveAnywhere(Board* board, int x, int y);
     static bool BasicMoveConditions(Board* board, int x0, int y0, int x1, int y1);
+    static int InvertFigurineType(int figurineType);
 
 };
 
