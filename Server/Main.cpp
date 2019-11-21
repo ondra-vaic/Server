@@ -20,7 +20,15 @@ using namespace std;
 #define MAX_NUMBER_CONNECTIONS 30
 #define MAX_MESSAGE_LENGTH 255
 
-const string startBoard =
+const string startBoard ="0 0 3 0 0 0 3 0 "
+                         "0 0 0 3 0 3 0 0 "
+                         "0 0 0 0 0 0 0 0 "
+                         "0 0 0 1 0 0 0 0 "
+                         "0 0 0 0 0 0 0 0 "
+                         "0 0 0 0 0 0 0 0 "
+                         "0 0 0 0 0 0 0 0 "
+                         "0 0 0 0 0 0 0 0 ";
+/*
                          "0 3 0 3 0 0 0 3 "
                          "3 0 3 0 3 0 3 0 "
                          "0 3 0 1 0 0 0 3 "
@@ -29,6 +37,7 @@ const string startBoard =
                          "1 0 1 0 0 0 1 0 "
                          "0 1 0 1 0 1 0 1 "
                          "1 0 1 0 1 0 0 0";
+*/
 
 int serverSocket;
 void error(int code, const char *msg){
@@ -117,7 +126,7 @@ void resolveNextMove(Game* game){
 
             if(!game->CanMove()){
                 NetworkManager::SendLoose(game->GetCurrentPlayer());
-                NetworkManager::SendWin(game->GetCurrentPlayer());
+                NetworkManager::SendWin(game->GetOtherPlayer());
                 return;
             }
 

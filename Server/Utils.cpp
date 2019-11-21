@@ -8,6 +8,8 @@
 #include "Vector2D.h"
 #include "Board.h"
 
+#define BOARD_DIMENSION 8
+
 bool Utils::CanBeValidJump(Board* board, int x0, int y0, int x1, int y1){
     Vector2D possibleEnemyPosition = CalculateEnemyPosition(x0, y0, x1, y1);
     int possibleEnemy = board->GetFigurine(possibleEnemyPosition.x, possibleEnemyPosition.y);
@@ -85,6 +87,19 @@ bool Utils::ValidateKingMove(vector<Vector2D>& capturedFigurines, Board* board, 
 
 }
 
+bool Utils::BasicMoveConditions(Board* board, int x0, int y0, int x1, int y1){
+    int figurine = board->GetFigurine(x0, y0);
+    int figurineInWay = board->GetFigurine(x1, y1);
+
+    if (!Utils::IsFigurine(figurine))
+        return false;
+
+    if (!Utils::IsEmptyField(figurineInWay))
+        return false;
+
+    return Utils::IsDiagonal(x0, y0, x1, y1);
+}
+
 int Utils::sign(int n){
     if(n < 0)
         return -1;
@@ -94,11 +109,47 @@ int Utils::sign(int n){
     return 0;
 }
 
-bool Utils::CanMoveAnywhere(int** board, int x, int y){
+bool Utils::CanMoveAnywhere(Board* board, int x, int y){
+    int figurine = board->GetFigurine(x, y);
 
+    if(IsKing(figurine)){
+        if(canKingMove(board, x, y)) cout << "can king move" <<endl;
+
+        return canKingMove(board, x, y);
+    }
+
+    if(canManJump(board, x, y)) cout << "can jump" <<endl;
+    if(canManMove(board, x, y)) cout << "can move" <<endl;
+
+    return canManMove(board, x, y) || canManJump(board, x, y);
 }
 
-bool Utils::IsInPlayingField(int x, int y){return (x >= 0 && x <= 7 && y >= 0 && y <= 7);}
+bool Utils::canKingMove(Board* board, int x, int y){
+    for (int i = 0; i < BOARD_DIMENSION; ++i) {
+        for (int j = 0; j < BOARD_DIMENSION; ++j) {
+            vector<Vector2D> dummy;
+            if(BasicMoveConditions(board, x, y, i, j) && ValidateKingMove(dummy, board, x, y, i, j)){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Utils::canManJump(Board* board, int x, int y){
+    bool canJumpLeft = BasicMoveConditions(board, x, y, x - 2, y + 2) && CanBeValidJump(board, x, y, x - 2, y + 2);
+    bool canJumpRight = BasicMoveConditions(board, x, y, x + 2, y + 2) && CanBeValidJump(board, x, y, x + 2, y + 2);;
+    return canJumpLeft || canJumpRight;
+}
+
+bool Utils::canManMove(Board* board, int x, int y){
+    bool canMoveLeft = BasicMoveConditions(board, x, y, x - 1, y + 1) && CanBeValidWalk(x, y, x - 1, y + 1);
+    bool canMoveRight = BasicMoveConditions(board, x, y, x + 1, y + 1) && CanBeValidWalk(x, y, x + 1, y + 1);;
+    return canMoveLeft || canMoveRight;
+}
+
+bool Utils::IsInPlayingField(int x, int y){return (x >= 0 && x < BOARD_DIMENSION && y >= 0 && y < BOARD_DIMENSION);}
 bool Utils::IsEmptyField(int figurine){return figurine == 0;}
 bool Utils::IsFigurine(int figurine){return !(figurine == -1 || figurine == 0);}
 bool Utils::IsKing(int figurine){return figurine == 2;}

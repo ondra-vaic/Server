@@ -85,12 +85,10 @@ void Game::resolveKingMove(const vector<Vector2D>& capturedFigurines, int x0, in
         deleteFigurine(capturedFigurine.x, capturedFigurine.y);
     }
 
-    if (!capturedFigurines.empty())
-    {
+    if (!capturedFigurines.empty()){
         hasMoved = true;
     }
-    else
-    {
+    else{
         endTurn();
     }
 
@@ -98,8 +96,7 @@ void Game::resolveKingMove(const vector<Vector2D>& capturedFigurines, int x0, in
 }
 
 void Game::tryToCrownFigurine(int x, int y){
-    if(y == 7)
-    {
+    if(y == 7){
         board->SetFigure(2, x, y);
         NetworkManager::SendCrown(GetOtherPlayer(), x, y);
     }
@@ -131,10 +128,8 @@ bool Game::ResolvePick(const string& message) {
     if (!Utils::IsFigurine(figurine))
         return false;
 
-    if (!hasMoved)
-    {
-        if (Utils::IsPlayer1(figurine))
-        {
+    if (!hasMoved){
+        if (Utils::IsPlayer1(figurine)){
             setPickedField(x, y);
         }
     }
@@ -156,40 +151,28 @@ bool Game::ResolveMove(const string& message){
     int yEnd = message[6] - '0';
 
     int figurine = board->GetFigurine(xStart, yStart);
-    int figurineInWay = board->GetFigurine(xEnd, yEnd);
 
     if(!isPickedField(xStart, yStart))
         return false;
 
-    if (!Utils::IsFigurine(figurine))
+    if(!Utils::BasicMoveConditions(board, xStart, yStart, xEnd, yEnd))
         return false;
 
-    if (!Utils::IsEmptyField(figurineInWay))
-        return false;
-
-    if (!Utils::IsDiagonal(xStart, yStart, xEnd, yEnd))
-        return false;
-
-    if (Utils::CanBeValidWalk(xStart, yStart, xEnd, yEnd))
-    {
+    if (Utils::CanBeValidWalk(xStart, yStart, xEnd, yEnd)){
         moveFigurine(xStart, yStart, xEnd, yEnd);
         endTurn();
     }
-    else if (Utils::CanBeValidJump(board, xStart, yStart, xEnd, yEnd))
-    {
+    else if (Utils::CanBeValidJump(board, xStart, yStart, xEnd, yEnd)){
         jumpFigurine(xStart, yStart, xEnd, yEnd);
     }
-    else if (Utils::IsKing(figurine))
-    {
+    else if (Utils::IsKing(figurine)){
         vector<Vector2D> capturedFigurines;
 
         bool isValidMove = Utils::ValidateKingMove(capturedFigurines, board, xStart, yStart, xEnd, yEnd);
-        if (isValidMove)
-        {
+        if (isValidMove){
             resolveKingMove(capturedFigurines, xStart, yStart, xEnd, yEnd);
         }
     }
-
 
     return true;
 }

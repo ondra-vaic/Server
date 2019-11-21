@@ -90,8 +90,8 @@ int** Board::initializeBoardArray(){
 }
 
 bool Board::IsWin(){
-    for (int j = 0; j < BOARD_DIMENSION; ++j) {
-        for (int i = 0; i < BOARD_DIMENSION; ++i) {
+    for (int i = 0; i < BOARD_DIMENSION; ++i) {
+        for (int j = 0; j < BOARD_DIMENSION; ++j) {
             if(Utils::IsEnemy(board[i][j]))
                 return false;
         }
@@ -100,11 +100,14 @@ bool Board::IsWin(){
 }
 
 bool Board::CanMove(){
-    for (int j = 0; j < BOARD_DIMENSION; ++j) {
-        for (int i = 0; i < BOARD_DIMENSION; ++i) {
+
+    cout << "checking if can move" << endl;
+
+    for (int i = 0; i < BOARD_DIMENSION; ++i) {
+        for (int j = 0; j < BOARD_DIMENSION; ++j) {
             if(Utils::IsPlayer1(board[i][j]))
             {
-                if(Utils::CanMoveAnywhere(board, i, j)){
+                if(Utils::CanMoveAnywhere(this, i, j)){
                     return true;
                 }
             }

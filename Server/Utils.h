@@ -14,6 +14,12 @@ using namespace std;
 
 class Utils {
 
+private:
+    static int sign(int n);
+    static bool canKingMove(Board* board, int x, int y);
+    static bool canManMove(Board* board, int x, int y);
+    static bool canManJump(Board* board, int x, int y);
+
 public:
     static bool CanBeValidJump(Board* board, int x0, int y0, int x1, int y1);
     static bool IsDiagonal(int x0, int y0, int x1, int y1);
@@ -26,8 +32,8 @@ public:
     static bool IsEmptyField(int figurine);
     static bool IsInPlayingField(int x, int y);
     static bool IsEnemy(int figurine);
-    static int sign(int n);
-    static bool CanMoveAnywhere(int** board, int x, int y);
+    static bool CanMoveAnywhere(Board* board, int x, int y);
+    static bool BasicMoveConditions(Board* board, int x0, int y0, int x1, int y1);
 
 };
 
