@@ -9,22 +9,6 @@
 
 #define MAX_MESSAGE_LENGTH 255
 
-string NetworkManager::GetResponse(int clientId){
-
-    string buffer = "";
-
-    while (buffer.back() != '|'){
-
-        char* response = new char[MAX_MESSAGE_LENGTH];
-        recv(clientId, response, sizeof(response), 0);
-        string responseString(response);
-        buffer += responseString;
-    }
-
-    cout << "<< [" << buffer << "] from " << clientId << endl;
-    return buffer;
-}
-
 void NetworkManager::SendCrown(int player, int x, int y){
     sendMessage(player, "c", to_string(x) + " " + to_string(7 - y));
 }
@@ -65,6 +49,24 @@ void NetworkManager::sendMessage(int clientId, const string& identifier, const s
     cout << "Sent [" << completeMessage << "]" << "to " << clientId << endl;
 }
 
+
+string NetworkManager::GetResponse(int clientId){
+
+    string buffer = "";
+
+    while (buffer.back() != '|'){
+
+        char* response = new char[MAX_MESSAGE_LENGTH];
+        recv(clientId, response, sizeof(response), 0);
+        string responseString(response);
+        buffer += responseString;
+    }
+
+    cout << "<< [" << buffer << "] from " << clientId << endl;
+    return buffer;
+}
+
+
 char NetworkManager::GetIdentifier(string message){
     return message[0];
 }
@@ -73,7 +75,8 @@ string NetworkManager::GetRawMessage(const string& message){
     return message.substr(message.find(',') + 1, message.size());
 }
 
-int NetworkManager::GetMessageNumber(const string& message){
+int NetworkManager::GetMessageNumber(const string& message)
+{
     return stoi(message.substr(1, message.find(',') - 1));
 }
 
@@ -87,8 +90,6 @@ vector<string> NetworkManager::GetSplitMessages(string messages){
         splitMessages.push_back(message);
         messages.erase(0, position + 1);
     }
-
-    //splitMessages.pop_back();
 
     return splitMessages;
 }

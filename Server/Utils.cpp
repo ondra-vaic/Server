@@ -127,14 +127,8 @@ bool Utils::CanMoveAnywhere(Board* board, int x, int y){
     int figurine = board->GetFigurine(x, y);
 
     if(IsKing(figurine)){
-        if(canKingMove(board, x, y)) cout << "can king move" <<endl;
-
         return canKingMove(board, x, y);
     }
-
-    if(canManJump(board, x, y)) cout << "can jump" <<endl;
-    if(canManMove(board, x, y)) cout << "can move" <<endl;
-
     return canManMove(board, x, y) || canManJump(board, x, y);
 }
 

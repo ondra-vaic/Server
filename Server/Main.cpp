@@ -20,7 +20,10 @@ using namespace std;
 #define MAX_NUMBER_CONNECTIONS 30
 #define MAX_MESSAGE_LENGTH 255
 
-const string startBoard ="0 0 3 0 3 1 3 2 "
+const string startBoard =
+
+
+                         "0 0 3 0 3 1 3 0 "
                          "0 0 0 1 0 1 3 0 "
                          "0 0 0 0 0 0 0 0 "
                          "0 0 0 1 0 0 0 0 "
@@ -28,16 +31,16 @@ const string startBoard ="0 0 3 0 3 1 3 2 "
                          "0 0 0 0 0 0 0 0 "
                          "0 0 0 0 0 0 0 0 "
                          "0 0 0 0 0 0 0 0 ";
-/*
-                         "0 3 0 3 0 0 0 3 "
-                         "3 0 3 0 3 0 3 0 "
-                         "0 3 0 1 0 0 0 3 "
-                         "0 0 0 0 0 0 0 0 "
-                         "0 0 0 3 0 0 0 0 "
-                         "1 0 1 0 0 0 1 0 "
-                         "0 1 0 1 0 1 0 1 "
-                         "1 0 1 0 1 0 0 0";
-*/
+//
+//                         "0 3 0 3 0 0 0 3 "
+//                         "3 0 3 0 3 0 3 0 "
+//                         "0 3 0 1 0 0 0 3 "
+//                         "0 0 0 0 0 0 0 0 "
+//                         "0 0 0 3 0 0 0 0 "
+//                         "1 0 1 0 0 0 1 0 "
+//                         "0 1 0 1 0 1 0 1 "
+//                         "1 0 1 0 1 0 0 0";
+//
 
 int serverSocket;
 void error(int code, const char *msg){
@@ -74,9 +77,19 @@ void setUp() {
 
 bool resolveMessage(Game* game, const string& message){
 
-    char identifier = NetworkManager::GetIdentifier(message);
-    string rawMessage = NetworkManager::GetRawMessage(message);
-    int messageNumber = NetworkManager::GetMessageNumber(message);
+    char identifier;
+    string rawMessage;
+    int messageNumber;
+
+    try {
+        identifier = NetworkManager::GetIdentifier(message);
+        rawMessage = NetworkManager::GetRawMessage(message);
+        messageNumber = NetworkManager::GetMessageNumber(message);
+    }
+    catch ( ... ){
+        return false;
+    }
+
 
     if(messageNumber < game->GetCurrentMessageNumber())
         return false;
@@ -85,26 +98,29 @@ bool resolveMessage(Game* game, const string& message){
     {
         case 's':
             game->ResolvePick(rawMessage);
-            break;
+            return true;
         case 'm':
             game->ResolveMove(rawMessage);
-            break;
+            return true;
         case 'e':
             game->EndTurn();
-            break;
+            return true;
         case 'f':
             game->SetForfeited();
-
-//        case 'p':
-//            resolvePlace(rawMessage);
-//            break;
+            return true;
     }
 
     return false;
 }
 
-void resolveNextMove(Game* game){
-    vector<string> splitMessages = NetworkManager::GetSplitMessages(NetworkManager::GetResponse(game->GetCurrentPlayer()));
+bool resolveNextMove(Game* game){
+    vector<string> splitMessages;
+    try {
+        splitMessages = NetworkManager::GetSplitMessages(NetworkManager::GetResponse(game->GetCurrentPlayer()));
+    }
+    catch( ... ) {
+        return true;
+    }
 
     for (const string& message : splitMessages) {
         resolveMessage(game, message);
@@ -112,13 +128,13 @@ void resolveNextMove(Game* game){
         if(game->IsJustWon()){
             NetworkManager::SendLoose(game->GetOtherPlayer());
             NetworkManager::SendWin(game->GetCurrentPlayer());
-            return;
+            return false;
         }
 
         if(game->HasForfeited()){
             NetworkManager::SendLoose(game->GetCurrentPlayer());
             NetworkManager::SendWin(game->GetOtherPlayer());
-            return;
+            return false;
         }
 
         if(game->HasTurnEnded()){
@@ -127,12 +143,14 @@ void resolveNextMove(Game* game){
             if(!game->CanMove()){
                 NetworkManager::SendLoose(game->GetCurrentPlayer());
                 NetworkManager::SendWin(game->GetOtherPlayer());
-                return;
+                return false;
             }
 
-            break;
+            return true;
         }
     }
+
+    return true;
 }
 
 
@@ -165,12 +183,11 @@ int main(int argc, char const *argv[])
             NetworkManager::SendPlace(player1, board->BoardToString());
             NetworkManager::SendWake(player1);
 
-            while(true){
-                resolveNextMove(game);
-            }
+            while(resolveNextMove(game)){}
 
             close(player1);
             close(player2);
+            return 0;
         }
     }
 

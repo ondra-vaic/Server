@@ -13,6 +13,8 @@
 #include "NetworkManager.h"
 
 using namespace std;
+#define BOARD_DIMENSION 8
+
 
 Game::Game(int player1, int player2, Board* board) :
 player1(player1), player2(player2), board(board),
@@ -96,7 +98,7 @@ void Game::resolveKingMove(const vector<Vector2D>& capturedFigurines, int x0, in
 }
 
 void Game::tryToCrownFigurine(int x, int y){
-    if(y == 7){
+    if(y == BOARD_DIMENSION - 1){
         board->SetFigure(2, x, y);
         NetworkManager::SendCrown(GetOtherPlayer(), x, y);
     }
@@ -104,7 +106,6 @@ void Game::tryToCrownFigurine(int x, int y){
 
 void Game::endTurn(){
     turnEnded = true;
-    cout << "turn ended for " << GetCurrentPlayer() << endl;
 }
 
 void Game::Switch(){
@@ -120,8 +121,15 @@ bool Game::HasTurnEnded(){return turnEnded;}
 
 bool Game::ResolvePick(const string& message) {
 
-    int x = message[0] - '0';
-    int y = message[2] - '0';
+    int x;
+    int y;
+    try {
+        x = message[0] - '0';
+        y = message[2] - '0';
+    }
+    catch ( ... ){
+        return false;
+    }
 
     int figurine = board->GetFigurine(x, y);
 
@@ -137,18 +145,25 @@ bool Game::ResolvePick(const string& message) {
         endTurn();
     }
 
-    cout << "picked" << endl;
-
     return true;
 }
 
 bool Game::ResolveMove(const string& message){
     
-    int xStart = message[0] - '0';
-    int yStart = message[2] - '0';
+    int xStart;
+    int yStart;
+    int xEnd;
+    int yEnd;
 
-    int xEnd = message[4] - '0';
-    int yEnd = message[6] - '0';
+    try {
+        xStart = message[0] - '0';
+        yStart = message[2] - '0';
+        xEnd = message[4] - '0';
+        yEnd = message[6] - '0';
+    }
+    catch ( ... ){
+        return false;
+    }
 
     int figurine = board->GetFigurine(xStart, yStart);
 
