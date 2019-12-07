@@ -6,10 +6,13 @@
 #define SERVER_GAME_H
 
 
-#include "Board.h"
-#include "Vector2D.h"
+#include "../Board.h"
+#include "../Vector2D.h"
+#include "../Message.h"
+#include "Session.h"
+#include "IMessageHandler.cpp"
 
-class Game {
+class Game : public IMessageHandler {
 
 private:
     int player1;
@@ -46,6 +49,7 @@ public:
     void Switch();
     void SetForfeited();
     bool HasForfeited();
+    IMessageHandler* ResolveMessage(Message* message);
 };
 
 

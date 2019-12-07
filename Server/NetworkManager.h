@@ -6,7 +6,7 @@
 #define SERVER_NETWORKMANAGER_H
 
 #include <vector>
-#include "Game.h"
+#include "Handlers/Game.h"
 
 class NetworkManager {
 
@@ -14,9 +14,9 @@ class NetworkManager {
 public:
     static string GetResponse(int clientId);
     static char GetIdentifier(string message);
-    static string GetRawMessage(const string& message);
+    static string GetDataPart(const string& message);
     static int GetMessageNumber(const string& message);
-    static vector<string> GetSplitMessages(string messages);
+    static vector<string> GetSplitMessages(int player, bool* disconnected);
     static void SendCrown(int player, int x, int y);
     static void SendMove(int player, int x0, int y0, int x1, int y1);
     static void SendWake(int player);
@@ -25,7 +25,7 @@ public:
     static void SendPlace(int player, const string& board);
     static void SendDelete(int player, int x, int y);
     static void SendMessageNumber(int player, int num);
-
+    static void SendHello(int player);
 
 private:
     static void sendMessage(int clientId, const string& identifier, const string& message);

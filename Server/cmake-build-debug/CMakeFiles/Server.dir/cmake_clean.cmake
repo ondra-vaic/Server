@@ -1,0 +1,21 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/Server.dir/Board.cpp.o"
+  "CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o"
+  "CMakeFiles/Server.dir/Handlers/Game.cpp.o"
+  "CMakeFiles/Server.dir/Handlers/IMessageHandler.cpp.o"
+  "CMakeFiles/Server.dir/Handlers/Lobby.cpp.o"
+  "CMakeFiles/Server.dir/Handlers/Room.cpp.o"
+  "CMakeFiles/Server.dir/Handlers/Server.cpp.o"
+  "CMakeFiles/Server.dir/Handlers/Session.cpp.o"
+  "CMakeFiles/Server.dir/Main.cpp.o"
+  "CMakeFiles/Server.dir/Message.cpp.o"
+  "CMakeFiles/Server.dir/NetworkManager.cpp.o"
+  "CMakeFiles/Server.dir/Utils.cpp.o"
+  "Server"
+  "Server.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/Server.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

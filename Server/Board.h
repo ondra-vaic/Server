@@ -19,6 +19,7 @@ private:
 public:
     explicit Board(const string &board);
     explicit Board(int **board);
+    explicit Board();
 
     string BoardToString();
     void FlipBoard();

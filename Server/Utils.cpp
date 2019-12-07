@@ -164,3 +164,14 @@ bool Utils::IsKing(int figurine){return figurine == 2;}
 bool Utils::IsPlayer1(int figurine){return figurine == 1 || figurine == 2;}
 bool Utils::IsEnemy(int figurine){return IsFigurine(figurine) && !IsPlayer1(figurine);}
 
+
+//other
+
+
+void Utils::Error(int code, const char *msg){
+    if(code != 0){
+        perror(msg);
+        exit(1);
+    }
+}
+

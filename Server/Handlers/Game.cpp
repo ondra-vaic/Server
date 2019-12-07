@@ -8,9 +8,9 @@
 #include <tuple>
 
 #include "Game.h"
-#include "Vector2D.h"
-#include "Utils.h"
-#include "NetworkManager.h"
+#include "../Vector2D.h"
+#include "../Utils.h"
+#include "../NetworkManager.h"
 
 using namespace std;
 #define BOARD_DIMENSION 8
@@ -144,6 +144,60 @@ bool Game::ResolvePick(const string& message) {
     else if(isPickedField(x, y)){
         endTurn();
     }
+
+    return true;
+}
+
+IMessageHandler* Game::ResolveMessage(Message* message){
+
+    char identifier;
+    string rawMessage;
+    int messageNumber;
+
+    if(messageNumber < this->GetCurrentMessageNumber())
+        return nullptr;
+
+    switch (identifier)
+    {
+        case 's':
+            this->ResolvePick(rawMessage);
+            return this;
+        case 'm':
+            this->ResolveMove(rawMessage);
+            return this;
+        case 'e':
+            this->EndTurn();
+            return this;
+        case 'f':
+            this->SetForfeited();
+            return this;
+    }
+
+
+    if(IsJustWon()){
+        NetworkManager::SendLoose(GetOtherPlayer());
+        NetworkManager::SendWin(GetCurrentPlayer());
+        return false;
+    }
+
+    if(HasForfeited()){
+        NetworkManager::SendLoose(GetCurrentPlayer());
+        NetworkManager::SendWin(GetOtherPlayer());
+        return false;
+    }
+
+    if(HasTurnEnded()){
+        Switch();
+
+        if(!CanMove()){
+            NetworkManager::SendLoose(GetCurrentPlayer());
+            NetworkManager::SendWin(GetOtherPlayer());
+            return false;
+        }
+
+        return true;
+    }
+
 
     return true;
 }

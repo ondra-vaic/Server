@@ -35,7 +35,7 @@ public:
     static bool CanMoveAnywhere(Board* board, int x, int y);
     static bool BasicMoveConditions(Board* board, int x0, int y0, int x1, int y1);
     static int InvertFigurineType(int figurineType);
-
+    static void Error(int code, const char *msg);
 };
 
 

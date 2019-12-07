@@ -5,7 +5,8 @@
 #include <vector>
 #include <sys/socket.h>
 #include "NetworkManager.h"
-#include "Game.h"
+#include "Handlers/Game.h"
+#include "Utils.h"
 
 #define MAX_MESSAGE_LENGTH 255
 
@@ -41,6 +42,10 @@ void NetworkManager::SendWin(int player){
     sendMessage(player, "v", "");
 }
 
+void NetworkManager::SendHello(int player) {
+    sendMessage(player, "h", "");
+}
+
 void NetworkManager::sendMessage(int clientId, const string& identifier, const string& message){
 
     string completeMessage = identifier + message + "|";
@@ -50,14 +55,18 @@ void NetworkManager::sendMessage(int clientId, const string& identifier, const s
 }
 
 
-string NetworkManager::GetResponse(int clientId){
+string NetworkManager::GetResponse(int clientId, bool* disconnected){
 
     string buffer = "";
 
     while (buffer.back() != '|'){
 
         char* response = new char[MAX_MESSAGE_LENGTH];
-        recv(clientId, response, sizeof(response), 0);
+        if(recv(clientId, response, sizeof(response), 0) != 0){
+            *disconnected = false;
+            return buffer;
+        }
+
         string responseString(response);
         buffer += responseString;
     }
@@ -71,7 +80,7 @@ char NetworkManager::GetIdentifier(string message){
     return message[0];
 }
 
-string NetworkManager::GetRawMessage(const string& message){
+string NetworkManager::GetDataPart(const string& message){
     return message.substr(message.find(',') + 1, message.size());
 }
 
@@ -80,15 +89,24 @@ int NetworkManager::GetMessageNumber(const string& message)
     return stoi(message.substr(1, message.find(',') - 1));
 }
 
-vector<string> NetworkManager::GetSplitMessages(string messages){
+vector<string> NetworkManager::GetSplitMessages(int player, bool* disconnected){
+
     vector<string> splitMessages;
 
-    size_t position = 0;
-    string message;
-    while ((position = messages.find('|')) != string::npos) {
-        message = messages.substr(0, position);
-        splitMessages.push_back(message);
-        messages.erase(0, position + 1);
+    try {
+        string messages = NetworkManager::GetResponse(player);
+
+        size_t position = 0;
+        string message;
+        while ((position = messages.find('|')) != string::npos) {
+            message = messages.substr(0, position);
+            splitMessages.push_back(message);
+            messages.erase(0, position + 1);
+        }
+
+    }
+    catch( ... ) {
+        Utils::Error(-1, "Incorrect message format");
     }
 
     return splitMessages;

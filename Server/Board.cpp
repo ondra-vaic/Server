@@ -6,11 +6,25 @@
 #include "Board.h"
 #include "Utils.h"
 
+const string startBoard =
+        "0 0 3 0 3 1 3 0 "
+        "0 0 0 1 0 1 3 0 "
+        "0 0 0 0 0 0 0 0 "
+        "0 0 0 1 0 0 0 0 "
+        "0 0 0 0 0 0 0 0 "
+        "0 0 0 0 0 0 0 0 "
+        "0 0 0 0 0 0 0 0 "
+        "0 0 0 0 0 0 0 0 ";
+
 #define BOARD_DIMENSION 8
 Board::Board(int** board): board(board){}
 
 Board::Board(const string& board){
     this->board = stringToBoard(board);
+}
+
+Board::Board(){
+    this->board = stringToBoard(startBoard);
 }
 
 string Board::BoardToString(){
