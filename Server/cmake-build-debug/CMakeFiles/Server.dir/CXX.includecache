@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/me/CLionProjects/ServerRoot/Server/Board.cpp
-algorithm
--
-Board.h
-/home/me/CLionProjects/ServerRoot/Server/Board.h
-Utils.h
-/home/me/CLionProjects/ServerRoot/Server/Utils.h
-
 /home/me/CLionProjects/ServerRoot/Server/Board.h
 string
 -
@@ -76,9 +68,27 @@ Session.h
 IMessageHandler.h
 /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
 
+/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.cpp
+PlayerInGame.h
+/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
+../NetworkManager.h
+/home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
+
+/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
+IMessageHandler.h
+/home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
+Game.h
+/home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
+
 /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.cpp
+vector
+-
 PlayerInRoom.h
 /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h
+../NetworkManager.h
+/home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
+../Identifiers.h
+/home/me/CLionProjects/ServerRoot/Server/Identifiers.h
 
 /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h
 IMessageHandler.h
@@ -107,6 +117,8 @@ algorithm
 -
 Room.h
 /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.h
+../Utils.h
+/home/me/CLionProjects/ServerRoot/Server/Utils.h
 
 /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.h
 vector
@@ -143,10 +155,10 @@ IMessageHandler.h
 /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
 ../Player.h
 /home/me/CLionProjects/ServerRoot/Server/Player.h
+PlayerInGame.h
+/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
 
 /home/me/CLionProjects/ServerRoot/Server/Identifiers.h
-
-/home/me/CLionProjects/ServerRoot/Server/Main.cpp
 
 /home/me/CLionProjects/ServerRoot/Server/Message.cpp
 Message.h
@@ -177,10 +189,6 @@ vector
 -
 Handlers/Game.h
 /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
-
-/home/me/CLionProjects/ServerRoot/Server/Player.cpp
-Player.h
-/home/me/CLionProjects/ServerRoot/Server/Player.h
 
 /home/me/CLionProjects/ServerRoot/Server/Player.h
 string
@@ -236,20 +244,10 @@ Handlers/Room.h
 Handlers/PlayerSetup.h
 /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.h
 
-/home/me/CLionProjects/ServerRoot/Server/Utils.cpp
-cmath
--
-vector
--
-Utils.h
-/home/me/CLionProjects/ServerRoot/Server/Utils.h
-Vector2D.h
-/home/me/CLionProjects/ServerRoot/Server/Vector2D.h
-Board.h
-/home/me/CLionProjects/ServerRoot/Server/Board.h
-
 /home/me/CLionProjects/ServerRoot/Server/Utils.h
 vector
+-
+algorithm
 -
 Vector2D.h
 /home/me/CLionProjects/ServerRoot/Server/Vector2D.h

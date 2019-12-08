@@ -19,15 +19,17 @@ class Session : public IMessageHandler{
 public:
     enum State{SESSION_ENDED};
     Session(Player* player1, Player* player2);
-    Player* GetPlayer1();
-    Player* GetPlayer2();
+    PlayerInGame* GetPlayer1();
+    PlayerInGame* GetPlayer2();
     void ResolveMessage(fd_set* sockets);
     bool IsEnded();
 
 private:
     State state;
+    Game* game;
     PlayerInGame* player1;
     PlayerInGame* player2;
+    void resolveCheaterLeaver(Player* player);
 };
 
 

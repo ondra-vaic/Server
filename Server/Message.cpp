@@ -13,7 +13,7 @@ Message::Message(const string& rawMessage){
         this->rawMessage = rawMessage;
         this->messageNumber = NetworkManager::GetMessageNumber(rawMessage);
         this->identifier = NetworkManager::GetIdentifier(rawMessage);
-        this->data = NetworkManager::GetIdentifier(rawMessage);
+        this->data = NetworkManager::GetDataPart(rawMessage);
     }
     catch ( ... ){
         Utils::Error(-1, "Error parsing message");

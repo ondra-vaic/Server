@@ -14,12 +14,23 @@ private:
     int socketId;
     int room;
     string name;
+    int sessionId;
+    bool disconnected;
+    bool cheating;
 
 public:
     Player(int playerId);
     int GetSocketId();
-    int GetName();
+    string GetName();
+    int GetSessionId();
     int GetRoom();
+    bool IsCheating();
+    bool IsDisconnected();
+
+    void SetRoom(int room);
+    void SetSessionId(int sessionId);
+    void SetDisconnected();
+    void SetCheating();
 };
 
 

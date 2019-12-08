@@ -16,9 +16,18 @@ using namespace std;
 #define BOARD_DIMENSION 8
 
 
-Game::Game() : board(new Board()),
+Game::Game(Player* player1, Player* player2) :
+player1(player1), player2(player2), board(new Board()),
 pickedField(Vector2D{-1, -1}), player1Turn(true),
 hasMoved(false), turnEnded(false), messageNumber(1), forfeited(false){}
+
+Player* Game::GetCurrentPlayer() {
+    return player1Turn ? player1 : player2;
+}
+
+Player* Game::GetOtherPlayer() {
+    return player1Turn ?  player2 : player1;
+}
 
 int Game::GetCurrentMessageNumber(){ return messageNumber;}
 
@@ -52,13 +61,13 @@ void Game::setPickedField(int x, int y){
 void Game::moveFigurine(int x0, int y0, int x1, int y1){
     board->SetFigure(board->GetFigurine(x0, y0), x1, y1);
     board->SetFigure(0, x0, y0);
-    NetworkManager::SendMove(GetOtherPlayer(), x0, y0, x1, y1);
+    NetworkManager::SendMove(GetOtherPlayer()->GetSocketId(), x0, y0, x1, y1);
     tryToCrownFigurine(x1, y1);
 }
 
 void Game::deleteFigurine(int x, int y){
     board->SetFigure(0, x, y);
-    NetworkManager::SendDelete(GetOtherPlayer(), x, y);
+    NetworkManager::SendDelete(GetOtherPlayer()->GetSocketId(), x, y);
 }
 
 void Game::jumpFigurine(int x0, int y0, int x1, int y1){
@@ -91,7 +100,7 @@ void Game::resolveKingMove(const vector<Vector2D>& capturedFigurines, int x0, in
 void Game::tryToCrownFigurine(int x, int y){
     if(y == BOARD_DIMENSION - 1){
         board->SetFigure(2, x, y);
-        NetworkManager::SendCrown(GetOtherPlayer(), x, y);
+        NetworkManager::SendCrown(GetOtherPlayer()->GetSocketId(), x, y);
     }
 }
 
@@ -100,7 +109,6 @@ void Game::endTurn(){
 }
 
 void Game::Switch(){
-    NetworkManager::SendWake(GetOtherPlayer());
     player1Turn = !player1Turn;
     hasMoved = false;
     turnEnded = false;
@@ -130,10 +138,8 @@ bool Game::ResolvePick(const string& message) {
     if (!hasMoved){
         if (Utils::IsPlayer1(figurine)){
             setPickedField(x, y);
+            return true;
         }
-    }
-    else if(isPickedField(x, y)){
-        endTurn();
     }
 
     return true;
@@ -167,9 +173,11 @@ bool Game::ResolveMove(const string& message){
     if (Utils::CanBeValidWalk(xStart, yStart, xEnd, yEnd)){
         moveFigurine(xStart, yStart, xEnd, yEnd);
         endTurn();
+        return true;
     }
     else if (Utils::CanBeValidJump(board, xStart, yStart, xEnd, yEnd)){
         jumpFigurine(xStart, yStart, xEnd, yEnd);
+        return true;
     }
     else if (Utils::IsKing(figurine)){
         vector<Vector2D> capturedFigurines;
@@ -177,8 +185,9 @@ bool Game::ResolveMove(const string& message){
         bool isValidMove = Utils::ValidateKingMove(capturedFigurines, board, xStart, yStart, xEnd, yEnd);
         if (isValidMove){
             resolveKingMove(capturedFigurines, xStart, yStart, xEnd, yEnd);
+            return true;
         }
     }
 
-    return true;
+    return false;
 }

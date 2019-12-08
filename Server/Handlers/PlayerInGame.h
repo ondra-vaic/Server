@@ -12,12 +12,18 @@
 class PlayerInGame : public IMessageHandler{
 
 public:
-    PlayerInGame(Player* player, Game* game);
-    void ResolveMessage() override;
+    enum State{PLAYING, WAITING, WON, LOST};
+    PlayerInGame(Player* player, Game* game, State state);
+    void ResolveMessage(fd_set* sockets) override;
+    Player* GetPlayer();
 
 private:
-
-
+    Player* player;
+    Game* game;
+    State state;
+    void playing(Message* message);
+    void waiting(Message* message);
+    void forfeitWhileWaiting();
 };
 
 

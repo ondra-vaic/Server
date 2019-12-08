@@ -6,21 +6,30 @@
 #include "Session.h"
 #include "../NetworkManager.h"
 #include "../Message.h"
+#include "PlayerInGame.h"
 
 using namespace std;
 
 
 Session::Session(Player* player1, Player* player2)
 {
-    Game* game = new Game();
-
-    this->player1 = new PlayerInGame(player1, game);
-    this->player2 = player2;
+    this->game = new Game(player1, player2);
+    this->player1 = new PlayerInGame(player1, game, PlayerInGame::PLAYING);
+    this->player2 = new PlayerInGame(player2, game, PlayerInGame::WAITING);
 }
 
 void Session::ResolveMessage(fd_set* sockets){
-    player1->ResolveMessage();
-    player2->ResolveMessage();
+    player1->ResolveMessage(sockets);
+    player2->ResolveMessage(sockets);
+
+    resolveCheaterLeaver(player1->GetPlayer());
+    resolveCheaterLeaver(player2->GetPlayer());
+}
+
+void Session::resolveCheaterLeaver(Player* player){
+    if(player->IsCheating()){
+
+    }
 }
 
 bool Session::IsEnded(){return state == SESSION_ENDED;}

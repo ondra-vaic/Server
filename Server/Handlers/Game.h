@@ -11,10 +11,13 @@
 #include "../Message.h"
 #include "Session.h"
 #include "IMessageHandler.h"
+#include "../Player.h"
 
 class Game : public IMessageHandler {
 
 private:
+    Player* player1;
+    Player* player2;
     int messageNumber;
     bool player1Turn;
     bool hasMoved;
@@ -34,7 +37,9 @@ private:
     void deleteFigurine(int x, int y);
 
 public:
-    Game();
+    Game(Player* player1, Player* player2);
+    Player* GetCurrentPlayer();
+    Player* GetOtherPlayer();
     int GetCurrentMessageNumber();
     bool ResolveMove(const string& message);
     bool ResolvePick(const string& message);
@@ -45,6 +50,7 @@ public:
     void Switch();
     void SetForfeited();
     bool HasForfeited();
+
 };
 
 
