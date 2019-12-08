@@ -4,6 +4,6 @@
 
 #include "Disconnect.h"
 
-IMessageHandler* Disconnect::ResolveMessage(Message* message){
+void Disconnect::ResolveMessage(fd_set* sockets){
 
 }

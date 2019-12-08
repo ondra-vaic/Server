@@ -6,7 +6,17 @@
 #define SERVER_PLAYERINGAME_H
 
 
-class PlayerInGame {
+#include "IMessageHandler.h"
+#include "Game.h"
+
+class PlayerInGame : public IMessageHandler{
+
+public:
+    PlayerInGame(Player* player, Game* game);
+    void ResolveMessage() override;
+
+private:
+
 
 };
 

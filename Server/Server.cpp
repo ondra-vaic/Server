@@ -14,6 +14,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 #include "Handlers/Game.h"
 #include "Board.h"
 #include "NetworkManager.h"
@@ -23,20 +24,11 @@
 
 
 int Server::numberOfConnectedPlayers(){
-    int count = playersOutsideRoom.size();
+    int count = playerSetups.size();
     for (auto & room : rooms) {
         count += room->NumPlayers();
     }
     return count;
-}
-
-vector<int> Server::getActiveSockets(){
-    vector<int> sockets;
-    for (auto & room : rooms) {
-        vector<int> roomSockets = room->GetPlayers();
-        sockets.insert(sockets.end(), roomSockets.begin(), roomSockets.end());
-    }
-    return sockets;
 }
 
 int Server::setSocketSet(){
@@ -58,7 +50,7 @@ void Server::handleNewPlayer(int newPlayer){
     cout << "Accepting new.." << endl;
 
     if(numberOfConnectedPlayers() < maxPlayers){
-        playersOutsideRoom.push_back(newPlayer);
+        playerSetups.push_back(new PlayerSetup(newPlayer, PlayerSetup::SETTING_NAME));
     }
     else{
         //Send msg and kick
@@ -66,18 +58,41 @@ void Server::handleNewPlayer(int newPlayer){
     }
 }
 
+void Server::resolveSetUps(){
+    for(auto& playerSetUp : playerSetups){
+        playerSetUp->ResolveMessage(&sockets);
+
+        //add player to room
+        if(playerSetUp->IsPlayerInitialized()){
+            Player* player = playerSetUp->GetPlayer();
+            rooms[player->GetRoom()]->SetPlayer(player);
+        }
+
+        if(playerSetUp->IsPlayerToLeave()){
+            close(playerSetUp->GetPlayer()->GetSocketId());
+        }
+    }
+
+    //remove added players from setups
+    Utils::RemoveIf(playerSetups,[](PlayerSetup* p){
+        return p->IsPlayerInitialized() || p->IsPlayerToLeave();
+    });
+}
+
+void Server::resolveRooms(){
+    for (auto& room : rooms)
+    {
+        room->ResolveMessage(&sockets);
+        room->CreateSessions();
+        playerSetups.insert(playerSetups.end(), room->GetPlayersToLeave().begin(), room->GetPlayersToLeave().end());
+    }
+}
+
 void Server::handleNewMessages(){
     cout << "Receiving messages.." << endl;
 
-    for (auto& room : rooms)
-    {
-        for(int player : room->GetPlayers()){
-            if (FD_ISSET(player, &sockets))
-            {
-                room->ResolveMessage(player);
-            }
-        }
-    }
+    resolveSetUps();
+    resolveRooms();
 }
 
 

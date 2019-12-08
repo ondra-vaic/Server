@@ -3,3 +3,8 @@
 //
 
 #include "Player.h"
+
+
+Player::Player(int socketId){
+    this->socketId = socketId;
+}

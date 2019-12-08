@@ -204,33 +204,6 @@ Handlers/Game.cpp.s:
 	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Game.cpp.s
 .PHONY : Handlers/Game.cpp.s
 
-Handlers/IMessageHandler.o: Handlers/IMessageHandler.cpp.o
-
-.PHONY : Handlers/IMessageHandler.o
-
-# target to build an object file
-Handlers/IMessageHandler.cpp.o:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/IMessageHandler.cpp.o
-.PHONY : Handlers/IMessageHandler.cpp.o
-
-Handlers/IMessageHandler.i: Handlers/IMessageHandler.cpp.i
-
-.PHONY : Handlers/IMessageHandler.i
-
-# target to preprocess a source file
-Handlers/IMessageHandler.cpp.i:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/IMessageHandler.cpp.i
-.PHONY : Handlers/IMessageHandler.cpp.i
-
-Handlers/IMessageHandler.s: Handlers/IMessageHandler.cpp.s
-
-.PHONY : Handlers/IMessageHandler.s
-
-# target to generate assembly for a file
-Handlers/IMessageHandler.cpp.s:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/IMessageHandler.cpp.s
-.PHONY : Handlers/IMessageHandler.cpp.s
-
 Handlers/Lobby.o: Handlers/Lobby.cpp.o
 
 .PHONY : Handlers/Lobby.o
@@ -258,6 +231,87 @@ Handlers/Lobby.cpp.s:
 	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Lobby.cpp.s
 .PHONY : Handlers/Lobby.cpp.s
 
+Handlers/PlayerInGame.o: Handlers/PlayerInGame.cpp.o
+
+.PHONY : Handlers/PlayerInGame.o
+
+# target to build an object file
+Handlers/PlayerInGame.cpp.o:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o
+.PHONY : Handlers/PlayerInGame.cpp.o
+
+Handlers/PlayerInGame.i: Handlers/PlayerInGame.cpp.i
+
+.PHONY : Handlers/PlayerInGame.i
+
+# target to preprocess a source file
+Handlers/PlayerInGame.cpp.i:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.i
+.PHONY : Handlers/PlayerInGame.cpp.i
+
+Handlers/PlayerInGame.s: Handlers/PlayerInGame.cpp.s
+
+.PHONY : Handlers/PlayerInGame.s
+
+# target to generate assembly for a file
+Handlers/PlayerInGame.cpp.s:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.s
+.PHONY : Handlers/PlayerInGame.cpp.s
+
+Handlers/PlayerInRoom.o: Handlers/PlayerInRoom.cpp.o
+
+.PHONY : Handlers/PlayerInRoom.o
+
+# target to build an object file
+Handlers/PlayerInRoom.cpp.o:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o
+.PHONY : Handlers/PlayerInRoom.cpp.o
+
+Handlers/PlayerInRoom.i: Handlers/PlayerInRoom.cpp.i
+
+.PHONY : Handlers/PlayerInRoom.i
+
+# target to preprocess a source file
+Handlers/PlayerInRoom.cpp.i:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.i
+.PHONY : Handlers/PlayerInRoom.cpp.i
+
+Handlers/PlayerInRoom.s: Handlers/PlayerInRoom.cpp.s
+
+.PHONY : Handlers/PlayerInRoom.s
+
+# target to generate assembly for a file
+Handlers/PlayerInRoom.cpp.s:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.s
+.PHONY : Handlers/PlayerInRoom.cpp.s
+
+Handlers/PlayerSetup.o: Handlers/PlayerSetup.cpp.o
+
+.PHONY : Handlers/PlayerSetup.o
+
+# target to build an object file
+Handlers/PlayerSetup.cpp.o:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o
+.PHONY : Handlers/PlayerSetup.cpp.o
+
+Handlers/PlayerSetup.i: Handlers/PlayerSetup.cpp.i
+
+.PHONY : Handlers/PlayerSetup.i
+
+# target to preprocess a source file
+Handlers/PlayerSetup.cpp.i:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.i
+.PHONY : Handlers/PlayerSetup.cpp.i
+
+Handlers/PlayerSetup.s: Handlers/PlayerSetup.cpp.s
+
+.PHONY : Handlers/PlayerSetup.s
+
+# target to generate assembly for a file
+Handlers/PlayerSetup.cpp.s:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.s
+.PHONY : Handlers/PlayerSetup.cpp.s
+
 Handlers/Room.o: Handlers/Room.cpp.o
 
 .PHONY : Handlers/Room.o
@@ -284,33 +338,6 @@ Handlers/Room.s: Handlers/Room.cpp.s
 Handlers/Room.cpp.s:
 	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Room.cpp.s
 .PHONY : Handlers/Room.cpp.s
-
-Handlers/Server.o: Handlers/Server.cpp.o
-
-.PHONY : Handlers/Server.o
-
-# target to build an object file
-Handlers/Server.cpp.o:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Server.cpp.o
-.PHONY : Handlers/Server.cpp.o
-
-Handlers/Server.i: Handlers/Server.cpp.i
-
-.PHONY : Handlers/Server.i
-
-# target to preprocess a source file
-Handlers/Server.cpp.i:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Server.cpp.i
-.PHONY : Handlers/Server.cpp.i
-
-Handlers/Server.s: Handlers/Server.cpp.s
-
-.PHONY : Handlers/Server.s
-
-# target to generate assembly for a file
-Handlers/Server.cpp.s:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Server.cpp.s
-.PHONY : Handlers/Server.cpp.s
 
 Handlers/Session.o: Handlers/Session.cpp.o
 
@@ -420,6 +447,60 @@ NetworkManager.cpp.s:
 	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/NetworkManager.cpp.s
 .PHONY : NetworkManager.cpp.s
 
+Player.o: Player.cpp.o
+
+.PHONY : Player.o
+
+# target to build an object file
+Player.cpp.o:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Player.cpp.o
+.PHONY : Player.cpp.o
+
+Player.i: Player.cpp.i
+
+.PHONY : Player.i
+
+# target to preprocess a source file
+Player.cpp.i:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Player.cpp.i
+.PHONY : Player.cpp.i
+
+Player.s: Player.cpp.s
+
+.PHONY : Player.s
+
+# target to generate assembly for a file
+Player.cpp.s:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Player.cpp.s
+.PHONY : Player.cpp.s
+
+Server.o: Server.cpp.o
+
+.PHONY : Server.o
+
+# target to build an object file
+Server.cpp.o:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Server.cpp.o
+.PHONY : Server.cpp.o
+
+Server.i: Server.cpp.i
+
+.PHONY : Server.i
+
+# target to preprocess a source file
+Server.cpp.i:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Server.cpp.i
+.PHONY : Server.cpp.i
+
+Server.s: Server.cpp.s
+
+.PHONY : Server.s
+
+# target to generate assembly for a file
+Server.cpp.s:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Server.cpp.s
+.PHONY : Server.cpp.s
+
 Utils.o: Utils.cpp.o
 
 .PHONY : Utils.o
@@ -465,18 +546,21 @@ help:
 	@echo "... Handlers/Game.o"
 	@echo "... Handlers/Game.i"
 	@echo "... Handlers/Game.s"
-	@echo "... Handlers/IMessageHandler.o"
-	@echo "... Handlers/IMessageHandler.i"
-	@echo "... Handlers/IMessageHandler.s"
 	@echo "... Handlers/Lobby.o"
 	@echo "... Handlers/Lobby.i"
 	@echo "... Handlers/Lobby.s"
+	@echo "... Handlers/PlayerInGame.o"
+	@echo "... Handlers/PlayerInGame.i"
+	@echo "... Handlers/PlayerInGame.s"
+	@echo "... Handlers/PlayerInRoom.o"
+	@echo "... Handlers/PlayerInRoom.i"
+	@echo "... Handlers/PlayerInRoom.s"
+	@echo "... Handlers/PlayerSetup.o"
+	@echo "... Handlers/PlayerSetup.i"
+	@echo "... Handlers/PlayerSetup.s"
 	@echo "... Handlers/Room.o"
 	@echo "... Handlers/Room.i"
 	@echo "... Handlers/Room.s"
-	@echo "... Handlers/Server.o"
-	@echo "... Handlers/Server.i"
-	@echo "... Handlers/Server.s"
 	@echo "... Handlers/Session.o"
 	@echo "... Handlers/Session.i"
 	@echo "... Handlers/Session.s"
@@ -489,6 +573,12 @@ help:
 	@echo "... NetworkManager.o"
 	@echo "... NetworkManager.i"
 	@echo "... NetworkManager.s"
+	@echo "... Player.o"
+	@echo "... Player.i"
+	@echo "... Player.s"
+	@echo "... Server.o"
+	@echo "... Server.i"
+	@echo "... Server.s"
 	@echo "... Utils.o"
 	@echo "... Utils.i"
 	@echo "... Utils.s"

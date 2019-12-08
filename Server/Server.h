@@ -5,9 +5,10 @@
 #ifndef SERVER_SERVER_H
 #define SERVER_SERVER_H
 
-#include "Handlers/IMessageHandler.cpp"
+#include <netinet/in.h>
+#include "Handlers/IMessageHandler.h"
 #include "Handlers/Room.h"
-
+#include "Handlers/PlayerSetup.h"
 
 class Server : public IMessageHandler{
 
@@ -19,16 +20,19 @@ private:
     int addressLength;
     fd_set sockets;
     vector<Room*> rooms;
-    vector<int> playersOutsideRoom;
+    vector<PlayerSetup*> playerSetups;
     int numberOfConnectedPlayers();
     void handleNewPlayer(int newPlayer);
     vector<int> getActiveSockets();
     int setSocketSet();
     void handleNewMessages();
+    void resolveSetUps();
+    void resolveRooms();
 
 public:
     explicit Server(int maxSessions, int maxPendingConnections, int port, int numberOfRooms);
     void MainLoop();
+
 
 };
 

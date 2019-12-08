@@ -8,12 +8,12 @@
 
 #include "../Message.h"
 #include "Session.h"
-#include "IMessageHandler.cpp"
+#include "IMessageHandler.h"
 
 class Disconnect : public IMessageHandler {
 
 public:
-    IMessageHandler* ResolveMessage(Message* message);
+    void ResolveMessage(fd_set* sockets) override;
 };
 
 

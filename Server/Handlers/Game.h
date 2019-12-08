@@ -10,13 +10,11 @@
 #include "../Vector2D.h"
 #include "../Message.h"
 #include "Session.h"
-#include "IMessageHandler.cpp"
+#include "IMessageHandler.h"
 
 class Game : public IMessageHandler {
 
 private:
-    int player1;
-    int player2;
     int messageNumber;
     bool player1Turn;
     bool hasMoved;
@@ -36,10 +34,8 @@ private:
     void deleteFigurine(int x, int y);
 
 public:
-    Game(int player1, int player2, Board* board);
-    int GetCurrentPlayer();
+    Game();
     int GetCurrentMessageNumber();
-    int GetOtherPlayer();
     bool ResolveMove(const string& message);
     bool ResolvePick(const string& message);
     bool HasTurnEnded();
@@ -49,7 +45,6 @@ public:
     void Switch();
     void SetForfeited();
     bool HasForfeited();
-    IMessageHandler* ResolveMessage(Message* message);
 };
 
 

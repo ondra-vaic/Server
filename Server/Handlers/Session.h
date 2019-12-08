@@ -9,23 +9,25 @@
 #include "Game.h"
 #include "Lobby.h"
 #include "Disconnect.h"
-#include "IMessageHandler.cpp"
+#include "IMessageHandler.h"
+#include "../Player.h"
+#include "PlayerInGame.h"
+
 
 class Session : public IMessageHandler{
 
 public:
-    Session(int player1);
-    bool ResolveNextMessage(int player);
-    int GetPlayer1();
-    int GetPlayer2();
-    void SetPlayer2(int player2);
-    void SetPlayer1(int player1);
+    enum State{SESSION_ENDED};
+    Session(Player* player1, Player* player2);
+    Player* GetPlayer1();
+    Player* GetPlayer2();
+    void ResolveMessage(fd_set* sockets);
+    bool IsEnded();
 
 private:
-    IMessageHandler* handler;
     State state;
-    int player1;
-    int player2;
+    PlayerInGame* player1;
+    PlayerInGame* player2;
 };
 
 

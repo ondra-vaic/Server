@@ -17,7 +17,7 @@ private:
 
 public:
     explicit Lobby(int player1);
-    IMessageHandler* ResolveMessage(Message* message);
+    void ResolveMessage(fd_set* sockets) override;
 };
 
 

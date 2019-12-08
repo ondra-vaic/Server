@@ -16,18 +16,9 @@ using namespace std;
 #define BOARD_DIMENSION 8
 
 
-Game::Game(int player1, int player2, Board* board) :
-player1(player1), player2(player2), board(board),
+Game::Game() : board(new Board()),
 pickedField(Vector2D{-1, -1}), player1Turn(true),
 hasMoved(false), turnEnded(false), messageNumber(1), forfeited(false){}
-
-int Game::GetCurrentPlayer() {
-    return player1Turn ? player1 : player2;
-}
-
-int Game::GetOtherPlayer() {
-    return player1Turn ?  player2 : player1;
-}
 
 int Game::GetCurrentMessageNumber(){ return messageNumber;}
 
@@ -144,60 +135,6 @@ bool Game::ResolvePick(const string& message) {
     else if(isPickedField(x, y)){
         endTurn();
     }
-
-    return true;
-}
-
-IMessageHandler* Game::ResolveMessage(Message* message){
-
-    char identifier;
-    string rawMessage;
-    int messageNumber;
-
-    if(messageNumber < this->GetCurrentMessageNumber())
-        return nullptr;
-
-    switch (identifier)
-    {
-        case 's':
-            this->ResolvePick(rawMessage);
-            return this;
-        case 'm':
-            this->ResolveMove(rawMessage);
-            return this;
-        case 'e':
-            this->EndTurn();
-            return this;
-        case 'f':
-            this->SetForfeited();
-            return this;
-    }
-
-
-    if(IsJustWon()){
-        NetworkManager::SendLoose(GetOtherPlayer());
-        NetworkManager::SendWin(GetCurrentPlayer());
-        return false;
-    }
-
-    if(HasForfeited()){
-        NetworkManager::SendLoose(GetCurrentPlayer());
-        NetworkManager::SendWin(GetOtherPlayer());
-        return false;
-    }
-
-    if(HasTurnEnded()){
-        Switch();
-
-        if(!CanMove()){
-            NetworkManager::SendLoose(GetCurrentPlayer());
-            NetworkManager::SendWin(GetOtherPlayer());
-            return false;
-        }
-
-        return true;
-    }
-
 
     return true;
 }

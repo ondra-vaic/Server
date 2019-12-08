@@ -102,7 +102,7 @@
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h">
 			<Option target="Server"/>
 		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.cpp">
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h">
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.cpp">
@@ -111,22 +111,37 @@
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h">
 			<Option target="Server"/>
 		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.cpp">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.cpp">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.cpp">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.h">
+			<Option target="Server"/>
+		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Room.cpp">
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Room.h">
 			<Option target="Server"/>
 		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Server.cpp">
-			<Option target="Server"/>
-		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Server.h">
-			<Option target="Server"/>
-		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Session.cpp">
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Identifiers.h">
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Main.cpp">
@@ -142,6 +157,18 @@
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/NetworkManager.h">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Player.cpp">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Player.h">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Server.cpp">
+			<Option target="Server"/>
+		</Unit>
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Server.h">
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Utils.cpp">

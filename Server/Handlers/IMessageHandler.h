@@ -6,5 +6,5 @@
 
 class IMessageHandler{
 public:
-    virtual IMessageHandler* ResolveMessage(Message* message);
+    virtual void ResolveMessage(fd_set* sockets);
 };
