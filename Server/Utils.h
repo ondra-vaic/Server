@@ -37,9 +37,9 @@ public:
     static bool BasicMoveConditions(Board* board, int x0, int y0, int x1, int y1);
     static int InvertFigurineType(int figurineType);
 
-    template <typename T, typename L>
-    static void RemoveIf(vector<T> vector, L condition){
-        vector.erase(std::remove_if(vector.begin(), vector.end(), condition, vector.end()));
+    template<typename T, typename L>
+    static void RemoveIf(vector<T>& vector, L condition) {
+        vector.erase(std::remove_if(vector.begin(), vector.end(), condition), vector.end());
     }
 
     static void Error(int code, const char *msg);

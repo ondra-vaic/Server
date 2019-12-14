@@ -6,8 +6,9 @@
 #define SERVER_PLAYERINROOM_H
 
 
-#include "IMessageHandler.h"
 #include "../Player.h"
+#include "IMessageHandler.h"
+#include "../Message.h"
 
 class PlayerInRoom : public IMessageHandler{
 

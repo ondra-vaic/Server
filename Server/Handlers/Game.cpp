@@ -4,7 +4,6 @@
 
 
 #include <vector>
-#include <cmath>
 #include <tuple>
 
 #include "Game.h"
@@ -61,13 +60,13 @@ void Game::setPickedField(int x, int y){
 void Game::moveFigurine(int x0, int y0, int x1, int y1){
     board->SetFigure(board->GetFigurine(x0, y0), x1, y1);
     board->SetFigure(0, x0, y0);
-    NetworkManager::SendMove(GetOtherPlayer()->GetSocketId(), x0, y0, x1, y1);
+    NetworkManager::SendMove(GetOtherPlayer(), x0, y0, x1, y1);
     tryToCrownFigurine(x1, y1);
 }
 
 void Game::deleteFigurine(int x, int y){
     board->SetFigure(0, x, y);
-    NetworkManager::SendDelete(GetOtherPlayer()->GetSocketId(), x, y);
+    NetworkManager::SendDelete(GetOtherPlayer(), x, y);
 }
 
 void Game::jumpFigurine(int x0, int y0, int x1, int y1){
@@ -100,7 +99,7 @@ void Game::resolveKingMove(const vector<Vector2D>& capturedFigurines, int x0, in
 void Game::tryToCrownFigurine(int x, int y){
     if(y == BOARD_DIMENSION - 1){
         board->SetFigure(2, x, y);
-        NetworkManager::SendCrown(GetOtherPlayer()->GetSocketId(), x, y);
+        NetworkManager::SendCrown(GetOtherPlayer(), x, y);
     }
 }
 

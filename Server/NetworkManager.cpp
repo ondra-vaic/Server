@@ -7,65 +7,88 @@
 #include "NetworkManager.h"
 #include "Handlers/Game.h"
 #include "Utils.h"
+#include "Identifiers.h"
 
 #define MAX_MESSAGE_LENGTH 255
 
 bool NetworkManager::SendCrown(Player* player, int x, int y){
-    return sendMessage(player, "c", to_string(x) + " " + to_string(7 - y));
+    return sendMessage(player, CROWN_FIGURE, to_string(x) + " " + to_string(7 - y));
 }
 
 bool NetworkManager::SendMove(Player* player, int x0, int y0, int x1, int y1){
-    return sendMessage(player, "m",to_string(x0) + " " + to_string(7 - y0) + " " + to_string(x1) + " " + to_string(7 - y1));
+    return sendMessage(player, MOVE_FIGURE,to_string(x0) + " " + to_string(7 - y0) + " " + to_string(x1) + " " + to_string(7 - y1));
 }
 
 bool NetworkManager::SendWake(Player* player){
-    return sendMessage(player, "w", "");
+    return sendMessage(player, WAKE_OTHER_PLAYER, "");
 }
 
 bool NetworkManager::SendPlace(Player* player, const string& board){
-    return sendMessage(player, "p", board);
+    return sendMessage(player, PLACE_BOARD, board);
 }
 
 bool NetworkManager::SendDelete(Player* player, int x, int y){
-    return sendMessage(player, "d", to_string(x) + " " + to_string(7 - y));
+    return sendMessage(player, DELETE_FIGURE, to_string(x) + " " + to_string(7 - y));
 }
 
 bool NetworkManager::SendMessageNumber(Player* player, int num){
-    return sendMessage(player, "n", to_string(num));
+    return sendMessage(player, 'n', to_string(num));
 }
 
 bool NetworkManager::SendLoose(Player* player){
-    return sendMessage(player, "l", "");
+    return sendMessage(player, LOOSE, "");
 }
 
 bool NetworkManager::SendWin(Player* player){
-    return sendMessage(player, "v", "");
+    return sendMessage(player, WIN, "");
 }
 
 bool NetworkManager::SendHello(Player* player) {
-    return sendMessage(player, "h", "");
+    return sendMessage(player, 'h', "");
 }
 
-bool NetworkManager::sendMessage(Player* player, const string& identifier, const string& message){
-    string completeMessage = identifier + message + "|";
+bool NetworkManager::SendConfirmName(Player* player){
+    return sendMessage(player, NAME_CONFIRM, "");
+}
+
+bool NetworkManager::SendDenyName(Player* player){
+    return sendMessage(player, NAME_DENY, "");
+}
+
+bool NetworkManager::SendRoomInfo(Player* player, vector<int>& roomsOccupation){
+    string message = to_string(roomsOccupation.size());
+    for (int roomOccupation : roomsOccupation) {
+        message += "," + to_string(roomOccupation);
+    }
+
+    return sendMessage(player, ROOM_INFO, message);
+}
+
+bool NetworkManager::sendMessage(Player* player, char identifier, const string& message){
+    string completeMessage = string(1, identifier) + message + "|";
     cout << "Sent [" << completeMessage << "]" << "to " << player->GetName() << endl;
 
-    if(send(player->GetSocketId(), completeMessage.c_str(), completeMessage.length(), 0) != 0){
+    if(send(player->GetSocketId(), completeMessage.c_str(), completeMessage.length(), 0) <= 0){
         player->SetDisconnected();
         return false;
     }
     return true;
 }
 
-string NetworkManager::GetResponse(int clientId, bool* disconnected){
+string NetworkManager::GetResponse(Player* player){
 
     string buffer = "";
 
     while (buffer.back() != '|'){
 
         char* response = new char[MAX_MESSAGE_LENGTH];
-        if(recv(clientId, response, sizeof(response), 0) != 0){
-            *disconnected = false;
+        if(recv(player->GetSocketId(), response, sizeof(response), 0) <= 0){
+            player->SetDisconnected();
+            return buffer;
+        }
+
+        if(buffer.length() > 1024){
+            player->SetCheating();
             return buffer;
         }
 
@@ -73,7 +96,7 @@ string NetworkManager::GetResponse(int clientId, bool* disconnected){
         buffer += responseString;
     }
 
-    cout << "<< [" << buffer << "] from " << clientId << endl;
+    cout << "<< [" << buffer << "] from " << player->GetName() << " " << player->GetSocketId() << endl;
     return buffer;
 }
 
@@ -91,13 +114,15 @@ int NetworkManager::GetMessageNumber(const string& message)
     return stoi(message.substr(1, message.find(',') - 1));
 }
 
-vector<string> NetworkManager::GetSplitMessages(int player, bool* disconnected){
+vector<string> NetworkManager::GetSplitMessages(Player* player){
 
     vector<string> splitMessages;
+    string messages = NetworkManager::GetResponse(player);
+
+    if(player->IsDisconnected() || player->IsCheating())
+        return splitMessages;
 
     try {
-        string messages = NetworkManager::GetResponse(player, disconnected);
-
         size_t position = 0;
         string message;
         while ((position = messages.find('|')) != string::npos) {

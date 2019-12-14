@@ -9,11 +9,12 @@
 #include "../Board.h"
 #include "../Vector2D.h"
 #include "../Message.h"
-#include "Session.h"
-#include "IMessageHandler.h"
 #include "../Player.h"
+#include "IMessageHandler.h"
+#include <vector>
 
-class Game : public IMessageHandler {
+
+class Game {
 
 private:
     Player* player1;

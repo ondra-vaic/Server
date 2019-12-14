@@ -17,15 +17,14 @@ void PlayerInRoom::ResolveMessage(fd_set* sockets){
         return;
     }
 
-    bool disconnected = false;
-    vector<string> splitMessages = NetworkManager::GetSplitMessages(player->GetSocketId(), &disconnected);
+    vector<string> splitMessages = NetworkManager::GetSplitMessages(player);
 
-    if(disconnected){
-        //TODO ????
+    if(player->IsDisconnected()){
+        return;
     }
 
     for (const string& message : splitMessages) {
-        Message* m = new Message(message);
+        Message* m = new Message(message, player);
 
         switch(state){
             case CHILLING:

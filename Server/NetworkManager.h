@@ -12,11 +12,11 @@ class NetworkManager {
 
 
 public:
-    static string GetResponse(int clientId, bool* disconnected);
+    static string GetResponse(Player* player);
     static char GetIdentifier(string message);
     static string GetDataPart(const string& message);
     static int GetMessageNumber(const string& message);
-    static vector<string> GetSplitMessages(int player, bool* disconnected);
+    static vector<string> GetSplitMessages(Player* player);
 
     static bool SendCrown(Player* player, int x, int y);
     static bool SendMove(Player* player, int x0, int y0, int x1, int y1);
@@ -27,9 +27,12 @@ public:
     static bool SendDelete(Player* player, int x, int y);
     static bool SendMessageNumber(Player* player, int num);
     static bool SendHello(Player* player);
+    static bool SendConfirmName(Player* player);
+    static bool SendDenyName(Player* player);
+    static bool SendRoomInfo(Player* player, vector<int>& roomsOccupation);
 
 private:
-    static bool sendMessage(Player* player, const string& identifier, const string& message);
+    static bool sendMessage(Player* player, char identifier, const string& message);
 
 };
 

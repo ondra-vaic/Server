@@ -6,9 +6,11 @@
 #define SERVER_SERVER_H
 
 #include <netinet/in.h>
-#include "Handlers/IMessageHandler.h"
+#include <bits/stdc++.h>
 #include "Handlers/Room.h"
 #include "Handlers/PlayerSetup.h"
+#include "Handlers/Game.h"
+#include "Handlers/Game.h"
 
 class Server : public IMessageHandler{
 
@@ -21,18 +23,19 @@ private:
     fd_set sockets;
     vector<Room*> rooms;
     vector<PlayerSetup*> playerSetups;
+    unordered_set<string> names;
+
     int numberOfConnectedPlayers();
     void handleNewPlayer(int newPlayer);
     vector<int> getActiveSockets();
     int setSocketSet();
-    void handleNewMessages();
     void resolveSetUps();
     void resolveRooms();
 
 public:
-    explicit Server(int maxSessions, int maxPendingConnections, int port, int numberOfRooms);
+    explicit Server(int maxPlayers, int maxPendingConnections, int port, int numberOfRooms);
     void MainLoop();
-
+    void ResolveMessage(fd_set* sockets) override;
 
 };
 

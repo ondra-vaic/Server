@@ -12,7 +12,6 @@ CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
@@ -20,53 +19,37 @@ CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Vector2D.h
 CMakeFiles/Server.dir/Handlers/Game.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Board.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.cpp
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
  /home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
  /home/me/CLionProjects/ServerRoot/Server/Player.h
  /home/me/CLionProjects/ServerRoot/Server/Utils.h
  /home/me/CLionProjects/ServerRoot/Server/Vector2D.h
 CMakeFiles/Server.dir/Handlers/Lobby.cpp.o
- /home/me/CLionProjects/ServerRoot/Server/Board.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.cpp
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
  /home/me/CLionProjects/ServerRoot/Server/Player.h
- /home/me/CLionProjects/ServerRoot/Server/Vector2D.h
 CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Board.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.cpp
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
+ /home/me/CLionProjects/ServerRoot/Server/Identifiers.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
  /home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
  /home/me/CLionProjects/ServerRoot/Server/Player.h
  /home/me/CLionProjects/ServerRoot/Server/Vector2D.h
 CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Board.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.cpp
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
  /home/me/CLionProjects/ServerRoot/Server/Identifiers.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
  /home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
@@ -77,10 +60,11 @@ CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
+ /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.cpp
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.h
+ /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
  /home/me/CLionProjects/ServerRoot/Server/Identifiers.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
@@ -92,10 +76,8 @@ CMakeFiles/Server.dir/Handlers/Room.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.cpp
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
@@ -108,7 +90,6 @@ CMakeFiles/Server.dir/Handlers/Session.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.cpp
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
@@ -117,15 +98,24 @@ CMakeFiles/Server.dir/Handlers/Session.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Player.h
  /home/me/CLionProjects/ServerRoot/Server/Vector2D.h
 CMakeFiles/Server.dir/Main.cpp.o
- /home/me/CLionProjects/ServerRoot/Server/Main.cpp
-CMakeFiles/Server.dir/Message.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Board.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
+ /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h
+ /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.h
+ /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
+ /home/me/CLionProjects/ServerRoot/Server/Main.cpp
+ /home/me/CLionProjects/ServerRoot/Server/Message.h
+ /home/me/CLionProjects/ServerRoot/Server/Player.h
+ /home/me/CLionProjects/ServerRoot/Server/Server.h
+ /home/me/CLionProjects/ServerRoot/Server/Vector2D.h
+CMakeFiles/Server.dir/Message.cpp.o
+ /home/me/CLionProjects/ServerRoot/Server/Board.h
+ /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
+ /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
  /home/me/CLionProjects/ServerRoot/Server/Message.cpp
  /home/me/CLionProjects/ServerRoot/Server/Message.h
  /home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
@@ -134,12 +124,9 @@ CMakeFiles/Server.dir/Message.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Vector2D.h
 CMakeFiles/Server.dir/NetworkManager.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Board.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
+ /home/me/CLionProjects/ServerRoot/Server/Identifiers.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
  /home/me/CLionProjects/ServerRoot/Server/NetworkManager.cpp
  /home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
@@ -154,14 +141,12 @@ CMakeFiles/Server.dir/Server.cpp.o
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h
- /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.h
  /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.h
  /home/me/CLionProjects/ServerRoot/Server/Message.h
- /home/me/CLionProjects/ServerRoot/Server/NetworkManager.h
  /home/me/CLionProjects/ServerRoot/Server/Player.h
  /home/me/CLionProjects/ServerRoot/Server/Server.cpp
  /home/me/CLionProjects/ServerRoot/Server/Server.h

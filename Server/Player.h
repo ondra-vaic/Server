@@ -18,6 +18,7 @@ private:
     bool disconnected;
     bool cheating;
 
+
 public:
     Player(int playerId);
     int GetSocketId();
@@ -27,6 +28,7 @@ public:
     bool IsCheating();
     bool IsDisconnected();
 
+    void SetName(const string& name);
     void SetRoom(int room);
     void SetSessionId(int sessionId);
     void SetDisconnected();

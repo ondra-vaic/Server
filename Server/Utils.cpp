@@ -167,7 +167,6 @@ bool Utils::IsEnemy(int figurine){return IsFigurine(figurine) && !IsPlayer1(figu
 
 //other
 
-
 void Utils::Error(int code, const char *msg){
     if(code != 0){
         perror(msg);

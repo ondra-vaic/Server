@@ -1,3 +1,5 @@
+#include "Server.h"
+
 using namespace std;
 
 #define MAX_PENDING_CONNECTIONS 10
@@ -17,12 +19,8 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
 
-    Server* server = new Server();
-    server->SetUp();
+    Server* server = new Server(10, 10, 9001, 2);
     server->MainLoop();
-
-
-
 
 //
 //    for(;;){

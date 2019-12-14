@@ -7,9 +7,7 @@
 
 
 #include "Game.h"
-#include "Lobby.h"
 #include "Disconnect.h"
-#include "IMessageHandler.h"
 #include "../Player.h"
 #include "PlayerInGame.h"
 

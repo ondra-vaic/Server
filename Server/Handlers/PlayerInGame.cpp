@@ -4,6 +4,7 @@
 
 #include "PlayerInGame.h"
 #include "../NetworkManager.h"
+#include "../Identifiers.h"
 
 PlayerInGame::PlayerInGame(Player* player, Game* game, State state){
     this->player = player;
@@ -17,16 +18,14 @@ void PlayerInGame::ResolveMessage(fd_set* sockets){
         return;
     }
 
-    bool disconnected = false;
-    vector<string> splitMessages = NetworkManager::GetSplitMessages(player->GetSocketId(), &disconnected);
+    vector<string> splitMessages = NetworkManager::GetSplitMessages(player);
 
-    if(disconnected){
-        player->SetDisconnected();
+    if(player->IsDisconnected()){
         return;
     }
 
     for (const string& message : splitMessages) {
-        Message* m = new Message(message);
+        Message* m = new Message(message, player);
 
         switch(state){
             case PLAYING:
@@ -45,7 +44,7 @@ void PlayerInGame::ResolveMessage(fd_set* sockets){
 void PlayerInGame::waiting(Message *message) {
     switch (message->GetIdentifier())
     {
-        case 'f':
+        case FORFEIT:
             forfeitWhileWaiting();
     }
 }
@@ -54,19 +53,19 @@ void PlayerInGame::playing(Message* message){
 
     switch (message->GetIdentifier())
     {
-        case 's':
+        case SELECT_FIGURE:
             if(!game->ResolvePick(message->GetData())){
                 player->SetCheating();
                 return;
             }
-        case 'm':
+        case MOVE_FIGURE:
             if(!game->ResolveMove(message->GetData())){
                 player->SetCheating();
                 return;
             }
-        case 'e':
+        case END_TURN:
             game->EndTurn();
-        case 'f':
+        case FORFEIT:
             game->SetForfeited();
     }
 

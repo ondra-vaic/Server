@@ -6,16 +6,14 @@
 #define SERVER_ROOM_H
 
 #include <vector>
-#include "IMessageHandler.h"
 #include "../Player.h"
 #include "Session.h"
 #include "PlayerInRoom.h"
-#include "PlayerSetup.h"
 
 class Room : public IMessageHandler{
 
 private:
-    vector<PlayerSetup*> playersToLeave;
+    vector<Player*> playersToLeave;
     vector<PlayerInRoom*> playersInRoom;
     vector<Session*> sessions;
     void resolvePlayersInRoom(fd_set* sockets);
@@ -23,12 +21,10 @@ private:
 
 public:
     void ResolveMessage(fd_set* sockets) override;
-    int NumPlayers();
-    vector<int> GetPlayers();
-    void PassMessages();
+    vector<Player*> GetPlayers();
     void SetPlayer(Player* player);
     void CreateSessions();
-    vector<PlayerSetup*> GetPlayersToLeave();
+    vector<Player*> GetPlayersToLeave();
 
 };
 

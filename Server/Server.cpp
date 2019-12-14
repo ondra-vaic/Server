@@ -2,33 +2,38 @@
 // Created by me on 12/6/19.
 //
 
-#include <cstdio>
-#include <cctype>
-#include <cstdlib>
 #include <unistd.h>
-#include <cstring>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <netdb.h>
 #include <iostream>
 #include <vector>
-#include <sstream>
-#include <algorithm>
 #include "Handlers/Game.h"
-#include "Board.h"
-#include "NetworkManager.h"
-#include "Handlers/Session.h"
 #include "Utils.h"
 #include "Server.h"
 
-
 int Server::numberOfConnectedPlayers(){
     int count = playerSetups.size();
-    for (auto & room : rooms) {
-        count += room->NumPlayers();
+    for (auto& room : rooms) {
+        count += room->GetPlayers().size();
     }
     return count;
+}
+
+vector<int> Server::getActiveSockets(){
+    vector<int> socketIds;
+
+    for(auto& player : playerSetups){
+        socketIds.push_back(player->GetPlayer()->GetSocketId());
+    }
+
+    for(auto& room : rooms){
+        for(auto& player : room->GetPlayers()){
+
+        }
+    }
+
+    return socketIds;
 }
 
 int Server::setSocketSet(){
@@ -50,11 +55,13 @@ void Server::handleNewPlayer(int newPlayer){
     cout << "Accepting new.." << endl;
 
     if(numberOfConnectedPlayers() < maxPlayers){
-        playerSetups.push_back(new PlayerSetup(newPlayer, PlayerSetup::SETTING_NAME));
+        playerSetups.push_back(new PlayerSetup(newPlayer, rooms, names, PlayerSetup::SETTING_NAME));
     }
     else{
         //Send msg and kick
         //TODO kick
+
+        close(newPlayer);
     }
 }
 
@@ -62,20 +69,24 @@ void Server::resolveSetUps(){
     for(auto& playerSetUp : playerSetups){
         playerSetUp->ResolveMessage(&sockets);
 
+        if(playerSetUp->GetPlayer()->IsDisconnected() || playerSetUp->GetPlayer()->IsCheating() || playerSetUp->IsPlayerToLeave()){
+            close(playerSetUp->GetPlayer()->GetSocketId());
+            delete playerSetUp->GetPlayer();
+            delete playerSetUp;
+            continue;
+        }
+
         //add player to room
         if(playerSetUp->IsPlayerInitialized()){
             Player* player = playerSetUp->GetPlayer();
             rooms[player->GetRoom()]->SetPlayer(player);
-        }
-
-        if(playerSetUp->IsPlayerToLeave()){
-            close(playerSetUp->GetPlayer()->GetSocketId());
+            delete playerSetUp;
         }
     }
 
     //remove added players from setups
     Utils::RemoveIf(playerSetups,[](PlayerSetup* p){
-        return p->IsPlayerInitialized() || p->IsPlayerToLeave();
+        return p->IsPlayerInitialized() || p->GetPlayer()->IsDisconnected() || p->GetPlayer()->IsCheating();
     });
 }
 
@@ -84,11 +95,18 @@ void Server::resolveRooms(){
     {
         room->ResolveMessage(&sockets);
         room->CreateSessions();
-        playerSetups.insert(playerSetups.end(), room->GetPlayersToLeave().begin(), room->GetPlayersToLeave().end());
+
+        vector<PlayerSetup*> playersToChooseNewRoom;
+
+        for(auto& player : room->GetPlayersToLeave()){
+            playersToChooseNewRoom.push_back(new PlayerSetup(player, PlayerSetup::CHOOSING_ROOM));
+        }
+
+        playerSetups.insert(playerSetups.end(), playersToChooseNewRoom.begin(), playersToChooseNewRoom.end());
     }
 }
 
-void Server::handleNewMessages(){
+void Server::ResolveMessage(fd_set* sockets){
     cout << "Receiving messages.." << endl;
 
     resolveSetUps();
@@ -96,9 +114,9 @@ void Server::handleNewMessages(){
 }
 
 
-Server::Server(int maxClients, int maxPendingConnections, int port, int numberOfRooms){
+Server::Server(int maxPlayers, int maxPendingConnections, int port, int numberOfRooms){
 
-    this->maxPlayers = maxClients;
+    this->maxPlayers = maxPlayers;
     this->maxSocket = 0;
 
     int param = 1;
@@ -151,7 +169,7 @@ void Server::MainLoop(){
         cout << "Resolving Activity.." << endl;
         if (errno != EINTR) {
             if(activity < 0){
-                Utils::Error(-1, "select error");
+                Utils::Error(activity, "select error");
             }
         }
 
@@ -160,14 +178,13 @@ void Server::MainLoop(){
             int newClient = accept(serverSocket, (struct sockaddr *)&serverAddress, (socklen_t*)&addressLength);
             handleNewPlayer(newClient);
         } else {
-            handleNewMessages();
+            ResolveMessage(&sockets);
         }
 
         int a = 0;
         if(a + 1 > 3)
             break;
     }
-
 
     close(serverSocket);
 }

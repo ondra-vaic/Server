@@ -12,4 +12,20 @@
 #define STOP_WAIT_GAME 'S'
 #define LEAVE_ROOM 'l'
 
+#define SELECT_FIGURE 's'
+#define MOVE_FIGURE 'm'
+#define END_TURN 'e'
+#define FORFEIT 'f'
+
+#define CROWN_FIGURE 'c'
+#define WAKE_OTHER_PLAYER 'w'
+#define PLACE_BOARD 'p'
+#define DELETE_FIGURE 'd'
+#define LOOSE 'l'
+#define WIN 'v'
+
+#define NAME_CONFIRM 'N'
+#define NAME_DENY 'D'
+#define ROOM_INFO 'R'
+
 #endif //SERVER_IDENTIFIERS_H

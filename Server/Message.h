@@ -6,6 +6,8 @@
 #define SERVER_MESSAGE_H
 
 #include <string>
+#include "Player.h"
+
 using namespace std;
 
 class Message {
@@ -18,7 +20,7 @@ private:
 
 
 public:
-    explicit Message(const string& rawMessage);
+    explicit Message(const string& rawMessage, Player* player);
     char GetIdentifier();
     int GetMessageNumber();
     string GetRawMessage();

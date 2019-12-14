@@ -17,12 +17,13 @@ void Room::resolvePlayersInRoom(fd_set* sockets){
     for(auto& playerInRoom : playersInRoom){
         playerInRoom->ResolveMessage(sockets);
 
-        if(playerInRoom->WantsToLeave()){
-            playersToLeave.push_back(new PlayerSetup(playerInRoom->GetPlayer(), PlayerSetup::CHOOSING_ROOM));
+        if(playerInRoom->WantsToLeave() || playerInRoom->GetPlayer()->IsCheating() || playerInRoom->GetPlayer()->IsDisconnected()){
+            playersToLeave.push_back(playerInRoom->GetPlayer());
+            //TODO FREE PLAYERINROOM
         }
     }
 
-    Utils::RemoveIf(playersInRoom,[](PlayerInRoom* p){
+    Utils::RemoveIf(playersInRoom, [](PlayerInRoom* p){
         return p->WantsToLeave();
     });
 }
@@ -32,8 +33,8 @@ void Room::resolveSessions(fd_set* sockets){
         session->ResolveMessage(sockets);
 
         if(session->IsEnded()){
-            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer1()));
-            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer2()));
+            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer1()->GetPlayer()));
+            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer2()->GetPlayer()));
         }
     }
 
@@ -46,7 +47,7 @@ void Room::SetPlayer(Player* player){
     playersInRoom.push_back(new PlayerInRoom(player));
 }
 
-vector<PlayerSetup*> Room::GetPlayersToLeave(){
+vector<Player*> Room::GetPlayersToLeave(){
     return playersToLeave;
 }
 
@@ -69,4 +70,21 @@ void Room::CreateSessions(){
     Utils::RemoveIf(playersInRoom, [](PlayerInRoom* p){
         return p->IsJoiningGame();
     });
+}
+
+vector<Player*> Room::GetPlayers(){
+    vector<Player*> players;
+
+    for(auto& player : playersToLeave){
+        players.push_back(player);
+    }
+    for(auto& player : playersInRoom){
+        players.push_back(player->GetPlayer());
+    }
+    for(auto& session : sessions){
+        players.push_back(session->GetPlayer1()->GetPlayer());
+        players.push_back(session->GetPlayer2()->GetPlayer());
+    }
+
+    return players;
 }

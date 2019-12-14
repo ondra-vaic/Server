@@ -7,7 +7,6 @@
 
 
 #include "../Message.h"
-#include "Session.h"
 #include "IMessageHandler.h"
 
 class Lobby : public IMessageHandler{

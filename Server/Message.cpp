@@ -8,7 +8,7 @@
 #include "Utils.h"
 
 
-Message::Message(const string& rawMessage){
+Message::Message(const string& rawMessage, Player* player){
     try {
         this->rawMessage = rawMessage;
         this->messageNumber = NetworkManager::GetMessageNumber(rawMessage);
@@ -16,6 +16,7 @@ Message::Message(const string& rawMessage){
         this->data = NetworkManager::GetDataPart(rawMessage);
     }
     catch ( ... ){
+        player->SetCheating();
         Utils::Error(-1, "Error parsing message");
     }
 }
