@@ -36,6 +36,7 @@ private:
     bool settingName(Message* message);
     bool settingRoom(Message* message);
     bool nameIsUsed(const string& proposedName);
+    void sendRoomsInfo();
 
     State state;
 };

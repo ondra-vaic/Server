@@ -51,6 +51,41 @@ vector<Player*> Room::GetPlayersToLeave(){
     return playersToLeave;
 }
 
+vector<Player*> Room::GetPlayersToJoinGame(){
+    vector<Player*> players;
+
+    for (auto& playerInRoom : playersInRoom){
+        if(playerInRoom->WantsToJoinGame()){
+            players.push_back(playerInRoom->GetPlayer());
+        }
+    }
+
+    return players;
+}
+
+vector<Player*> Room::GetWaitingPlayers(){
+    vector<Player*> players;
+
+    for (auto& playerInRoom : playersInRoom){
+        if(!playerInRoom->WantsToJoinGame()){
+            players.push_back(playerInRoom->GetPlayer());
+        }
+    }
+
+    return players;
+}
+
+vector<Player*> Room::GetPlayersInSessions(){
+    vector<Player*> players;
+
+    for (auto& session : sessions){
+        players.push_back(session->GetPlayer1()->GetPlayer());
+        players.push_back(session->GetPlayer2()->GetPlayer());
+    }
+
+    return players;
+}
+
 void Room::CreateSessions(){
     PlayerInRoom* player1 = nullptr;
 

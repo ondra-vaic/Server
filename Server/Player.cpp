@@ -8,6 +8,10 @@
 
 Player::Player(int socketId){
     this->socketId = socketId;
+    this->disconnected = false;
+    this->cheating = false;
+    this->room = -1;
+    this->sessionId = -1;
 }
 
 int Player::GetSocketId(){

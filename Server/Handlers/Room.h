@@ -25,6 +25,9 @@ public:
     void SetPlayer(Player* player);
     void CreateSessions();
     vector<Player*> GetPlayersToLeave();
+    vector<Player*> GetPlayersToJoinGame();
+    vector<Player*> GetWaitingPlayers();
+    vector<Player*> GetPlayersInSessions();
 
 };
 

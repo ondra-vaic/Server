@@ -10,7 +10,7 @@
 #define EXIT_GAME 'x'
 #define WAIT_GAME 'W'
 #define STOP_WAIT_GAME 'S'
-#define LEAVE_ROOM 'l'
+#define BACK 'l'
 
 #define SELECT_FIGURE 's'
 #define MOVE_FIGURE 'm'

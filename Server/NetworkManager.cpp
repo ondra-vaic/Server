@@ -1,13 +1,16 @@
 //
 // Created by me on 11/16/19.
 //
-
+//
 #include <vector>
 #include <sys/socket.h>
 #include "NetworkManager.h"
 #include "Handlers/Game.h"
 #include "Utils.h"
 #include "Identifiers.h"
+
+
+class Room;
 
 #define MAX_MESSAGE_LENGTH 255
 
@@ -55,11 +58,18 @@ bool NetworkManager::SendDenyName(Player* player){
     return sendMessage(player, NAME_DENY, "");
 }
 
-bool NetworkManager::SendRoomInfo(Player* player, vector<int>& roomsOccupation){
-    string message = to_string(roomsOccupation.size());
-    for (int roomOccupation : roomsOccupation) {
-        message += "," + to_string(roomOccupation);
+bool NetworkManager::SendRoomInfo(Player* player, vector<array<int, 3>>& roomsOccupation){
+
+    vector<array<int, 3>> a;
+
+    string message;
+    for (auto& roomOccupation : roomsOccupation) {
+        message += to_string(roomOccupation[0]) + " "
+                + to_string(roomOccupation[1]) + " "
+                + to_string(roomOccupation[2]) + ",";
     }
+
+    message = message.substr(0, message.size() - 1);
 
     return sendMessage(player, ROOM_INFO, message);
 }

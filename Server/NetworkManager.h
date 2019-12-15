@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "Handlers/Game.h"
+#include <array>
 
 class NetworkManager {
 
@@ -29,7 +30,7 @@ public:
     static bool SendHello(Player* player);
     static bool SendConfirmName(Player* player);
     static bool SendDenyName(Player* player);
-    static bool SendRoomInfo(Player* player, vector<int>& roomsOccupation);
+    static bool SendRoomInfo(Player* player, vector<array<int, 3>>& roomsOccupation);
 
 private:
     static bool sendMessage(Player* player, char identifier, const string& message);

@@ -48,7 +48,7 @@ bool PlayerInRoom::waitingForGame(Message* message){
         case EXIT_GAME:
             state = EXITED_GAME;
             break;
-        case LEAVE_ROOM:
+        case BACK:
             state = WANTS_TO_LEAVE;
         default:
             //TODO ??
@@ -64,7 +64,7 @@ bool PlayerInRoom::chilling(Message* message){
         case EXIT_GAME:
             state = EXITED_GAME;
             break;
-        case LEAVE_ROOM:
+        case BACK:
             state = WANTS_TO_LEAVE;
             break;
         default:

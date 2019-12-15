@@ -40,6 +40,7 @@ int Server::setSocketSet(){
     int maxSocket = -1;
     for (int socket : getActiveSockets()) {
         FD_SET(socket, &sockets);
+        cout << "setting " << socket << endl;
         maxSocket = max(socket, maxSocket);
     }
 
@@ -119,6 +120,8 @@ Server::Server(int maxPlayers, int maxPendingConnections, int port, int numberOf
     this->maxPlayers = maxPlayers;
     this->maxSocket = 0;
 
+    names.insert("aaa");
+
     int param = 1;
     int errorValue;
 
@@ -157,6 +160,8 @@ void Server::MainLoop(){
 
         //add master socket to set
         FD_SET(serverSocket, &sockets);
+
+        cout << "Setting socket set.." << endl;
 
         int maxClientSocket = setSocketSet();
         maxSocket = max(serverSocket, maxClientSocket);
