@@ -10,6 +10,7 @@
 #include "Session.h"
 #include "PlayerInRoom.h"
 
+class PlayerInRoom;
 class Room : public IMessageHandler{
 
 private:
@@ -24,6 +25,7 @@ public:
     vector<Player*> GetPlayers();
     void SetPlayer(Player* player);
     void CreateSessions();
+    void SendPeriodicMessages();
     vector<Player*> GetPlayersToLeave();
     vector<Player*> GetPlayersToJoinGame();
     vector<Player*> GetWaitingPlayers();

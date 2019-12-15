@@ -7,78 +7,40 @@
 #include "../NetworkManager.h"
 #include "../Identifiers.h"
 
-PlayerInRoom::PlayerInRoom(Player *player) {
-    this->player = player;
+PlayerInRoom::PlayerInRoom(Player* player, Room* room) : LeafHandler<PlayerInRoomState, PlayerInRoom>(player){
+    this->room = room;
     this->state = CHILLING;
 }
 
-void PlayerInRoom::ResolveMessage(fd_set* sockets){
-    if(!FD_ISSET(player->GetSocketId(), sockets)){
-        return;
-    }
-
-    vector<string> splitMessages = NetworkManager::GetSplitMessages(player);
-
-    if(player->IsDisconnected()){
-        return;
-    }
-
-    for (const string& message : splitMessages) {
-        Message* m = new Message(message, player);
-
-        switch(state){
-            case CHILLING:
-                chilling(m);
-                break;
-            case WANTS_TO_JOIN:
-                waitingForGame(m);
-                break;
-            default:
-                //TODO ??
-                break;
-        }
-    }
+void PlayerInRoom::SendPeriodicMessages(){
+    sendRoomInfo();
 }
 
-bool PlayerInRoom::waitingForGame(Message* message){
-    switch (message->GetIdentifier()) {
-        case STOP_WAIT_GAME:
-            state = CHILLING;
-            break;
-        case EXIT_GAME:
-            state = EXITED_GAME;
-            break;
-        case BACK:
-            state = WANTS_TO_LEAVE;
-        default:
-            //TODO ??
-            break;
-    }
+void PlayerInRoom::init(){
+    commands[CHILLING][WAIT_GAME] = bind(&PlayerInRoom::setWantsToJoin, this, _1);
+    commands[CHILLING][BACK] = bind(&PlayerInRoom::backToChoosingRoom, this, _1);
+
+    commands[WANTS_TO_JOIN][STOP_WAIT_GAME] = bind(&PlayerInRoom::stopWaitingGame, this, _1);
+    commands[WANTS_TO_JOIN][BACK] = bind(&PlayerInRoom::backToChoosingRoom, this, _1);
 }
 
-bool PlayerInRoom::chilling(Message* message){
-    switch (message->GetIdentifier()) {
-        case WAIT_GAME:
-            state = WANTS_TO_JOIN;
-            break;
-        case EXIT_GAME:
-            state = EXITED_GAME;
-            break;
-        case BACK:
-            state = WANTS_TO_LEAVE;
-            break;
-        default:
-            //TODO ??
-            break;
-    }
+bool PlayerInRoom::setWantsToJoin(Message* message){
+    state = WANTS_TO_JOIN;
+    return message->GetData().empty();
+}
+
+bool PlayerInRoom::stopWaitingGame(Message* message){
+    state = CHILLING;
+    return message->GetData().empty();
+}
+
+bool PlayerInRoom::backToChoosingRoom(Message* message){
+    state = WANTS_TO_LEAVE;
+    return message->GetData().empty();
 }
 
 void PlayerInRoom::SetJoiningGame(){
     state = JOINING_GAME;
-}
-
-Player* PlayerInRoom::GetPlayer(){
-    return player;
 }
 
 bool PlayerInRoom::WantsToJoinGame(){
@@ -89,10 +51,14 @@ bool PlayerInRoom::WantsToLeave(){
     return state == WANTS_TO_LEAVE;
 }
 
-bool PlayerInRoom::ExitedGame(){
-    return state == EXITED_GAME;
-}
 
 bool PlayerInRoom::IsJoiningGame(){
     return state == JOINING_GAME;
+}
+
+void PlayerInRoom::sendRoomInfo(){
+        array<int, 3> info {(int)room->GetPlayersToJoinGame().size(),
+                            (int)room->GetPlayersInSessions().size(),
+                            (int)room->GetWaitingPlayers().size()};
+    NetworkManager::SendRoomInfo(player, info);
 }

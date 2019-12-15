@@ -8,27 +8,33 @@
 
 #include "../Player.h"
 #include "IMessageHandler.h"
+#include "LeafHandler.h"
 #include "../Message.h"
+#include "Room.h"
 
-class PlayerInRoom : public IMessageHandler{
+class Room;
+enum PlayerInRoomState{WANTS_TO_JOIN, WANTS_TO_LEAVE, CHILLING, JOINING_GAME};
+
+class PlayerInRoom : public LeafHandler<PlayerInRoomState, PlayerInRoom>{
 
 public:
-    enum State{WANTS_TO_JOIN, WANTS_TO_LEAVE, CHILLING, JOINING_GAME, EXITED_GAME};
-    explicit PlayerInRoom(Player* player);
-    void ResolveMessage(fd_set* sockets) override;
+
+    explicit PlayerInRoom(Player* player, Room* room);
+
     bool WantsToLeave();
     bool WantsToJoinGame();
     bool IsJoiningGame();
-    bool ExitedGame();
     void SetJoiningGame();
-    Player* GetPlayer();
-
+    void SendPeriodicMessages() override;
 
 private:
-    Player* player;
-    State state;
-    bool chilling(Message* message);
-    bool waitingForGame(Message* message);
+    Room* room;
+    bool setWantsToJoin(Message* message);
+    bool stopWaitingGame(Message* message);
+    bool backToChoosingRoom(Message* message);
+    void sendRoomInfo();
+
+    void init() override;
 
 };
 

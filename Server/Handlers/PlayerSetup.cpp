@@ -7,99 +7,48 @@
 #include "PlayerSetup.h"
 #include "../NetworkManager.h"
 #include "../Identifiers.h"
+#include <functional>
 
 class Room;
 
-PlayerSetup::PlayerSetup(int playerSocket, vector<Room*>& rooms, unordered_set<string>& usedNames, State state){
+PlayerSetup::PlayerSetup(Player* player, vector<Room*>& rooms, unordered_set<string>& usedNames, PlayerSetupState state)
+: LeafHandler<PlayerSetupState, PlayerSetup>(player){
     this->state = state;
     this->usedNames = usedNames;
     this->rooms = rooms;
-    player = new Player(playerSocket);
+
+    if(state == CHOOSING_ROOM)
+        sendRoomsInfo();
 }
 
-PlayerSetup::PlayerSetup(Player *player, State state) {
-    this->state = state;
-    this->player = player;
+void PlayerSetup::SendPeriodicMessages(){
+    if(state == CHOOSING_ROOM)
+        sendRoomsInfo();
 }
 
-void PlayerSetup::ResolveMessage(fd_set* sockets){
+void PlayerSetup::init(){
+    commands[SETTING_NAME][NAME_IDENTIFY] = bind(&PlayerSetup::setName, this, _1);
+    commands[SETTING_NAME][EXIT_GAME] = bind(&PlayerSetup::exitGame, this, _1);
 
-    cout << "Resolving setup message" << endl;
-
-    if(!FD_ISSET(player->GetSocketId(), sockets)){
-        return;
-    }
-
-    vector<string> splitMessages = NetworkManager::GetSplitMessages(player);
-
-    if(player->IsDisconnected()){
-        return;
-    }
-
-    for (const string& message : splitMessages) {
-        Message* m = new Message(message, player);
-
-        if(player->IsCheating() || player->IsDisconnected())
-            return;
-
-        switch(state){
-            case SETTING_NAME:
-                settingName(m);
-                continue;
-            case CHOOSING_ROOM:
-                settingRoom(m);
-                continue;
-            default:
-                //TODO ??
-                continue;
-        }
-    }
+    commands[CHOOSING_ROOM][ROOM_ENTER] = bind(&PlayerSetup::setRoom, this, _1);
+    commands[CHOOSING_ROOM][BACK] = bind(&PlayerSetup::backToChoosingName, this, _1);
 }
 
-bool PlayerSetup::settingName(Message* message){
-    switch (message->GetIdentifier()) {
-        case NAME_IDENTIFY:
-            if(!setName(message)){
-                player->SetCheating();
-            }
-            break;
-        case EXIT_GAME:
-            state = LEAVE;
-            break;
-        default:
-            player->SetCheating();
-            break;
-    }
-
-    return true;
+bool PlayerSetup::exitGame(Message* message){
+    state = LEAVE;
+    return message->GetData().empty();
 }
 
-bool PlayerSetup::settingRoom(Message* message){
-    switch (message->GetIdentifier()) {
-        case ROOM_ENTER:
-            if(!setRoom(message)){
-                player->SetCheating();
-            }
-            break;
-        case EXIT_GAME:
-            state = LEAVE;
-            break;
-        case BACK:
-            state = SETTING_NAME;
-            break;
-        default:
-            player->SetCheating();
-            break;
-    }
-
-    return true;
+bool PlayerSetup::backToChoosingName(Message* message){
+    state = SETTING_NAME;
+    return message->GetData().empty();
 }
 
 bool PlayerSetup::setName(Message* message){
 
     string proposedName = message->GetData();
 
-    if (!nameIsUsed(proposedName))
+    if (!nameIsUsed(proposedName) || proposedName == player->GetName())
     {
         usedNames.insert(proposedName);
         player->SetName(proposedName);
@@ -121,11 +70,10 @@ void PlayerSetup::sendRoomsInfo(){
                             (int)room->GetWaitingPlayers().size()};
         roomInfo.push_back(info);
     }
-    NetworkManager::SendRoomInfo(player, roomInfo);
+    NetworkManager::SendRoomsInfo(player, roomInfo);
 }
 
 bool PlayerSetup::setRoom(Message* message){
-
     try {
         int room = stoi(message->GetData());
         if(room >= 0 && room < rooms.size()){
@@ -151,6 +99,4 @@ bool PlayerSetup::nameIsUsed(const string& proposedName){
     return usedNames.find(proposedName) != usedNames.end();
 }
 
-Player* PlayerSetup::GetPlayer(){
-    return player;
-}
+

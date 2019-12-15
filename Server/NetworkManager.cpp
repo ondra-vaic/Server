@@ -58,7 +58,7 @@ bool NetworkManager::SendDenyName(Player* player){
     return sendMessage(player, NAME_DENY, "");
 }
 
-bool NetworkManager::SendRoomInfo(Player* player, vector<array<int, 3>>& roomsOccupation){
+bool NetworkManager::SendRoomsInfo(Player* player, vector<array<int, 3>>& roomsOccupation){
 
     vector<array<int, 3>> a;
 
@@ -68,6 +68,19 @@ bool NetworkManager::SendRoomInfo(Player* player, vector<array<int, 3>>& roomsOc
                 + to_string(roomOccupation[1]) + " "
                 + to_string(roomOccupation[2]) + ",";
     }
+
+    message = message.substr(0, message.size() - 1);
+
+    return sendMessage(player, ROOMS_INFO, message);
+}
+
+bool NetworkManager::SendRoomInfo(Player* player, array<int, 3>& roomOccupation){
+
+    vector<array<int, 3>> a;
+
+    string message = to_string(roomOccupation[0]) + " "
+                   + to_string(roomOccupation[1]) + " "
+                   + to_string(roomOccupation[2]) + ",";
 
     message = message.substr(0, message.size() - 1);
 

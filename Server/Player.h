@@ -18,7 +18,6 @@ private:
     bool disconnected;
     bool cheating;
 
-
 public:
     Player(int playerId);
     int GetSocketId();

@@ -10,35 +10,32 @@
 #include "../Player.h"
 #include "../Message.h"
 #include "Room.h"
+#include "LeafHandler.h"
 #include <bits/stdc++.h>
-using namespace std;
 
-class PlayerSetup : public IMessageHandler{
+enum PlayerSetupState{SETTING_NAME, CHOOSING_ROOM, ROOM_CHOSEN, LEAVE};
+
+class PlayerSetup : public LeafHandler<PlayerSetupState, PlayerSetup>{
 
 public:
-    enum State{SETTING_NAME, CHOOSING_ROOM, ROOM_CHOSEN, LEAVE};
-    explicit PlayerSetup(int player, vector<Room*>& rooms, unordered_set<string>& usedNames, State state);
-    explicit PlayerSetup(Player *player, State state);
-
-    void ResolveMessage(fd_set* sockets) override;
-    Player* GetPlayer();
+    explicit PlayerSetup(Player* player, vector<Room*>& rooms, unordered_set<string>& usedNames, PlayerSetupState state);
     bool IsPlayerInitialized();
     bool IsPlayerToLeave();
-
+    void SendPeriodicMessages() override;
 
 private:
-    Player* player;
     vector<Room*> rooms;
     unordered_set<string> usedNames;
 
     bool setName(Message* message);
     bool setRoom(Message* message);
-    bool settingName(Message* message);
-    bool settingRoom(Message* message);
+
+    bool exitGame(Message* message);
+    bool backToChoosingName(Message* message);
+
     bool nameIsUsed(const string& proposedName);
     void sendRoomsInfo();
-
-    State state;
+    void init() override;
 };
 
 

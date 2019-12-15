@@ -204,6 +204,33 @@ Handlers/Game.cpp.s:
 	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Game.cpp.s
 .PHONY : Handlers/Game.cpp.s
 
+Handlers/LeafHandler.o: Handlers/LeafHandler.cpp.o
+
+.PHONY : Handlers/LeafHandler.o
+
+# target to build an object file
+Handlers/LeafHandler.cpp.o:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o
+.PHONY : Handlers/LeafHandler.cpp.o
+
+Handlers/LeafHandler.i: Handlers/LeafHandler.cpp.i
+
+.PHONY : Handlers/LeafHandler.i
+
+# target to preprocess a source file
+Handlers/LeafHandler.cpp.i:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.i
+.PHONY : Handlers/LeafHandler.cpp.i
+
+Handlers/LeafHandler.s: Handlers/LeafHandler.cpp.s
+
+.PHONY : Handlers/LeafHandler.s
+
+# target to generate assembly for a file
+Handlers/LeafHandler.cpp.s:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.s
+.PHONY : Handlers/LeafHandler.cpp.s
+
 Handlers/Lobby.o: Handlers/Lobby.cpp.o
 
 .PHONY : Handlers/Lobby.o
@@ -546,6 +573,9 @@ help:
 	@echo "... Handlers/Game.o"
 	@echo "... Handlers/Game.i"
 	@echo "... Handlers/Game.s"
+	@echo "... Handlers/LeafHandler.o"
+	@echo "... Handlers/LeafHandler.i"
+	@echo "... Handlers/LeafHandler.s"
 	@echo "... Handlers/Lobby.o"
 	@echo "... Handlers/Lobby.i"
 	@echo "... Handlers/Lobby.s"

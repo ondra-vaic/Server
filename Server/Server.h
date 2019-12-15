@@ -27,7 +27,7 @@ private:
 
     int numberOfConnectedPlayers();
     void handleNewPlayer(int newPlayer);
-    vector<int> getActiveSockets();
+    vector<Player*> getAllPlayers();
     int setSocketSet();
     void resolveSetUps();
     void resolveRooms();
@@ -36,7 +36,7 @@ public:
     explicit Server(int maxPlayers, int maxPendingConnections, int port, int numberOfRooms);
     void MainLoop();
     void ResolveMessage(fd_set* sockets) override;
-
+    void SendPeriodicMessages() override;
 };
 
 

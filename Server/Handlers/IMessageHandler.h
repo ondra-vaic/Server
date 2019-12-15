@@ -11,6 +11,7 @@
 class IMessageHandler{
 public:
     virtual void ResolveMessage(fd_set* sockets) = 0;
+    virtual void SendPeriodicMessages() = 0;
 };
 
 #endif

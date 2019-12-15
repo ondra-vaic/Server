@@ -8,14 +8,17 @@
 #include "../Message.h"
 #include "PlayerInGame.h"
 
-using namespace std;
-
-
 Session::Session(Player* player1, Player* player2)
 {
     this->game = new Game(player1, player2);
     this->player1 = new PlayerInGame(player1, game, PlayerInGame::PLAYING);
     this->player2 = new PlayerInGame(player2, game, PlayerInGame::WAITING);
+    this->state = SESSION_ON;
+}
+
+void Session::SendPeriodicMessages(){
+    player1->SendPeriodicMessages();
+    player2->SendPeriodicMessages();
 }
 
 void Session::ResolveMessage(fd_set* sockets){

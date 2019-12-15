@@ -15,6 +15,7 @@ public:
     enum State{PLAYING, WAITING, WON, LOST};
     PlayerInGame(Player* player, Game* game, State state);
     void ResolveMessage(fd_set* sockets) override;
+    void SendPeriodicMessages() override;
     Player* GetPlayer();
 
 private:

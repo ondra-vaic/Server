@@ -20,16 +20,16 @@ int Server::numberOfConnectedPlayers(){
     return count;
 }
 
-vector<int> Server::getActiveSockets(){
-    vector<int> socketIds;
+vector<Player*> Server::getAllPlayers(){
+    vector<Player*> socketIds;
 
     for(auto& player : playerSetups){
-        socketIds.push_back(player->GetPlayer()->GetSocketId());
+        socketIds.push_back(player->GetPlayer());
     }
 
     for(auto& room : rooms){
         for(auto& player : room->GetPlayers()){
-
+            socketIds.push_back(player);
         }
     }
 
@@ -38,10 +38,10 @@ vector<int> Server::getActiveSockets(){
 
 int Server::setSocketSet(){
     int maxSocket = -1;
-    for (int socket : getActiveSockets()) {
-        FD_SET(socket, &sockets);
-        cout << "setting " << socket << endl;
-        maxSocket = max(socket, maxSocket);
+    for (Player* player : getAllPlayers()) {
+        FD_SET(player->GetSocketId(), &sockets);
+        cout << "setting " << player->GetSocketId() << " " << player->GetName() << endl;
+        maxSocket = max(player->GetSocketId(), maxSocket);
     }
 
     return maxSocket;
@@ -56,7 +56,7 @@ void Server::handleNewPlayer(int newPlayer){
     cout << "Accepting new.." << endl;
 
     if(numberOfConnectedPlayers() < maxPlayers){
-        playerSetups.push_back(new PlayerSetup(newPlayer, rooms, names, PlayerSetup::SETTING_NAME));
+        playerSetups.push_back(new PlayerSetup(new Player(newPlayer), rooms, names, PlayerSetupState::SETTING_NAME));
     }
     else{
         //Send msg and kick
@@ -100,10 +100,20 @@ void Server::resolveRooms(){
         vector<PlayerSetup*> playersToChooseNewRoom;
 
         for(auto& player : room->GetPlayersToLeave()){
-            playersToChooseNewRoom.push_back(new PlayerSetup(player, PlayerSetup::CHOOSING_ROOM));
+            playersToChooseNewRoom.push_back(new PlayerSetup(player, rooms, names, PlayerSetupState::CHOOSING_ROOM));
         }
 
         playerSetups.insert(playerSetups.end(), playersToChooseNewRoom.begin(), playersToChooseNewRoom.end());
+    }
+}
+
+void Server::SendPeriodicMessages(){
+    for(auto& player : playerSetups){
+        player->SendPeriodicMessages();
+    }
+
+    for(auto& room : rooms){
+        room->SendPeriodicMessages();
     }
 }
 
@@ -112,8 +122,8 @@ void Server::ResolveMessage(fd_set* sockets){
 
     resolveSetUps();
     resolveRooms();
+    SendPeriodicMessages();
 }
-
 
 Server::Server(int maxPlayers, int maxPendingConnections, int port, int numberOfRooms){
 

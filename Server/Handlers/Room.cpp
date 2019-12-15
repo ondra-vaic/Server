@@ -6,9 +6,19 @@
 #include "Room.h"
 #include "../Utils.h"
 
+
 void Room::ResolveMessage(fd_set* sockets){
     resolvePlayersInRoom(sockets);
     resolveSessions(sockets);
+}
+
+void Room::SendPeriodicMessages(){
+    for(auto& player : playersInRoom){
+        player->SendPeriodicMessages();
+    }
+    for(auto& session : sessions){
+        session->SendPeriodicMessages();
+    }
 }
 
 void Room::resolvePlayersInRoom(fd_set* sockets){
@@ -17,14 +27,20 @@ void Room::resolvePlayersInRoom(fd_set* sockets){
     for(auto& playerInRoom : playersInRoom){
         playerInRoom->ResolveMessage(sockets);
 
-        if(playerInRoom->WantsToLeave() || playerInRoom->GetPlayer()->IsCheating() || playerInRoom->GetPlayer()->IsDisconnected()){
+        if(playerInRoom->GetPlayer()->IsCheating() || playerInRoom->GetPlayer()->IsDisconnected()){
+            delete playerInRoom->GetPlayer();
+            delete playerInRoom;
+            continue;
+        }
+
+        if(playerInRoom->WantsToLeave()){
             playersToLeave.push_back(playerInRoom->GetPlayer());
-            //TODO FREE PLAYERINROOM
+            delete playerInRoom;
         }
     }
 
     Utils::RemoveIf(playersInRoom, [](PlayerInRoom* p){
-        return p->WantsToLeave();
+        return p->WantsToLeave() || p->GetPlayer()->IsCheating() || p->GetPlayer()->IsDisconnected();
     });
 }
 
@@ -33,8 +49,8 @@ void Room::resolveSessions(fd_set* sockets){
         session->ResolveMessage(sockets);
 
         if(session->IsEnded()){
-            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer1()->GetPlayer()));
-            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer2()->GetPlayer()));
+            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer1()->GetPlayer(), this));
+            playersInRoom.push_back(new PlayerInRoom(session->GetPlayer2()->GetPlayer(), this));
         }
     }
 
@@ -44,7 +60,7 @@ void Room::resolveSessions(fd_set* sockets){
 }
 
 void Room::SetPlayer(Player* player){
-    playersInRoom.push_back(new PlayerInRoom(player));
+    playersInRoom.push_back(new PlayerInRoom(player, this));
 }
 
 vector<Player*> Room::GetPlayersToLeave(){

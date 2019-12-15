@@ -30,7 +30,8 @@ public:
     static bool SendHello(Player* player);
     static bool SendConfirmName(Player* player);
     static bool SendDenyName(Player* player);
-    static bool SendRoomInfo(Player* player, vector<array<int, 3>>& roomsOccupation);
+    static bool SendRoomsInfo(Player* player, vector<array<int, 3>>& roomsOccupation);
+    static bool SendRoomInfo(Player* player, array<int, 3>& roomsOccupation);
 
 private:
     static bool sendMessage(Player* player, char identifier, const string& message);

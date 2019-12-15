@@ -15,10 +15,12 @@
 class Session : public IMessageHandler{
 
 public:
-    enum State{SESSION_ENDED};
+    enum State{SESSION_ON, SESSION_ENDED};
     Session(Player* player1, Player* player2);
     PlayerInGame* GetPlayer1();
     PlayerInGame* GetPlayer2();
+    void SendPeriodicMessages() override;
+
     void ResolveMessage(fd_set* sockets);
     bool IsEnded();
 

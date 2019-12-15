@@ -26,6 +26,7 @@
 
 #define NAME_CONFIRM 'N'
 #define NAME_DENY 'D'
-#define ROOM_INFO 'R'
+#define ROOMS_INFO 'R'
+#define ROOM_INFO 'I'
 
 #endif //SERVER_IDENTIFIERS_H

@@ -12,6 +12,10 @@ PlayerInGame::PlayerInGame(Player* player, Game* game, State state){
     this->state = state;
 }
 
+void PlayerInGame::SendPeriodicMessages(){
+    SendPeriodicMessages();
+}
+
 void PlayerInGame::ResolveMessage(fd_set* sockets){
 
     if(!FD_ISSET(player->GetSocketId(), sockets)){
