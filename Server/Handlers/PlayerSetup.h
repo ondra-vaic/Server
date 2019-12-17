@@ -18,25 +18,26 @@ enum PlayerSetupState{SETTING_NAME, CHOOSING_ROOM, ROOM_CHOSEN, LEAVE};
 class PlayerSetup : public LeafHandler<PlayerSetupState, PlayerSetup>{
 
 public:
-    explicit PlayerSetup(Player* player, vector<Room*>& rooms, unordered_set<string>& usedNames, PlayerSetupState state);
+    explicit PlayerSetup(PlayerPtr player, vector<RoomPtr>& rooms, unordered_set<string>& usedNames, PlayerSetupState state);
     bool IsPlayerInitialized();
     bool IsPlayerToLeave();
     void SendPeriodicMessages() override;
 
 private:
-    vector<Room*> rooms;
+    vector<RoomPtr> rooms;
     unordered_set<string> usedNames;
 
-    bool setName(Message* message);
-    bool setRoom(Message* message);
+    bool setName(const MessagePtr& message);
+    bool setRoom(const MessagePtr& message);
 
-    bool exitGame(Message* message);
-    bool backToChoosingName(Message* message);
+    bool exitGame(const MessagePtr& message);
+    bool backToChoosingName(const MessagePtr& message);
 
     bool nameIsUsed(const string& proposedName);
     void sendRoomsInfo();
     void init() override;
 };
 
+typedef shared_ptr<PlayerSetup> PlayerSetupPtr;
 
 #endif //SERVER_PLAYERSETUP_H

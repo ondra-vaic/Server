@@ -3,12 +3,14 @@
 //
 #include <cmath>
 #include <vector>
+#include <chrono>
 
 #include "Utils.h"
 #include "Vector2D.h"
 #include "Board.h"
 
 #define BOARD_DIMENSION 8
+using namespace std::chrono;
 
 bool Utils::CanBeValidJump(Board* board, int x0, int y0, int x1, int y1){
     Vector2D possibleEnemyPosition = CalculateEnemyPosition(x0, y0, x1, y1);
@@ -166,6 +168,10 @@ bool Utils::IsEnemy(int figurine){return IsFigurine(figurine) && !IsPlayer1(figu
 
 
 //other
+
+int Utils::GetCurrentTime(){
+    return chrono::duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+}
 
 void Utils::Error(int code, const char *msg){
     if(code != 0){

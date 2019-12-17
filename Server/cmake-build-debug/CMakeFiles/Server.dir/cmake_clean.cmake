@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Server.dir/Board.cpp.o"
-  "CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o"
-  "CMakeFiles/Server.dir/Handlers/Game.cpp.o"
+  "CMakeFiles/Server.dir/Game.cpp.o"
   "CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o"
-  "CMakeFiles/Server.dir/Handlers/Lobby.cpp.o"
   "CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o"
   "CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o"
   "CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o"

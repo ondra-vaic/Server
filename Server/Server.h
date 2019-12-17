@@ -9,8 +9,8 @@
 #include <bits/stdc++.h>
 #include "Handlers/Room.h"
 #include "Handlers/PlayerSetup.h"
-#include "Handlers/Game.h"
-#include "Handlers/Game.h"
+#include "Game.h"
+#include "Game.h"
 
 class Server : public IMessageHandler{
 
@@ -20,14 +20,15 @@ private:
     int maxSocket;
     int serverSocket;
     int addressLength;
+    int lastPeriodicMessageTime;
     fd_set sockets;
-    vector<Room*> rooms;
-    vector<PlayerSetup*> playerSetups;
+    vector<RoomPtr> rooms;
+    vector<PlayerSetupPtr> playerSetups;
     unordered_set<string> names;
 
     int numberOfConnectedPlayers();
     void handleNewPlayer(int newPlayer);
-    vector<Player*> getAllPlayers();
+    vector<PlayerPtr> getAllPlayers();
     int setSocketSet();
     void resolveSetUps();
     void resolveRooms();

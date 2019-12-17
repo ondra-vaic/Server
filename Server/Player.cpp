@@ -12,10 +12,19 @@ Player::Player(int socketId){
     this->cheating = false;
     this->room = -1;
     this->sessionId = -1;
+    this->read = false;
 }
 
 int Player::GetSocketId(){
     return socketId;
+}
+
+void Player::SetRead(bool read){
+    this->read = read;
+}
+
+bool Player::IsRead(){
+    return read;
 }
 
 int Player::GetRoom(){

@@ -7,25 +7,29 @@
 
 
 #include "IMessageHandler.h"
-#include "Game.h"
+#include "../Game.h"
+#include "LeafHandler.h"
 
-class PlayerInGame : public IMessageHandler{
+enum PlayerInGameState{PLAYING, WAITING, WON, LOST};
+
+class PlayerInGame : public LeafHandler<PlayerInGameState, PlayerInGame>{
 
 public:
-    enum State{PLAYING, WAITING, WON, LOST};
-    PlayerInGame(Player* player, Game* game, State state);
-    void ResolveMessage(fd_set* sockets) override;
+    explicit PlayerInGame(PlayerPtr player, GamePtr game, PlayerInGameState state);
     void SendPeriodicMessages() override;
-    Player* GetPlayer();
 
 private:
-    Player* player;
-    Game* game;
-    State state;
-    void playing(Message* message);
-    void waiting(Message* message);
-    void forfeitWhileWaiting();
+    GamePtr game;
+    void init() override;
+
+    bool resolvePick(const MessagePtr& message);
+    bool resolveMove(const MessagePtr& message);
+    bool endTurn(const MessagePtr& message);
+    bool setForfeited(const MessagePtr& message);
+    bool forfeitWhileWaiting(const MessagePtr& message);
+
 };
 
+typedef shared_ptr<PlayerInGame> PlayerInGamePtr;
 
 #endif //SERVER_PLAYERINGAME_H

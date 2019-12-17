@@ -5,10 +5,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/me/CLionProjects/ServerRoot/Server/Board.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Board.cpp.o"
-  "/home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o"
-  "/home/me/CLionProjects/ServerRoot/Server/Handlers/Game.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Handlers/Game.cpp.o"
+  "/home/me/CLionProjects/ServerRoot/Server/Game.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Game.cpp.o"
   "/home/me/CLionProjects/ServerRoot/Server/Handlers/LeafHandler.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o"
-  "/home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Handlers/Lobby.cpp.o"
   "/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o"
   "/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o"
   "/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.cpp" "/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o"

@@ -42,6 +42,8 @@ public:
         vector.erase(std::remove_if(vector.begin(), vector.end(), condition), vector.end());
     }
 
+    static int GetCurrentTime();
+
     static void Error(int code, const char *msg);
 };
 

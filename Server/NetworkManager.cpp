@@ -5,7 +5,7 @@
 #include <vector>
 #include <sys/socket.h>
 #include "NetworkManager.h"
-#include "Handlers/Game.h"
+#include "Game.h"
 #include "Utils.h"
 #include "Identifiers.h"
 
@@ -14,51 +14,51 @@ class Room;
 
 #define MAX_MESSAGE_LENGTH 255
 
-bool NetworkManager::SendCrown(Player* player, int x, int y){
+bool NetworkManager::SendCrown(const PlayerPtr& player, int x, int y){
     return sendMessage(player, CROWN_FIGURE, to_string(x) + " " + to_string(7 - y));
 }
 
-bool NetworkManager::SendMove(Player* player, int x0, int y0, int x1, int y1){
+bool NetworkManager::SendMove(const PlayerPtr& player, int x0, int y0, int x1, int y1){
     return sendMessage(player, MOVE_FIGURE,to_string(x0) + " " + to_string(7 - y0) + " " + to_string(x1) + " " + to_string(7 - y1));
 }
 
-bool NetworkManager::SendWake(Player* player){
+bool NetworkManager::SendWake(const PlayerPtr& player){
     return sendMessage(player, WAKE_OTHER_PLAYER, "");
 }
 
-bool NetworkManager::SendPlace(Player* player, const string& board){
+bool NetworkManager::SendPlace(const PlayerPtr& player, const string& board){
     return sendMessage(player, PLACE_BOARD, board);
 }
 
-bool NetworkManager::SendDelete(Player* player, int x, int y){
+bool NetworkManager::SendDelete(const PlayerPtr& player, int x, int y){
     return sendMessage(player, DELETE_FIGURE, to_string(x) + " " + to_string(7 - y));
 }
 
-bool NetworkManager::SendMessageNumber(Player* player, int num){
+bool NetworkManager::SendMessageNumber(const PlayerPtr& player, int num){
     return sendMessage(player, 'n', to_string(num));
 }
 
-bool NetworkManager::SendLoose(Player* player){
+bool NetworkManager::SendLoose(const PlayerPtr& player){
     return sendMessage(player, LOOSE, "");
 }
 
-bool NetworkManager::SendWin(Player* player){
+bool NetworkManager::SendWin(const PlayerPtr& player){
     return sendMessage(player, WIN, "");
 }
 
-bool NetworkManager::SendHello(Player* player) {
+bool NetworkManager::SendHello(const PlayerPtr& player){
     return sendMessage(player, 'h', "");
 }
 
-bool NetworkManager::SendConfirmName(Player* player){
+bool NetworkManager::SendConfirmName(const PlayerPtr& player){
     return sendMessage(player, NAME_CONFIRM, "");
 }
 
-bool NetworkManager::SendDenyName(Player* player){
+bool NetworkManager::SendDenyName(const PlayerPtr& player){
     return sendMessage(player, NAME_DENY, "");
 }
 
-bool NetworkManager::SendRoomsInfo(Player* player, vector<array<int, 3>>& roomsOccupation){
+bool NetworkManager::SendRoomsInfo(const PlayerPtr& player, vector<array<int, 3>>& roomsOccupation){
 
     vector<array<int, 3>> a;
 
@@ -74,7 +74,7 @@ bool NetworkManager::SendRoomsInfo(Player* player, vector<array<int, 3>>& roomsO
     return sendMessage(player, ROOMS_INFO, message);
 }
 
-bool NetworkManager::SendRoomInfo(Player* player, array<int, 3>& roomOccupation){
+bool NetworkManager::SendRoomInfo(const PlayerPtr& player, array<int, 3>& roomOccupation){
 
     vector<array<int, 3>> a;
 
@@ -87,7 +87,7 @@ bool NetworkManager::SendRoomInfo(Player* player, array<int, 3>& roomOccupation)
     return sendMessage(player, ROOM_INFO, message);
 }
 
-bool NetworkManager::sendMessage(Player* player, char identifier, const string& message){
+bool NetworkManager::sendMessage(const PlayerPtr& player, char identifier, const string& message){
     string completeMessage = string(1, identifier) + message + "|";
     cout << "Sent [" << completeMessage << "]" << "to " << player->GetName() << endl;
 
@@ -98,9 +98,9 @@ bool NetworkManager::sendMessage(Player* player, char identifier, const string& 
     return true;
 }
 
-string NetworkManager::GetResponse(Player* player){
+string NetworkManager::GetResponse(const PlayerPtr& player){
 
-    string buffer = "";
+    string buffer;
 
     while (buffer.back() != '|'){
 
@@ -137,7 +137,7 @@ int NetworkManager::GetMessageNumber(const string& message)
     return stoi(message.substr(1, message.find(',') - 1));
 }
 
-vector<string> NetworkManager::GetSplitMessages(Player* player){
+vector<string> NetworkManager::GetSplitMessages(const PlayerPtr& player){
 
     vector<string> splitMessages;
     string messages = NetworkManager::GetResponse(player);

@@ -5,74 +5,25 @@
 #include "PlayerInGame.h"
 #include "../NetworkManager.h"
 #include "../Identifiers.h"
+#include <bits/stdc++.h>
 
-PlayerInGame::PlayerInGame(Player* player, Game* game, State state){
-    this->player = player;
-    this->game = game;
+using namespace std;
+
+PlayerInGame::PlayerInGame(PlayerPtr player, GamePtr game, PlayerInGameState state)
+    : LeafHandler<PlayerInGameState, PlayerInGame>(move(player)), game(move(game)){
     this->state = state;
 }
 
+void PlayerInGame::init(){
+    commands[PLAYING][SELECT_FIGURE] = bind(&PlayerInGame::resolvePick, this, _1);
+    commands[PLAYING][MOVE_FIGURE] = bind(&PlayerInGame::resolveMove, this, _1);
+    commands[PLAYING][END_TURN] = bind(&PlayerInGame::endTurn, this, _1);
+    commands[PLAYING][FORFEIT] = bind(&PlayerInGame::setForfeited, this, _1);
+
+    commands[WAITING][FORFEIT] = bind(&PlayerInGame::forfeitWhileWaiting, this, _1);
+}
+
 void PlayerInGame::SendPeriodicMessages(){
-    SendPeriodicMessages();
-}
-
-void PlayerInGame::ResolveMessage(fd_set* sockets){
-
-    if(!FD_ISSET(player->GetSocketId(), sockets)){
-        return;
-    }
-
-    vector<string> splitMessages = NetworkManager::GetSplitMessages(player);
-
-    if(player->IsDisconnected()){
-        return;
-    }
-
-    for (const string& message : splitMessages) {
-        Message* m = new Message(message, player);
-
-        switch(state){
-            case PLAYING:
-                playing(m);
-                continue;
-            case WAITING:
-                waiting(m);
-                continue;
-            default:
-                player->SetCheating();
-                return;
-        }
-    }
-}
-
-void PlayerInGame::waiting(Message *message) {
-    switch (message->GetIdentifier())
-    {
-        case FORFEIT:
-            forfeitWhileWaiting();
-    }
-}
-
-void PlayerInGame::playing(Message* message){
-
-    switch (message->GetIdentifier())
-    {
-        case SELECT_FIGURE:
-            if(!game->ResolvePick(message->GetData())){
-                player->SetCheating();
-                return;
-            }
-        case MOVE_FIGURE:
-            if(!game->ResolveMove(message->GetData())){
-                player->SetCheating();
-                return;
-            }
-        case END_TURN:
-            game->EndTurn();
-        case FORFEIT:
-            game->SetForfeited();
-    }
-
     if(game->IsJustWon()){
         NetworkManager::SendLoose(game->GetOtherPlayer());
         NetworkManager::SendWin(game->GetCurrentPlayer());
@@ -96,11 +47,24 @@ void PlayerInGame::playing(Message* message){
     }
 }
 
-void PlayerInGame::forfeitWhileWaiting(){
+bool PlayerInGame::resolvePick(const MessagePtr& message){
+    return game->ResolvePick(message->GetData());
+}
+
+bool PlayerInGame::resolveMove(const MessagePtr& message){
+    return game->ResolveMove(message->GetData());
+}
+
+bool PlayerInGame::endTurn(const MessagePtr& message){
+    return game->EndTurn(message->GetData());
+}
+
+bool PlayerInGame::setForfeited(const MessagePtr& message){
+    return game->SetForfeited(message->GetData());
+}
+
+bool PlayerInGame::forfeitWhileWaiting(const MessagePtr& message){
     NetworkManager::SendLoose(game->GetOtherPlayer());
     NetworkManager::SendWin(game->GetCurrentPlayer());
 }
 
-Player* PlayerInGame::GetPlayer(){
-    return player;
-}

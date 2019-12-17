@@ -70,18 +70,18 @@ CMakeFiles/Server.dir/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Server.dir/Main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/me/CLionProjects/ServerRoot/Server/Main.cpp -o CMakeFiles/Server.dir/Main.cpp.s
 
-CMakeFiles/Server.dir/Handlers/Game.cpp.o: CMakeFiles/Server.dir/flags.make
-CMakeFiles/Server.dir/Handlers/Game.cpp.o: ../Handlers/Game.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Server.dir/Handlers/Game.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/Game.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.cpp
+CMakeFiles/Server.dir/Game.cpp.o: CMakeFiles/Server.dir/flags.make
+CMakeFiles/Server.dir/Game.cpp.o: ../Game.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Server.dir/Game.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Game.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Game.cpp
 
-CMakeFiles/Server.dir/Handlers/Game.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Server.dir/Handlers/Game.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.cpp > CMakeFiles/Server.dir/Handlers/Game.cpp.i
+CMakeFiles/Server.dir/Game.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Server.dir/Game.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/me/CLionProjects/ServerRoot/Server/Game.cpp > CMakeFiles/Server.dir/Game.cpp.i
 
-CMakeFiles/Server.dir/Handlers/Game.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Server.dir/Handlers/Game.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/me/CLionProjects/ServerRoot/Server/Handlers/Game.cpp -o CMakeFiles/Server.dir/Handlers/Game.cpp.s
+CMakeFiles/Server.dir/Game.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Server.dir/Game.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/me/CLionProjects/ServerRoot/Server/Game.cpp -o CMakeFiles/Server.dir/Game.cpp.s
 
 CMakeFiles/Server.dir/Utils.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Utils.cpp.o: ../Utils.cpp
@@ -135,22 +135,9 @@ CMakeFiles/Server.dir/Handlers/Session.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Server.dir/Handlers/Session.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/me/CLionProjects/ServerRoot/Server/Handlers/Session.cpp -o CMakeFiles/Server.dir/Handlers/Session.cpp.s
 
-CMakeFiles/Server.dir/Handlers/Lobby.cpp.o: CMakeFiles/Server.dir/flags.make
-CMakeFiles/Server.dir/Handlers/Lobby.cpp.o: ../Handlers/Lobby.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Server.dir/Handlers/Lobby.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/Lobby.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.cpp
-
-CMakeFiles/Server.dir/Handlers/Lobby.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Server.dir/Handlers/Lobby.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.cpp > CMakeFiles/Server.dir/Handlers/Lobby.cpp.i
-
-CMakeFiles/Server.dir/Handlers/Lobby.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Server.dir/Handlers/Lobby.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.cpp -o CMakeFiles/Server.dir/Handlers/Lobby.cpp.s
-
 CMakeFiles/Server.dir/Message.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Message.cpp.o: ../Message.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Server.dir/Message.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Server.dir/Message.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Message.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Message.cpp
 
 CMakeFiles/Server.dir/Message.cpp.i: cmake_force
@@ -161,22 +148,9 @@ CMakeFiles/Server.dir/Message.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Server.dir/Message.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/me/CLionProjects/ServerRoot/Server/Message.cpp -o CMakeFiles/Server.dir/Message.cpp.s
 
-CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o: CMakeFiles/Server.dir/flags.make
-CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o: ../Handlers/Disconnect.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.cpp
-
-CMakeFiles/Server.dir/Handlers/Disconnect.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Server.dir/Handlers/Disconnect.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.cpp > CMakeFiles/Server.dir/Handlers/Disconnect.cpp.i
-
-CMakeFiles/Server.dir/Handlers/Disconnect.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Server.dir/Handlers/Disconnect.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.cpp -o CMakeFiles/Server.dir/Handlers/Disconnect.cpp.s
-
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Handlers/Room.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Server.dir/Handlers/Room.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/Server.dir/Handlers/Room.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/Room.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/Room.cpp
 
 CMakeFiles/Server.dir/Handlers/Room.cpp.i: cmake_force
@@ -189,7 +163,7 @@ CMakeFiles/Server.dir/Handlers/Room.cpp.s: cmake_force
 
 CMakeFiles/Server.dir/Server.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Server.cpp.o: ../Server.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Server.dir/Server.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/Server.dir/Server.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Server.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Server.cpp
 
 CMakeFiles/Server.dir/Server.cpp.i: cmake_force
@@ -202,7 +176,7 @@ CMakeFiles/Server.dir/Server.cpp.s: cmake_force
 
 CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o: ../Handlers/PlayerSetup.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerSetup.cpp
 
 CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.i: cmake_force
@@ -215,7 +189,7 @@ CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.s: cmake_force
 
 CMakeFiles/Server.dir/Player.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Player.cpp.o: ../Player.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Server.dir/Player.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/Server.dir/Player.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Player.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Player.cpp
 
 CMakeFiles/Server.dir/Player.cpp.i: cmake_force
@@ -228,7 +202,7 @@ CMakeFiles/Server.dir/Player.cpp.s: cmake_force
 
 CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o: ../Handlers/PlayerInRoom.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInRoom.cpp
 
 CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.i: cmake_force
@@ -241,7 +215,7 @@ CMakeFiles/Server.dir/Handlers/PlayerInRoom.cpp.s: cmake_force
 
 CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o: ../Handlers/PlayerInGame.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.cpp
 
 CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.i: cmake_force
@@ -254,7 +228,7 @@ CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.s: cmake_force
 
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: CMakeFiles/Server.dir/flags.make
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Handlers/LeafHandler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o -c /home/me/CLionProjects/ServerRoot/Server/Handlers/LeafHandler.cpp
 
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.i: cmake_force
@@ -268,14 +242,12 @@ CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.s: cmake_force
 # Object files for target Server
 Server_OBJECTS = \
 "CMakeFiles/Server.dir/Main.cpp.o" \
-"CMakeFiles/Server.dir/Handlers/Game.cpp.o" \
+"CMakeFiles/Server.dir/Game.cpp.o" \
 "CMakeFiles/Server.dir/Utils.cpp.o" \
 "CMakeFiles/Server.dir/Board.cpp.o" \
 "CMakeFiles/Server.dir/NetworkManager.cpp.o" \
 "CMakeFiles/Server.dir/Handlers/Session.cpp.o" \
-"CMakeFiles/Server.dir/Handlers/Lobby.cpp.o" \
 "CMakeFiles/Server.dir/Message.cpp.o" \
-"CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o" \
 "CMakeFiles/Server.dir/Handlers/Room.cpp.o" \
 "CMakeFiles/Server.dir/Server.cpp.o" \
 "CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o" \
@@ -288,14 +260,12 @@ Server_OBJECTS = \
 Server_EXTERNAL_OBJECTS =
 
 Server: CMakeFiles/Server.dir/Main.cpp.o
-Server: CMakeFiles/Server.dir/Handlers/Game.cpp.o
+Server: CMakeFiles/Server.dir/Game.cpp.o
 Server: CMakeFiles/Server.dir/Utils.cpp.o
 Server: CMakeFiles/Server.dir/Board.cpp.o
 Server: CMakeFiles/Server.dir/NetworkManager.cpp.o
 Server: CMakeFiles/Server.dir/Handlers/Session.cpp.o
-Server: CMakeFiles/Server.dir/Handlers/Lobby.cpp.o
 Server: CMakeFiles/Server.dir/Message.cpp.o
-Server: CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o
 Server: CMakeFiles/Server.dir/Handlers/Room.cpp.o
 Server: CMakeFiles/Server.dir/Server.cpp.o
 Server: CMakeFiles/Server.dir/Handlers/PlayerSetup.cpp.o
@@ -305,7 +275,7 @@ Server: CMakeFiles/Server.dir/Handlers/PlayerInGame.cpp.o
 Server: CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o
 Server: CMakeFiles/Server.dir/build.make
 Server: CMakeFiles/Server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable Server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/me/CLionProjects/ServerRoot/Server/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable Server"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Server.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -6,19 +6,18 @@
 #define SERVER_GAME_H
 
 
-#include "../Board.h"
-#include "../Vector2D.h"
-#include "../Message.h"
-#include "../Player.h"
-#include "IMessageHandler.h"
+#include "Board.h"
+#include "Vector2D.h"
+#include "Message.h"
+#include "Player.h"
 #include <vector>
 
 
 class Game {
 
 private:
-    Player* player1;
-    Player* player2;
+    PlayerPtr player1;
+    PlayerPtr player2;
     int messageNumber;
     bool player1Turn;
     bool hasMoved;
@@ -38,21 +37,22 @@ private:
     void deleteFigurine(int x, int y);
 
 public:
-    Game(Player* player1, Player* player2);
-    Player* GetCurrentPlayer();
-    Player* GetOtherPlayer();
+    Game(PlayerPtr player1, PlayerPtr player2);
+    PlayerPtr GetCurrentPlayer();
+    PlayerPtr GetOtherPlayer();
     int GetCurrentMessageNumber();
     bool ResolveMove(const string& message);
     bool ResolvePick(const string& message);
     bool HasTurnEnded();
     bool IsJustWon();
     bool CanMove();
-    void EndTurn();
+    bool EndTurn(const string& message);
     void Switch();
-    void SetForfeited();
+    bool SetForfeited(const string& message);
     bool HasForfeited();
 
 };
 
+typedef shared_ptr<Game> GamePtr;
 
 #endif //SERVER_GAME_H

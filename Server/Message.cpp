@@ -8,7 +8,7 @@
 #include "Utils.h"
 
 
-Message::Message(const string& rawMessage, Player* player){
+Message::Message(const string& rawMessage, const PlayerPtr& player){
     try {
         this->rawMessage = rawMessage;
         this->messageNumber = NetworkManager::GetMessageNumber(rawMessage);

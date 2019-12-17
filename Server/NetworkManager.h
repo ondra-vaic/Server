@@ -6,35 +6,35 @@
 #define SERVER_NETWORKMANAGER_H
 
 #include <vector>
-#include "Handlers/Game.h"
+#include "Game.h"
 #include <array>
 
 class NetworkManager {
 
 
 public:
-    static string GetResponse(Player* player);
+    static string GetResponse(const PlayerPtr& player);
     static char GetIdentifier(string message);
     static string GetDataPart(const string& message);
     static int GetMessageNumber(const string& message);
-    static vector<string> GetSplitMessages(Player* player);
+    static vector<string> GetSplitMessages(const PlayerPtr& player);
 
-    static bool SendCrown(Player* player, int x, int y);
-    static bool SendMove(Player* player, int x0, int y0, int x1, int y1);
-    static bool SendWake(Player* player);
-    static bool SendLoose(Player* player);
-    static bool SendWin(Player* player);
-    static bool SendPlace(Player* player, const string& board);
-    static bool SendDelete(Player* player, int x, int y);
-    static bool SendMessageNumber(Player* player, int num);
-    static bool SendHello(Player* player);
-    static bool SendConfirmName(Player* player);
-    static bool SendDenyName(Player* player);
-    static bool SendRoomsInfo(Player* player, vector<array<int, 3>>& roomsOccupation);
-    static bool SendRoomInfo(Player* player, array<int, 3>& roomsOccupation);
+    static bool SendCrown(const PlayerPtr& player, int x, int y);
+    static bool SendMove(const PlayerPtr& player, int x0, int y0, int x1, int y1);
+    static bool SendWake(const PlayerPtr& player);
+    static bool SendLoose(const PlayerPtr& player);
+    static bool SendWin(const PlayerPtr& player);
+    static bool SendPlace(const PlayerPtr& player, const string& board);
+    static bool SendDelete(const PlayerPtr& player, int x, int y);
+    static bool SendMessageNumber(const PlayerPtr& player, int num);
+    static bool SendHello(const PlayerPtr& player);
+    static bool SendConfirmName(const PlayerPtr& player);
+    static bool SendDenyName(const PlayerPtr& player);
+    static bool SendRoomsInfo(const PlayerPtr& player, vector<array<int, 3>>& roomsOccupation);
+    static bool SendRoomInfo(const PlayerPtr& player, array<int, 3>& roomsOccupation);
 
 private:
-    static bool sendMessage(Player* player, char identifier, const string& message);
+    static bool sendMessage(const PlayerPtr& player, char identifier, const string& message);
 
 };
 

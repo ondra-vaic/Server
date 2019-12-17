@@ -150,59 +150,32 @@ Board.cpp.s:
 	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Board.cpp.s
 .PHONY : Board.cpp.s
 
-Handlers/Disconnect.o: Handlers/Disconnect.cpp.o
+Game.o: Game.cpp.o
 
-.PHONY : Handlers/Disconnect.o
-
-# target to build an object file
-Handlers/Disconnect.cpp.o:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Disconnect.cpp.o
-.PHONY : Handlers/Disconnect.cpp.o
-
-Handlers/Disconnect.i: Handlers/Disconnect.cpp.i
-
-.PHONY : Handlers/Disconnect.i
-
-# target to preprocess a source file
-Handlers/Disconnect.cpp.i:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Disconnect.cpp.i
-.PHONY : Handlers/Disconnect.cpp.i
-
-Handlers/Disconnect.s: Handlers/Disconnect.cpp.s
-
-.PHONY : Handlers/Disconnect.s
-
-# target to generate assembly for a file
-Handlers/Disconnect.cpp.s:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Disconnect.cpp.s
-.PHONY : Handlers/Disconnect.cpp.s
-
-Handlers/Game.o: Handlers/Game.cpp.o
-
-.PHONY : Handlers/Game.o
+.PHONY : Game.o
 
 # target to build an object file
-Handlers/Game.cpp.o:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Game.cpp.o
-.PHONY : Handlers/Game.cpp.o
+Game.cpp.o:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Game.cpp.o
+.PHONY : Game.cpp.o
 
-Handlers/Game.i: Handlers/Game.cpp.i
+Game.i: Game.cpp.i
 
-.PHONY : Handlers/Game.i
+.PHONY : Game.i
 
 # target to preprocess a source file
-Handlers/Game.cpp.i:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Game.cpp.i
-.PHONY : Handlers/Game.cpp.i
+Game.cpp.i:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Game.cpp.i
+.PHONY : Game.cpp.i
 
-Handlers/Game.s: Handlers/Game.cpp.s
+Game.s: Game.cpp.s
 
-.PHONY : Handlers/Game.s
+.PHONY : Game.s
 
 # target to generate assembly for a file
-Handlers/Game.cpp.s:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Game.cpp.s
-.PHONY : Handlers/Game.cpp.s
+Game.cpp.s:
+	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Game.cpp.s
+.PHONY : Game.cpp.s
 
 Handlers/LeafHandler.o: Handlers/LeafHandler.cpp.o
 
@@ -230,33 +203,6 @@ Handlers/LeafHandler.s: Handlers/LeafHandler.cpp.s
 Handlers/LeafHandler.cpp.s:
 	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.s
 .PHONY : Handlers/LeafHandler.cpp.s
-
-Handlers/Lobby.o: Handlers/Lobby.cpp.o
-
-.PHONY : Handlers/Lobby.o
-
-# target to build an object file
-Handlers/Lobby.cpp.o:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Lobby.cpp.o
-.PHONY : Handlers/Lobby.cpp.o
-
-Handlers/Lobby.i: Handlers/Lobby.cpp.i
-
-.PHONY : Handlers/Lobby.i
-
-# target to preprocess a source file
-Handlers/Lobby.cpp.i:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Lobby.cpp.i
-.PHONY : Handlers/Lobby.cpp.i
-
-Handlers/Lobby.s: Handlers/Lobby.cpp.s
-
-.PHONY : Handlers/Lobby.s
-
-# target to generate assembly for a file
-Handlers/Lobby.cpp.s:
-	$(MAKE) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/Handlers/Lobby.cpp.s
-.PHONY : Handlers/Lobby.cpp.s
 
 Handlers/PlayerInGame.o: Handlers/PlayerInGame.cpp.o
 
@@ -567,18 +513,12 @@ help:
 	@echo "... Board.o"
 	@echo "... Board.i"
 	@echo "... Board.s"
-	@echo "... Handlers/Disconnect.o"
-	@echo "... Handlers/Disconnect.i"
-	@echo "... Handlers/Disconnect.s"
-	@echo "... Handlers/Game.o"
-	@echo "... Handlers/Game.i"
-	@echo "... Handlers/Game.s"
+	@echo "... Game.o"
+	@echo "... Game.i"
+	@echo "... Game.s"
 	@echo "... Handlers/LeafHandler.o"
 	@echo "... Handlers/LeafHandler.i"
 	@echo "... Handlers/LeafHandler.s"
-	@echo "... Handlers/Lobby.o"
-	@echo "... Handlers/Lobby.i"
-	@echo "... Handlers/Lobby.s"
 	@echo "... Handlers/PlayerInGame.o"
 	@echo "... Handlers/PlayerInGame.i"
 	@echo "... Handlers/PlayerInGame.s"

@@ -90,16 +90,10 @@
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Board.h">
 			<Option target="Server"/>
 		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.cpp">
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Game.cpp">
 			<Option target="Server"/>
 		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Disconnect.h">
-			<Option target="Server"/>
-		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Game.cpp">
-			<Option target="Server"/>
-		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Game.h">
+		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Game.h">
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/IMessageHandler.h">
@@ -109,12 +103,6 @@
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/LeafHandler.h">
-			<Option target="Server"/>
-		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.cpp">
-			<Option target="Server"/>
-		</Unit>
-		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/Lobby.h">
 			<Option target="Server"/>
 		</Unit>
 		<Unit filename="/home/me/CLionProjects/ServerRoot/Server/Handlers/PlayerInGame.cpp">

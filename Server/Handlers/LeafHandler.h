@@ -7,6 +7,7 @@
 
 #include <map>
 #include <functional>
+#include <memory>
 #include "IMessageHandler.h"
 #include "../Player.h"
 #include "../Message.h"
@@ -20,8 +21,8 @@ class LeafHandler : IMessageHandler{
 
 protected:
     T state;
-    Player* player;
-    map<T, map<char, std::function<bool(Message*)>>> commands;
+    PlayerPtr player;
+    map<T, map<char, std::function<bool(MessagePtr)>>> commands;
 
 private:
     bool initialized;
@@ -29,8 +30,7 @@ private:
 
 
 public:
-    explicit LeafHandler(Player* player){
-        this->player = player;
+    explicit LeafHandler(PlayerPtr player) : player(move(player)){
         this->initialized = false;
     }
 
@@ -41,18 +41,19 @@ public:
             initialized = true;
         }
 
-        if(!FD_ISSET(player->GetSocketId(), sockets)){
+        if(!FD_ISSET(player->GetSocketId(), sockets) || player->IsRead()){
             return;
         }
 
         vector<string> splitMessages = NetworkManager::GetSplitMessages(player);
+        player->SetRead(true);
 
         if(player->IsDisconnected()){
             return;
         }
 
         for (const string& message : splitMessages) {
-            Message* m = new Message(message, player);
+            MessagePtr m = make_shared<Message>(message, player);
 
             if(player->IsCheating() || player->IsDisconnected())
                 return;
@@ -73,7 +74,7 @@ public:
         }
     }
 
-    Player* GetPlayer(){
+    PlayerPtr GetPlayer(){
         return player;
     };
 };

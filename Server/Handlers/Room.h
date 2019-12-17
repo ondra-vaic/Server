@@ -11,27 +11,31 @@
 #include "PlayerInRoom.h"
 
 class PlayerInRoom;
+typedef shared_ptr<PlayerInRoom> PlayerInRoomPtr;
+
 class Room : public IMessageHandler{
 
 private:
-    vector<Player*> playersToLeave;
-    vector<PlayerInRoom*> playersInRoom;
-    vector<Session*> sessions;
+    vector<PlayerPtr> playersToLeave;
+    vector<PlayerInRoomPtr> playersInRoom;
+    vector<SessionPtr> sessions;
     void resolvePlayersInRoom(fd_set* sockets);
     void resolveSessions(fd_set* sockets);
 
 public:
     void ResolveMessage(fd_set* sockets) override;
-    vector<Player*> GetPlayers();
-    void SetPlayer(Player* player);
-    void CreateSessions();
+    vector<PlayerPtr> GetPlayers();
+    void SetPlayer(const PlayerPtr& player);
+    void createSessions();
     void SendPeriodicMessages();
-    vector<Player*> GetPlayersToLeave();
-    vector<Player*> GetPlayersToJoinGame();
-    vector<Player*> GetWaitingPlayers();
-    vector<Player*> GetPlayersInSessions();
+    vector<PlayerPtr> GetPlayersToLeave();
+    vector<PlayerPtr> GetPlayersToJoinGame();
+    vector<PlayerPtr> GetWaitingPlayers();
+    vector<PlayerPtr> GetPlayersInSessions();
 
 };
+
+typedef shared_ptr<Room> RoomPtr;
 
 
 #endif //SERVER_ROOM_H

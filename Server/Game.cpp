@@ -3,39 +3,42 @@
 //
 
 
+#include <utility>
 #include <vector>
 #include <tuple>
 
 #include "Game.h"
-#include "../Vector2D.h"
-#include "../Utils.h"
-#include "../NetworkManager.h"
+#include "Vector2D.h"
+#include "Utils.h"
+#include "NetworkManager.h"
 
 using namespace std;
 #define BOARD_DIMENSION 8
 
 
-Game::Game(Player* player1, Player* player2) :
-player1(player1), player2(player2), board(new Board()),
+Game::Game(PlayerPtr player1, PlayerPtr player2) :
+player1(move(player1)), player2(move(player2)), board(new Board()),
 pickedField(Vector2D{-1, -1}), player1Turn(true),
 hasMoved(false), turnEnded(false), messageNumber(1), forfeited(false){}
 
-Player* Game::GetCurrentPlayer() {
+PlayerPtr Game::GetCurrentPlayer() {
     return player1Turn ? player1 : player2;
 }
 
-Player* Game::GetOtherPlayer() {
+PlayerPtr Game::GetOtherPlayer() {
     return player1Turn ?  player2 : player1;
 }
 
 int Game::GetCurrentMessageNumber(){ return messageNumber;}
 
-void Game::EndTurn(){
+bool Game::EndTurn(const string& message){
     turnEnded = true;
+    return message.empty();
 }
 
-void Game::SetForfeited(){
+bool Game::SetForfeited(const string& message){
     forfeited = true;
+    return message.empty();
 }
 
 bool Game::HasForfeited(){

@@ -2,17 +2,18 @@
 // Created by me on 12/5/19.
 //
 
-#include <vector>
 #include "Session.h"
 #include "../NetworkManager.h"
 #include "../Message.h"
 #include "PlayerInGame.h"
+#include <bits/stdc++.h>
+using namespace std;
 
-Session::Session(Player* player1, Player* player2)
+Session::Session(const PlayerPtr& player1, const PlayerPtr& player2)
 {
-    this->game = new Game(player1, player2);
-    this->player1 = new PlayerInGame(player1, game, PlayerInGame::PLAYING);
-    this->player2 = new PlayerInGame(player2, game, PlayerInGame::WAITING);
+    this->game = make_shared<Game>(player1, player2);
+    this->player1 = make_shared<PlayerInGame>(player1, game, PlayerInGameState::PLAYING);
+    this->player2 = make_shared<PlayerInGame>(player2, game, PlayerInGameState::WAITING);
     this->state = SESSION_ON;
 }
 
@@ -25,16 +26,20 @@ void Session::ResolveMessage(fd_set* sockets){
     player1->ResolveMessage(sockets);
     player2->ResolveMessage(sockets);
 
+
+
+
     resolveCheaterLeaver(player1->GetPlayer());
     resolveCheaterLeaver(player2->GetPlayer());
 }
 
-void Session::resolveCheaterLeaver(Player* player){
+void Session::resolveCheaterLeaver(const PlayerPtr& player){
     if(player->IsCheating()){
-
+        state = SESSION_ENDED;
     }
 }
 
+
 bool Session::IsEnded(){return state == SESSION_ENDED;}
-PlayerInGame* Session::GetPlayer1() {return player1;}
-PlayerInGame* Session::GetPlayer2() {return player2;}
+PlayerInGamePtr Session::GetPlayer1() {return player1;}
+PlayerInGamePtr Session::GetPlayer2() {return player2;}

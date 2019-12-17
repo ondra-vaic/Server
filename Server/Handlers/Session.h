@@ -6,8 +6,7 @@
 #define SERVER_SESSION_H
 
 
-#include "Game.h"
-#include "Disconnect.h"
+#include "../Game.h"
 #include "../Player.h"
 #include "PlayerInGame.h"
 
@@ -16,21 +15,21 @@ class Session : public IMessageHandler{
 
 public:
     enum State{SESSION_ON, SESSION_ENDED};
-    Session(Player* player1, Player* player2);
-    PlayerInGame* GetPlayer1();
-    PlayerInGame* GetPlayer2();
+    Session(const PlayerPtr& player1, const PlayerPtr& player2);
+    PlayerInGamePtr GetPlayer1();
+    PlayerInGamePtr GetPlayer2();
     void SendPeriodicMessages() override;
-
-    void ResolveMessage(fd_set* sockets);
     bool IsEnded();
+    void ResolveMessage(fd_set* sockets) override;
 
 private:
     State state;
-    Game* game;
-    PlayerInGame* player1;
-    PlayerInGame* player2;
-    void resolveCheaterLeaver(Player* player);
+    GamePtr game;
+    PlayerInGamePtr player1;
+    PlayerInGamePtr player2;
+    void resolveCheaterLeaver(const PlayerPtr& player);
 };
 
+typedef shared_ptr<Session> SessionPtr;
 
 #endif //SERVER_SESSION_H

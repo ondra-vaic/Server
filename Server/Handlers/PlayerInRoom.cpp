@@ -2,18 +2,14 @@
 // Created by me on 12/7/19.
 //
 
-#include <vector>
 #include "PlayerInRoom.h"
+
+#include <utility>
 #include "../NetworkManager.h"
 #include "../Identifiers.h"
 
-PlayerInRoom::PlayerInRoom(Player* player, Room* room) : LeafHandler<PlayerInRoomState, PlayerInRoom>(player){
-    this->room = room;
+PlayerInRoom::PlayerInRoom(PlayerPtr player) : LeafHandler<PlayerInRoomState, PlayerInRoom>(move(player)){
     this->state = CHILLING;
-}
-
-void PlayerInRoom::SendPeriodicMessages(){
-    sendRoomInfo();
 }
 
 void PlayerInRoom::init(){
@@ -24,17 +20,21 @@ void PlayerInRoom::init(){
     commands[WANTS_TO_JOIN][BACK] = bind(&PlayerInRoom::backToChoosingRoom, this, _1);
 }
 
-bool PlayerInRoom::setWantsToJoin(Message* message){
+void PlayerInRoom::SendPeriodicMessages(){
+
+}
+
+bool PlayerInRoom::setWantsToJoin(const MessagePtr& message){
     state = WANTS_TO_JOIN;
     return message->GetData().empty();
 }
 
-bool PlayerInRoom::stopWaitingGame(Message* message){
+bool PlayerInRoom::stopWaitingGame(const MessagePtr& message){
     state = CHILLING;
     return message->GetData().empty();
 }
 
-bool PlayerInRoom::backToChoosingRoom(Message* message){
+bool PlayerInRoom::backToChoosingRoom(const MessagePtr& message){
     state = WANTS_TO_LEAVE;
     return message->GetData().empty();
 }
@@ -56,9 +56,9 @@ bool PlayerInRoom::IsJoiningGame(){
     return state == JOINING_GAME;
 }
 
-void PlayerInRoom::sendRoomInfo(){
-        array<int, 3> info {(int)room->GetPlayersToJoinGame().size(),
-                            (int)room->GetPlayersInSessions().size(),
-                            (int)room->GetWaitingPlayers().size()};
+void PlayerInRoom::SendRoomInfo(int playersToJoin, int playersInSession, int waitingPlayers){
+        array<int, 3> info {playersToJoin,
+                            playersInSession,
+                            waitingPlayers};
     NetworkManager::SendRoomInfo(player, info);
 }

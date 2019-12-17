@@ -18,9 +18,8 @@ private:
     string rawMessage;
     string data;
 
-
 public:
-    explicit Message(const string& rawMessage, Player* player);
+    explicit Message(const string& rawMessage, const PlayerPtr& player);
     char GetIdentifier();
     int GetMessageNumber();
     string GetRawMessage();
@@ -28,5 +27,6 @@ public:
 
 };
 
+typedef shared_ptr<Message> MessagePtr;
 
 #endif //SERVER_MESSAGE_H

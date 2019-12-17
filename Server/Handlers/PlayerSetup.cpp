@@ -2,6 +2,7 @@
 // Created by me on 12/7/19.
 //
 
+#include <utility>
 #include <vector>
 #include <array>
 #include "PlayerSetup.h"
@@ -11,8 +12,8 @@
 
 class Room;
 
-PlayerSetup::PlayerSetup(Player* player, vector<Room*>& rooms, unordered_set<string>& usedNames, PlayerSetupState state)
-: LeafHandler<PlayerSetupState, PlayerSetup>(player){
+PlayerSetup::PlayerSetup(PlayerPtr player, vector<RoomPtr>& rooms, unordered_set<string>& usedNames, PlayerSetupState state)
+: LeafHandler<PlayerSetupState, PlayerSetup>(move(player)){
     this->state = state;
     this->usedNames = usedNames;
     this->rooms = rooms;
@@ -34,17 +35,17 @@ void PlayerSetup::init(){
     commands[CHOOSING_ROOM][BACK] = bind(&PlayerSetup::backToChoosingName, this, _1);
 }
 
-bool PlayerSetup::exitGame(Message* message){
+bool PlayerSetup::exitGame(const MessagePtr& message){
     state = LEAVE;
     return message->GetData().empty();
 }
 
-bool PlayerSetup::backToChoosingName(Message* message){
+bool PlayerSetup::backToChoosingName(const MessagePtr& message){
     state = SETTING_NAME;
     return message->GetData().empty();
 }
 
-bool PlayerSetup::setName(Message* message){
+bool PlayerSetup::setName(const MessagePtr& message){
 
     string proposedName = message->GetData();
 
@@ -73,7 +74,7 @@ void PlayerSetup::sendRoomsInfo(){
     NetworkManager::SendRoomsInfo(player, roomInfo);
 }
 
-bool PlayerSetup::setRoom(Message* message){
+bool PlayerSetup::setRoom(const MessagePtr& message){
     try {
         int room = stoi(message->GetData());
         if(room >= 0 && room < rooms.size()){
