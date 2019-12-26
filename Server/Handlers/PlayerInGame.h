@@ -10,24 +10,33 @@
 #include "../Game.h"
 #include "LeafHandler.h"
 
-enum PlayerInGameState{PLAYING, WAITING, WON, LOST};
+enum PlayerInGameState{PLAYING, WAITING, FORFEITED, DISCONNECTED, WAITING_RECONNECT};
 
+typedef shared_ptr<Game> GamePtr;
 class PlayerInGame : public LeafHandler<PlayerInGameState, PlayerInGame>{
 
 public:
-    explicit PlayerInGame(PlayerPtr player, GamePtr game, PlayerInGameState state);
-    void SendPeriodicMessages() override;
+    explicit PlayerInGame(const PlayerPtr& player, const GamePtr& game, PlayerInGameState state);
+    void SetStateBeforeDc();
+    void SetWaitingForReconnect();
+    void SetDced();
+    void ResetState();
+    void SetWaiting();
+    void SetPlaying();
+    bool IsPlaying();
+    bool IsWaiting();
+    bool HasForfeited();
 
 private:
     GamePtr game;
-    void init() override;
+    PlayerInGameState stateBeforeDc;
 
+    void init() override;
     bool resolvePick(const MessagePtr& message);
     bool resolveMove(const MessagePtr& message);
     bool endTurn(const MessagePtr& message);
     bool setForfeited(const MessagePtr& message);
-    bool forfeitWhileWaiting(const MessagePtr& message);
-
+    bool sendInfo(const MessagePtr& message);
 };
 
 typedef shared_ptr<PlayerInGame> PlayerInGamePtr;

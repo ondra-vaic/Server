@@ -20,6 +20,7 @@ CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Game.h
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Handlers/IMessageHandler.h
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Handlers/LeafHandler.cpp
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Handlers/LeafHandler.h
+CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Identifiers.h
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Message.h
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../NetworkManager.h
 CMakeFiles/Server.dir/Handlers/LeafHandler.cpp.o: ../Player.h
@@ -77,6 +78,7 @@ CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Handlers/PlayerInRoom.h
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Handlers/Room.cpp
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Handlers/Room.h
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Handlers/Session.h
+CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Identifiers.h
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Message.h
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../NetworkManager.h
 CMakeFiles/Server.dir/Handlers/Room.cpp.o: ../Player.h
@@ -90,6 +92,7 @@ CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../Handlers/LeafHandler.h
 CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../Handlers/PlayerInGame.h
 CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../Handlers/Session.cpp
 CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../Handlers/Session.h
+CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../Identifiers.h
 CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../Message.h
 CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../NetworkManager.h
 CMakeFiles/Server.dir/Handlers/Session.cpp.o: ../Player.h
@@ -104,6 +107,7 @@ CMakeFiles/Server.dir/Main.cpp.o: ../Handlers/PlayerInRoom.h
 CMakeFiles/Server.dir/Main.cpp.o: ../Handlers/PlayerSetup.h
 CMakeFiles/Server.dir/Main.cpp.o: ../Handlers/Room.h
 CMakeFiles/Server.dir/Main.cpp.o: ../Handlers/Session.h
+CMakeFiles/Server.dir/Main.cpp.o: ../Identifiers.h
 CMakeFiles/Server.dir/Main.cpp.o: ../Main.cpp
 CMakeFiles/Server.dir/Main.cpp.o: ../Message.h
 CMakeFiles/Server.dir/Main.cpp.o: ../NetworkManager.h
@@ -130,8 +134,11 @@ CMakeFiles/Server.dir/NetworkManager.cpp.o: ../Player.h
 CMakeFiles/Server.dir/NetworkManager.cpp.o: ../Utils.h
 CMakeFiles/Server.dir/NetworkManager.cpp.o: ../Vector2D.h
 
+CMakeFiles/Server.dir/Player.cpp.o: ../Board.h
 CMakeFiles/Server.dir/Player.cpp.o: ../Player.cpp
 CMakeFiles/Server.dir/Player.cpp.o: ../Player.h
+CMakeFiles/Server.dir/Player.cpp.o: ../Utils.h
+CMakeFiles/Server.dir/Player.cpp.o: ../Vector2D.h
 
 CMakeFiles/Server.dir/Server.cpp.o: ../Board.h
 CMakeFiles/Server.dir/Server.cpp.o: ../Game.h
@@ -142,6 +149,7 @@ CMakeFiles/Server.dir/Server.cpp.o: ../Handlers/PlayerInRoom.h
 CMakeFiles/Server.dir/Server.cpp.o: ../Handlers/PlayerSetup.h
 CMakeFiles/Server.dir/Server.cpp.o: ../Handlers/Room.h
 CMakeFiles/Server.dir/Server.cpp.o: ../Handlers/Session.h
+CMakeFiles/Server.dir/Server.cpp.o: ../Identifiers.h
 CMakeFiles/Server.dir/Server.cpp.o: ../Message.h
 CMakeFiles/Server.dir/Server.cpp.o: ../NetworkManager.h
 CMakeFiles/Server.dir/Server.cpp.o: ../Player.h

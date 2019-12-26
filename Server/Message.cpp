@@ -3,6 +3,7 @@
 //
 
 
+#include <unistd.h>
 #include "Message.h"
 #include "NetworkManager.h"
 #include "Utils.h"

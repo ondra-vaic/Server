@@ -8,7 +8,7 @@
 #include "../NetworkManager.h"
 #include "../Identifiers.h"
 
-PlayerInRoom::PlayerInRoom(PlayerPtr player) : LeafHandler<PlayerInRoomState, PlayerInRoom>(move(player)){
+PlayerInRoom::PlayerInRoom(const PlayerPtr& player) : LeafHandler<PlayerInRoomState, PlayerInRoom>(player){
     this->state = CHILLING;
 }
 

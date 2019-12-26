@@ -17,6 +17,7 @@ using namespace std;
 //                         "1 0 1 0 1 0 0 0";
 //
 
+
 int main(int argc, char const *argv[]) {
 
     Server* server = new Server(10, 10, 9001, 2);

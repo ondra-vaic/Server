@@ -16,8 +16,8 @@ using namespace std;
 #define BOARD_DIMENSION 8
 
 
-Game::Game(PlayerPtr player1, PlayerPtr player2) :
-player1(move(player1)), player2(move(player2)), board(new Board()),
+Game::Game(const PlayerPtr& player1, const PlayerPtr& player2) :
+player1(player1), player2(player2), board(make_shared<Board>()),
 pickedField(Vector2D{-1, -1}), player1Turn(true),
 hasMoved(false), turnEnded(false), messageNumber(1), forfeited(false){}
 
@@ -27,6 +27,10 @@ PlayerPtr Game::GetCurrentPlayer() {
 
 PlayerPtr Game::GetOtherPlayer() {
     return player1Turn ?  player2 : player1;
+}
+
+PlayerPtr Game::GetOtherPlayer(const PlayerPtr& player) {
+    return player == player1 ?  player2 : player1;
 }
 
 int Game::GetCurrentMessageNumber(){ return messageNumber;}
@@ -50,7 +54,7 @@ bool Game::IsJustWon(){
 }
 
 bool Game::CanMove(){
-    return board->CanMove();
+    return Utils::CanMove(board);
 }
 
 bool Game::isPickedField(int x, int y){return x == pickedField.x && y == pickedField.y;}
@@ -132,6 +136,7 @@ bool Game::ResolvePick(const string& message) {
         return false;
     }
 
+
     int figurine = board->GetFigurine(x, y);
 
     if (!Utils::IsFigurine(figurine))
@@ -192,4 +197,8 @@ bool Game::ResolveMove(const string& message){
     }
 
     return false;
+}
+
+BoardPtr Game::GetBoard(){
+    return board;
 }

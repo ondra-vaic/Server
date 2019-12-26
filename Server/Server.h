@@ -32,6 +32,8 @@ private:
     int setSocketSet();
     void resolveSetUps();
     void resolveRooms();
+    void setNames();
+    void checkDisconnectedPlayers();
 
 public:
     explicit Server(int maxPlayers, int maxPendingConnections, int port, int numberOfRooms);

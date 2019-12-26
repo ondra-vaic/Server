@@ -12,6 +12,7 @@
 #include "../Player.h"
 #include "../Message.h"
 #include "../NetworkManager.h"
+#include "../Identifiers.h"
 
 using namespace std;
 using namespace std::placeholders;
@@ -30,7 +31,7 @@ private:
 
 
 public:
-    explicit LeafHandler(PlayerPtr player) : player(move(player)){
+    explicit LeafHandler(const PlayerPtr& player) : player(player){
         this->initialized = false;
     }
 
@@ -55,6 +56,11 @@ public:
         for (const string& message : splitMessages) {
             MessagePtr m = make_shared<Message>(message, player);
 
+            if(m->GetIdentifier() == PING){
+                player->Ping();
+                continue;
+            }
+
             if(player->IsCheating() || player->IsDisconnected())
                 return;
 
@@ -62,13 +68,16 @@ public:
             {
                 if (commands[state].find(m->GetIdentifier()) != commands[state].end()) {
                     bool validFormat = commands[state][m->GetIdentifier()](m);
+
                     if(validFormat){
                         return;
                     }
-                    cout << "incorrect identifier" << endl;
+                    cout << " invalid format or information " << endl;
                 }
-                cout << "incorrect state" << endl;
+                cout << "incorrect identifier" << endl;
             }
+            cout << "incorrect state" << endl;
+
             //if state doesnt exist or identifier doesnt exit or is not valid format
             player->SetCheating();
         }

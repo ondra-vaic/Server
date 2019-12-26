@@ -3,8 +3,11 @@
 //
 
 #include <iostream>
+#include <unistd.h>
 #include "Player.h"
+#include "Utils.h"
 
+#define TIME_TO_DC 30
 
 Player::Player(int socketId){
     this->socketId = socketId;
@@ -13,6 +16,7 @@ Player::Player(int socketId){
     this->room = -1;
     this->sessionId = -1;
     this->read = false;
+    this->lastPingTime = INT_MAX;
 }
 
 int Player::GetSocketId(){
@@ -49,6 +53,8 @@ bool Player::IsDisconnected(){
 
 void Player::SetDisconnected(){
     cout << "Disconnect " << name << " " << GetSocketId() << endl;
+    close(GetSocketId());
+    socketId = -1;
     this->disconnected = true;
 }
 
@@ -60,11 +66,36 @@ void Player::SetName(const string& name){
     this->name = name;
 }
 
+void Player::SetSocketId(int socketId){
+    this->socketId = socketId;
+}
+
 void Player::SetSessionId(int sessionId){
     this->sessionId = sessionId;
 }
 
+void Player::ResetErrors(){
+    disconnected = false;
+    cheating = false;
+    lastPingTime = Utils::GetCurrentTime();
+}
+
 void Player::SetCheating(){
     cout << "Cheatin " << name << " " << GetSocketId() << endl;
+    close(GetSocketId());
+    socketId = -1;
     this->cheating = true;
+}
+
+void Player::Ping(){
+    lastPingTime = Utils::GetCurrentTime();
+    cout << "++++++ pinged +++++++" <<endl;
+}
+
+void Player::CheckDisconnected(){
+    if(Utils::GetCurrentTime() - lastPingTime > TIME_TO_DC){
+
+        cout << "---------- time out ---------" << endl;
+        SetDisconnected();
+    }
 }

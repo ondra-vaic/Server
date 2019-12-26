@@ -19,23 +19,25 @@ public:
     static int GetMessageNumber(const string& message);
     static vector<string> GetSplitMessages(const PlayerPtr& player);
 
-    static bool SendCrown(const PlayerPtr& player, int x, int y);
-    static bool SendMove(const PlayerPtr& player, int x0, int y0, int x1, int y1);
-    static bool SendWake(const PlayerPtr& player);
-    static bool SendLoose(const PlayerPtr& player);
-    static bool SendWin(const PlayerPtr& player);
-    static bool SendPlace(const PlayerPtr& player, const string& board);
-    static bool SendDelete(const PlayerPtr& player, int x, int y);
-    static bool SendMessageNumber(const PlayerPtr& player, int num);
-    static bool SendHello(const PlayerPtr& player);
-    static bool SendConfirmName(const PlayerPtr& player);
-    static bool SendDenyName(const PlayerPtr& player);
-    static bool SendRoomsInfo(const PlayerPtr& player, vector<array<int, 3>>& roomsOccupation);
-    static bool SendRoomInfo(const PlayerPtr& player, array<int, 3>& roomsOccupation);
+    static void  SendCrown(const PlayerPtr& player, int x, int y);
+    static void  SendMove(const PlayerPtr& player, int x0, int y0, int x1, int y1);
+    static void  SendWake(const PlayerPtr& player);
+    static void  SendLoose(const PlayerPtr& player);
+    static void  SendWin(const PlayerPtr& player);
+    static void  SendPlace(const PlayerPtr& player, const string& board);
+    static void  SendDelete(const PlayerPtr& player, int x, int y);
+    static void  SendMessageNumber(const PlayerPtr& player, int num);
+    static void  SendHello(const PlayerPtr& player);
+    static void SendIsReconnected(const PlayerPtr& player);
+    static void  SendConfirmName(const PlayerPtr& player);
+    static void  SendDenyName(const PlayerPtr& player);
+    static void  SendRoomsInfo(const PlayerPtr& player, vector<array<int, 3>>& roomsOccupation);
+    static void  SendRoomInfo(const PlayerPtr& player, array<int, 3>& roomsOccupation);
+    static void  SendSessionStarted(const PlayerPtr& player);
+    static void  SendEnemyName(const PlayerPtr& player, const string &oponentName);
 
 private:
-    static bool sendMessage(const PlayerPtr& player, char identifier, const string& message);
-
+    static void sendMessage(const PlayerPtr& player, char identifier, const string& message);
 };
 
 

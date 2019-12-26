@@ -6,6 +6,8 @@
 #include "Room.h"
 #include "../Utils.h"
 #include <bits/stdc++.h>
+#include <unistd.h>
+
 using namespace std;
 
 void Room::ResolveMessage(fd_set* sockets){
@@ -29,6 +31,7 @@ void Room::resolvePlayersInRoom(fd_set* sockets){
     for(auto& playerInRoom : playersInRoom){
         playerInRoom->ResolveMessage(sockets);
         if(playerInRoom->GetPlayer()->IsCheating() || playerInRoom->GetPlayer()->IsDisconnected()){
+            close(playerInRoom->GetPlayer()->GetSocketId());
             continue;
         }
 
@@ -49,7 +52,6 @@ void Room::resolveSessions(fd_set* sockets){
         session->ResolveMessage(sockets);
 
         if(session->IsEnded()){
-            //if(!session->GetPlayer1()->GetPlayer()->IsCheating()){}
             playersInRoom.push_back(make_shared<PlayerInRoom>(session->GetPlayer1()->GetPlayer()));
             playersInRoom.push_back(make_shared<PlayerInRoom>(session->GetPlayer2()->GetPlayer()));
         }
@@ -66,6 +68,7 @@ void Room::createSessions(){
     for (auto& playerInRoom : playersInRoom){
         if(playerInRoom->WantsToJoinGame()){
             if(player1 != nullptr){
+                cout << "creating a session " << " player1 " << player1->GetPlayer()->GetName() << " player2 " << playerInRoom->GetPlayer()->GetName() <<endl;
                 sessions.push_back(make_shared<Session>(player1->GetPlayer(), playerInRoom->GetPlayer()));
                 player1->SetJoiningGame();
                 playerInRoom->SetJoiningGame();
@@ -139,4 +142,8 @@ vector<PlayerPtr> Room::GetPlayers(){
     }
 
     return players;
+}
+
+vector<SessionPtr> Room::GetSessions() {
+    return sessions;
 }

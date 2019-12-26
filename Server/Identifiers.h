@@ -10,7 +10,7 @@
 #define EXIT_GAME 'x'
 #define WAIT_GAME 'W'
 #define STOP_WAIT_GAME 'S'
-#define BACK 'l'
+#define BACK 'z'
 
 #define SELECT_FIGURE 's'
 #define MOVE_FIGURE 'm'
@@ -28,5 +28,12 @@
 #define NAME_DENY 'D'
 #define ROOMS_INFO 'R'
 #define ROOM_INFO 'I'
+
+#define SESSION_STARTED 'b'
+#define ENEMY_NAME 't'
+#define TRY_RECONNECT 'Z'
+#define RECONNECTED 'O'
+#define GAME_INFO 'G'
+#define PING 'P'
 
 #endif //SERVER_IDENTIFIERS_H

@@ -9,9 +9,11 @@
 
 using namespace std;
 
-PlayerInGame::PlayerInGame(PlayerPtr player, GamePtr game, PlayerInGameState state)
-    : LeafHandler<PlayerInGameState, PlayerInGame>(move(player)), game(move(game)){
+PlayerInGame::PlayerInGame(const PlayerPtr& player, const GamePtr& game, PlayerInGameState state)
+    : LeafHandler<PlayerInGameState, PlayerInGame>(player), game(game){
     this->state = state;
+    this->stateBeforeDc = state;
+    NetworkManager::SendEnemyName(player, game->GetOtherPlayer(player)->GetName());
 }
 
 void PlayerInGame::init(){
@@ -19,40 +21,69 @@ void PlayerInGame::init(){
     commands[PLAYING][MOVE_FIGURE] = bind(&PlayerInGame::resolveMove, this, _1);
     commands[PLAYING][END_TURN] = bind(&PlayerInGame::endTurn, this, _1);
     commands[PLAYING][FORFEIT] = bind(&PlayerInGame::setForfeited, this, _1);
+    commands[PLAYING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
 
-    commands[WAITING][FORFEIT] = bind(&PlayerInGame::forfeitWhileWaiting, this, _1);
+    commands[WAITING][FORFEIT] = bind(&PlayerInGame::setForfeited, this, _1);
+    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
 }
 
-void PlayerInGame::SendPeriodicMessages(){
-    if(game->IsJustWon()){
-        NetworkManager::SendLoose(game->GetOtherPlayer());
-        NetworkManager::SendWin(game->GetCurrentPlayer());
-        state = WON;
-    }
+void PlayerInGame::ResetState(){
+    state = stateBeforeDc;
+}
 
-    if(game->HasForfeited()){
-        NetworkManager::SendLoose(game->GetCurrentPlayer());
-        NetworkManager::SendWin(game->GetOtherPlayer());
-        state = LOST;
-    }
+void PlayerInGame::SetStateBeforeDc(){
+    stateBeforeDc = state;
+}
 
-    if(game->HasTurnEnded()){
-        game->Switch();
-        state = WAITING;
-        if(!game->CanMove()){
-            NetworkManager::SendLoose(game->GetCurrentPlayer());
-            NetworkManager::SendWin(game->GetOtherPlayer());
-            state = WON;
-        }
-    }
+void PlayerInGame::SetWaitingForReconnect(){
+    state = WAITING_RECONNECT;
+}
+
+void PlayerInGame::SetDced(){
+    state = DISCONNECTED;
+}
+
+void PlayerInGame::SetWaiting(){
+    state = WAITING;
+}
+
+void PlayerInGame::SetPlaying(){
+    state = PLAYING;
+}
+
+bool PlayerInGame::IsPlaying(){
+    return state == PLAYING;
+}
+
+bool PlayerInGame::IsWaiting(){
+    return state == WAITING;
+}
+
+bool PlayerInGame::HasForfeited(){
+    return state == FORFEITED;
 }
 
 bool PlayerInGame::resolvePick(const MessagePtr& message){
+    cout << "----------------------- resolving pick ---------------"<< endl;
     return game->ResolvePick(message->GetData());
 }
 
+bool PlayerInGame::sendInfo(const MessagePtr& message){
+
+    if(state == PLAYING){
+        NetworkManager::SendWake(player);
+        NetworkManager::SendPlace(player, game->GetBoard()->BoardToString());
+    }else{
+        game->GetBoard()->FlipBoard();
+        NetworkManager::SendPlace(player, game->GetBoard()->BoardToString());
+        game->GetBoard()->FlipBoard();
+    }
+
+    return message->GetData().empty();
+}
+
 bool PlayerInGame::resolveMove(const MessagePtr& message){
-    return game->ResolveMove(message->GetData());
+    return game->ResolveMove(message->GetData());;
 }
 
 bool PlayerInGame::endTurn(const MessagePtr& message){
@@ -60,11 +91,10 @@ bool PlayerInGame::endTurn(const MessagePtr& message){
 }
 
 bool PlayerInGame::setForfeited(const MessagePtr& message){
-    return game->SetForfeited(message->GetData());
-}
-
-bool PlayerInGame::forfeitWhileWaiting(const MessagePtr& message){
-    NetworkManager::SendLoose(game->GetOtherPlayer());
-    NetworkManager::SendWin(game->GetCurrentPlayer());
+    if(game->SetForfeited(message->GetData())){
+        state = FORFEITED;
+        return true;
+    }
+    return false;
 }
 

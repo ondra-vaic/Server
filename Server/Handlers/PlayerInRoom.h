@@ -21,7 +21,7 @@ class PlayerInRoom : public LeafHandler<PlayerInRoomState, PlayerInRoom>{
 
 public:
 
-    explicit PlayerInRoom(PlayerPtr player);
+    explicit PlayerInRoom(const PlayerPtr& player);
 
     bool WantsToLeave();
     bool WantsToJoinGame();

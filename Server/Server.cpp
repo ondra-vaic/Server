@@ -37,9 +37,22 @@ vector<PlayerPtr> Server::getAllPlayers(){
     return socketIds;
 }
 
+void Server::setNames(){
+    names.clear();
+    for(auto& playerPtr : getAllPlayers()){
+        names.insert(playerPtr->GetName());
+    }
+}
+
 int Server::setSocketSet(){
+
     int maxSocket = -1;
-    for (PlayerPtr player : getAllPlayers()) {
+    for (auto& player : getAllPlayers()) {
+
+        if(player->IsDisconnected()){
+            continue;
+        }
+
         FD_SET(player->GetSocketId(), &sockets);
         player->SetRead(false);
         cout << "setting " << player->GetSocketId() << " " << player->GetName() << endl;
@@ -73,7 +86,7 @@ void Server::resolveSetUps(){
     for(auto& playerSetUp : playerSetups){
         playerSetUp->ResolveMessage(&sockets);
 
-        if(playerSetUp->GetPlayer()->IsDisconnected() || playerSetUp->GetPlayer()->IsCheating() || playerSetUp->IsPlayerToLeave()){
+        if(playerSetUp->IsPlayerToLeave()){
             close(playerSetUp->GetPlayer()->GetSocketId());
             continue;
         }
@@ -87,7 +100,7 @@ void Server::resolveSetUps(){
 
     //remove added players from setups
     Utils::RemoveIf(playerSetups,[](const PlayerSetupPtr& p){
-        return p->IsPlayerInitialized() || p->GetPlayer()->IsDisconnected() || p->GetPlayer()->IsCheating();
+        return p->IsPlayerInitialized() || p->GetPlayer()->IsDisconnected() || p->GetPlayer()->IsCheating() || p->HasReconnected();
     });
 }
 
@@ -119,7 +132,6 @@ void Server::SendPeriodicMessages(){
 
 void Server::ResolveMessage(fd_set* sockets){
     cout << "Receiving messages.." << endl;
-
     resolveSetUps();
     resolveRooms();
     SendPeriodicMessages();
@@ -154,9 +166,14 @@ Server::Server(int maxPlayers, int maxPendingConnections, int port, int numberOf
 
     std::cout << "Server up" << std::endl;
 
-
     for (int i = 0; i < numberOfRooms; ++i) {
         rooms.push_back(make_shared<Room>());
+    }
+}
+
+void Server::checkDisconnectedPlayers(){
+    for(auto& playerPtr : getAllPlayers()){
+        playerPtr->CheckDisconnected();
     }
 }
 
@@ -171,6 +188,7 @@ void Server::MainLoop(){
 
         cout << "Setting socket set.." << endl;
 
+        setNames();
         int maxClientSocket = setSocketSet();
         maxSocket = max(serverSocket, maxClientSocket);
 
@@ -186,6 +204,8 @@ void Server::MainLoop(){
             }
         }
 
+        checkDisconnectedPlayers();
+
         //If something happened on the master socket , then its an incoming connection
         if (FD_ISSET(serverSocket, &sockets)) {
             int newClient = accept(serverSocket, (struct sockaddr *)&serverAddress, (socklen_t*)&addressLength);
@@ -193,14 +213,7 @@ void Server::MainLoop(){
         }
 
         ResolveMessage(&sockets);
-//
-//        int time = Utils::GetCurrentTime();
-//
-//        if(lastPeriodicMessageTime + 100 < time)
-//        {
-//            lastPeriodicMessageTime = time;
-//            SendPeriodicMessages();
-//        }
+
         int a = 0;
         if(a + 1 > 3)
             break;

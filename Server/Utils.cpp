@@ -12,7 +12,7 @@
 #define BOARD_DIMENSION 8
 using namespace std::chrono;
 
-bool Utils::CanBeValidJump(Board* board, int x0, int y0, int x1, int y1){
+bool Utils::CanBeValidJump(const BoardPtr& board, int x0, int y0, int x1, int y1){
     Vector2D possibleEnemyPosition = CalculateEnemyPosition(x0, y0, x1, y1);
     int possibleEnemy = board->GetFigurine(possibleEnemyPosition.x, possibleEnemyPosition.y);
 
@@ -77,7 +77,7 @@ Vector2D Utils::CalculateEnemyPosition(int x0, int y0, int x1, int y1){
     return position;
 }
 
-bool Utils::ValidateKingMove(vector<Vector2D>& capturedFigurines, Board* board, int x0, int y0, int x1, int y1){
+bool Utils::ValidateKingMove(vector<Vector2D>& capturedFigurines, const BoardPtr& board, int x0, int y0, int x1, int y1){
     Vector2D jumpDelta = {x1 - x0, y1 - y0};
     Vector2D checkPosition = Vector2D{x0, y0};
 
@@ -103,7 +103,7 @@ bool Utils::ValidateKingMove(vector<Vector2D>& capturedFigurines, Board* board, 
 
 }
 
-bool Utils::BasicMoveConditions(Board* board, int x0, int y0, int x1, int y1){
+bool Utils::BasicMoveConditions(const BoardPtr& board, int x0, int y0, int x1, int y1){
     int figurine = board->GetFigurine(x0, y0);
     int figurineInWay = board->GetFigurine(x1, y1);
 
@@ -125,7 +125,7 @@ int Utils::sign(int n){
     return 0;
 }
 
-bool Utils::CanMoveAnywhere(Board* board, int x, int y){
+bool Utils::CanMoveAnywhere(const BoardPtr& board, int x, int y){
     int figurine = board->GetFigurine(x, y);
 
     if(IsKing(figurine)){
@@ -134,7 +134,7 @@ bool Utils::CanMoveAnywhere(Board* board, int x, int y){
     return canManMove(board, x, y) || canManJump(board, x, y);
 }
 
-bool Utils::canKingMove(Board* board, int x, int y){
+bool Utils::canKingMove(const BoardPtr& board, int x, int y){
     for (int i = 0; i < BOARD_DIMENSION; ++i) {
         for (int j = 0; j < BOARD_DIMENSION; ++j) {
             vector<Vector2D> dummy;
@@ -147,16 +147,34 @@ bool Utils::canKingMove(Board* board, int x, int y){
     return false;
 }
 
-bool Utils::canManJump(Board* board, int x, int y){
+bool Utils::canManJump(const BoardPtr& board, int x, int y){
     bool canJumpLeft = BasicMoveConditions(board, x, y, x - 2, y + 2) && CanBeValidJump(board, x, y, x - 2, y + 2);
     bool canJumpRight = BasicMoveConditions(board, x, y, x + 2, y + 2) && CanBeValidJump(board, x, y, x + 2, y + 2);;
     return canJumpLeft || canJumpRight;
 }
 
-bool Utils::canManMove(Board* board, int x, int y){
+bool Utils::canManMove(const BoardPtr& board, int x, int y){
     bool canMoveLeft = BasicMoveConditions(board, x, y, x - 1, y + 1) && CanBeValidWalk(x, y, x - 1, y + 1);
     bool canMoveRight = BasicMoveConditions(board, x, y, x + 1, y + 1) && CanBeValidWalk(x, y, x + 1, y + 1);;
     return canMoveLeft || canMoveRight;
+}
+
+bool Utils::CanMove(const BoardPtr& board){
+
+    cout << "checking if can move" << endl;
+
+    for (int i = 0; i < BOARD_DIMENSION; ++i) {
+        for (int j = 0; j < BOARD_DIMENSION; ++j) {
+            if(Utils::IsPlayer1(board->GetFigurine(i, j)))
+            {
+                if(Utils::CanMoveAnywhere(board, i, j)){
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 bool Utils::IsInPlayingField(int x, int y){return (x >= 0 && x < BOARD_DIMENSION && y >= 0 && y < BOARD_DIMENSION);}
@@ -166,11 +184,10 @@ bool Utils::IsKing(int figurine){return figurine == 2;}
 bool Utils::IsPlayer1(int figurine){return figurine == 1 || figurine == 2;}
 bool Utils::IsEnemy(int figurine){return IsFigurine(figurine) && !IsPlayer1(figurine);}
 
-
 //other
 
 int Utils::GetCurrentTime(){
-    return chrono::duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+    return chrono::duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() / 1000;
 }
 
 void Utils::Error(int code, const char *msg){

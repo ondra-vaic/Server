@@ -12,11 +12,12 @@
 
 class Room;
 
-PlayerSetup::PlayerSetup(PlayerPtr player, vector<RoomPtr>& rooms, unordered_set<string>& usedNames, PlayerSetupState state)
-: LeafHandler<PlayerSetupState, PlayerSetup>(move(player)){
+PlayerSetup::PlayerSetup(const PlayerPtr& player, vector<RoomPtr>& rooms, unordered_set<string>& usedNames, PlayerSetupState state)
+: LeafHandler<PlayerSetupState, PlayerSetup>(player){
     this->state = state;
     this->usedNames = usedNames;
     this->rooms = rooms;
+    this->reconnected = false;
 
     if(state == CHOOSING_ROOM)
         sendRoomsInfo();
@@ -30,6 +31,7 @@ void PlayerSetup::SendPeriodicMessages(){
 void PlayerSetup::init(){
     commands[SETTING_NAME][NAME_IDENTIFY] = bind(&PlayerSetup::setName, this, _1);
     commands[SETTING_NAME][EXIT_GAME] = bind(&PlayerSetup::exitGame, this, _1);
+    commands[SETTING_NAME][TRY_RECONNECT] = bind(&PlayerSetup::tryReconnect, this, _1);
 
     commands[CHOOSING_ROOM][ROOM_ENTER] = bind(&PlayerSetup::setRoom, this, _1);
     commands[CHOOSING_ROOM][BACK] = bind(&PlayerSetup::backToChoosingName, this, _1);
@@ -60,6 +62,28 @@ bool PlayerSetup::setName(const MessagePtr& message){
         NetworkManager::SendDenyName(player);
     }
 
+    return true;
+}
+
+bool PlayerSetup::HasReconnected(){
+    return reconnected;
+}
+
+bool PlayerSetup::tryReconnect(const MessagePtr& message){
+    string name = message->GetData();
+    player->SetName(name);
+
+    for (auto& room : rooms) {
+        for(auto& session : room->GetSessions()){
+            if(session->TryReconnect(player)){
+                NetworkManager::SendIsReconnected(player);
+                reconnected = true;
+                return true;
+            }
+        }
+    }
+
+    player->SetName("");
     return true;
 }
 
@@ -97,6 +121,8 @@ bool PlayerSetup::IsPlayerToLeave(){
 }
 
 bool PlayerSetup::nameIsUsed(const string& proposedName){
+//    bool nameUsed = usedNames.find(proposedName) != usedNames.end();
+//    cout << "name is used " << nameUsed <<endl;
     return usedNames.find(proposedName) != usedNames.end();
 }
 

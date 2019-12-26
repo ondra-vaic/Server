@@ -7,14 +7,24 @@
 #include "Utils.h"
 
 const string startBoard =
-        "0 0 3 0 3 1 3 0 "
-        "0 0 0 1 0 1 3 0 "
-        "0 0 0 0 0 0 0 0 "
-        "0 0 0 1 0 0 0 0 "
         "0 0 0 0 0 0 0 0 "
         "0 0 0 0 0 0 0 0 "
+        "0 0 0 0 3 0 0 0 "
         "0 0 0 0 0 0 0 0 "
-        "0 0 0 0 0 0 0 0 ";
+        "0 0 0 0 0 0 0 0 "
+        "0 1 0 1 0 1 0 1 "
+        "1 0 1 0 1 0 1 0 "
+        "0 1 0 1 0 1 0 1 ";
+//
+//const string startBoard =
+//        "3 0 3 0 3 0 3 0 "
+//        "0 3 0 3 0 3 0 3 "
+//        "3 0 3 0 3 0 3 0 "
+//        "0 0 0 0 0 0 0 0 "
+//        "0 0 0 0 0 0 0 0 "
+//        "0 1 0 1 0 1 0 1 "
+//        "1 0 1 0 1 0 1 0 "
+//        "0 1 0 1 0 1 0 1 ";
 
 #define BOARD_DIMENSION 8
 Board::Board(int** board): board(board){}
@@ -48,11 +58,6 @@ int** Board::stringToBoard(const string& boardString){
     for (int i = 0; i < boardString.size(); i+=2)
     {
         int side = boardString[i] - '0';
-
-        if (side == 0)
-        {
-            continue;
-        }
 
         int x = (i / 2) % BOARD_DIMENSION;
         int y = BOARD_DIMENSION - 1 - (i / 2) / BOARD_DIMENSION;
@@ -109,20 +114,3 @@ bool Board::IsWin(){
     return true;
 }
 
-bool Board::CanMove(){
-
-    cout << "checking if can move" << endl;
-
-    for (int i = 0; i < BOARD_DIMENSION; ++i) {
-        for (int j = 0; j < BOARD_DIMENSION; ++j) {
-            if(Utils::IsPlayer1(board[i][j]))
-            {
-                if(Utils::CanMoveAnywhere(this, i, j)){
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
-}

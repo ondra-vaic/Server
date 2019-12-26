@@ -28,6 +28,7 @@ public:
     void SetPlayer(const PlayerPtr& player);
     void createSessions();
     void SendPeriodicMessages();
+    vector<SessionPtr> GetSessions();
     vector<PlayerPtr> GetPlayersToLeave();
     vector<PlayerPtr> GetPlayersToJoinGame();
     vector<PlayerPtr> GetWaitingPlayers();

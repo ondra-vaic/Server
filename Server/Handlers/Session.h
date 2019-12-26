@@ -14,20 +14,25 @@
 class Session : public IMessageHandler{
 
 public:
-    enum State{SESSION_ON, SESSION_ENDED};
+    enum State{SESSION_ON, SESSION_ENDED, SESSION_DISCONNECTED};
     Session(const PlayerPtr& player1, const PlayerPtr& player2);
     PlayerInGamePtr GetPlayer1();
     PlayerInGamePtr GetPlayer2();
     void SendPeriodicMessages() override;
     bool IsEnded();
     void ResolveMessage(fd_set* sockets) override;
+    bool TryReconnect(const PlayerPtr& player);
 
 private:
     State state;
     GamePtr game;
     PlayerInGamePtr player1;
     PlayerInGamePtr player2;
-    void resolveCheaterLeaver(const PlayerPtr& player);
+    string disconnectedPlayerName;
+
+    void resolveCheaterLeaver(const PlayerInGamePtr& player, const PlayerInGamePtr& playerB);
+    void resolveGameState(const PlayerInGamePtr& playerA, const PlayerInGamePtr& playerB);
+
 };
 
 typedef shared_ptr<Session> SessionPtr;

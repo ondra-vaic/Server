@@ -24,8 +24,7 @@ private:
     bool turnEnded;
     bool forfeited;
     Vector2D pickedField;
-    Board* board;
-
+    BoardPtr board;
 
     void moveFigurine(int x0, int y0, int x1, int y1);
     void jumpFigurine(int x0, int y0, int x1, int y1);
@@ -37,9 +36,10 @@ private:
     void deleteFigurine(int x, int y);
 
 public:
-    Game(PlayerPtr player1, PlayerPtr player2);
+    Game(const PlayerPtr& player1, const PlayerPtr& player2);
     PlayerPtr GetCurrentPlayer();
     PlayerPtr GetOtherPlayer();
+    PlayerPtr GetOtherPlayer(const PlayerPtr& player);
     int GetCurrentMessageNumber();
     bool ResolveMove(const string& message);
     bool ResolvePick(const string& message);
@@ -50,6 +50,7 @@ public:
     void Switch();
     bool SetForfeited(const string& message);
     bool HasForfeited();
+    BoardPtr GetBoard();
 
 };
 

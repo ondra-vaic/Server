@@ -19,6 +19,7 @@ private:
     bool disconnected;
     bool cheating;
     bool read;
+    int lastPingTime;
 
 public:
     explicit Player(int playerId);
@@ -29,12 +30,16 @@ public:
     bool IsCheating();
     bool IsDisconnected();
 
+    void ResetErrors();
+    void SetSocketId(int socketId);
     void SetName(const string& name);
     void SetRoom(int room);
     void SetSessionId(int sessionId);
     void SetDisconnected();
     void SetCheating();
     void SetRead(bool read);
+    void Ping();
+    void CheckDisconnected();
     bool IsRead();
 };
 

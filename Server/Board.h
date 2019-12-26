@@ -4,12 +4,13 @@
 
 #ifndef SERVER_BOARD_H
 #define SERVER_BOARD_H
+
 #include <string>
 #include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-class Board {
-
+class Board{
 
 private:
     int** board;
@@ -26,9 +27,8 @@ public:
     int GetFigurine(int x, int y);
     void SetFigure(int figurine, int x, int y);
     bool IsWin();
-    bool CanMove();
-
 };
 
+typedef shared_ptr<Board> BoardPtr;
 
 #endif //SERVER_BOARD_H
