@@ -20,7 +20,11 @@ void NetworkManager::SendCrown(const PlayerPtr& player, int x, int y){
 }
 
 void NetworkManager::SendMove(const PlayerPtr& player, int x0, int y0, int x1, int y1){
-     sendMessage(player, MOVE_FIGURE,to_string(x0) + " " + to_string(7 - y0) + " " + to_string(x1) + " " + to_string(7 - y1));
+    sendMessage(player, MOVE_FIGURE,to_string(x0) + " " + to_string(7 - y0) + " " + to_string(x1) + " " + to_string(7 - y1));
+}
+
+void NetworkManager::SendConfirmMove(const PlayerPtr& player, int x0, int y0, int x1, int y1){
+    sendMessage(player, CONFIRM_MOVE, to_string(x0) + " " + to_string(y0) + " " + to_string(x1) + " " + to_string(y1));
 }
 
 void NetworkManager::SendWake(const PlayerPtr& player){
@@ -37,6 +41,14 @@ void NetworkManager::SendDelete(const PlayerPtr& player, int x, int y){
 
 void NetworkManager::SendMessageNumber(const PlayerPtr& player, int num){
      sendMessage(player, 'n', to_string(num));
+}
+
+void NetworkManager::SendOponentDc(const PlayerPtr& player){
+    sendMessage(player, OPONENT_DC, "");
+}
+
+void NetworkManager::SendOponentRc(const PlayerPtr& player){
+    sendMessage(player, OPONENT_RC, "");
 }
 
 void NetworkManager::SendLoose(const PlayerPtr& player){
@@ -100,6 +112,18 @@ void NetworkManager::SendEnemyName(const PlayerPtr& player, const string& oponen
     sendMessage(player, ENEMY_NAME, oponentName);
 }
 
+void NetworkManager::SendPick(const PlayerPtr& player, int x, int y){
+    sendMessage(player, SELECT_FIGURE, to_string(x) + " " + to_string(7 - y));
+}
+
+void NetworkManager::SendConfirmPick(const PlayerPtr& player, int x, int y){
+    sendMessage(player, CONFIRM_SELECT, to_string(x) + " " + to_string(y));
+}
+
+void NetworkManager::SendConfirmEndMove(const PlayerPtr& player){
+    sendMessage(player, CONFIRM_END_TURN, "");
+}
+
 void NetworkManager::sendMessage(const PlayerPtr& player, char identifier, const string& message){
     string completeMessage = string(1, identifier) + message + "|";
     cout << "Sent [" << completeMessage << "]" << " to " << player->GetName() << " " << player->GetSocketId() << endl;
@@ -117,9 +141,12 @@ string NetworkManager::GetResponse(const PlayerPtr& player){
 
         char* response = new char[MAX_MESSAGE_LENGTH];
         if(recv(player->GetSocketId(), response, sizeof(response), 0) <= 0){
+            cout << "Empty message player will be disconnected..." <<endl;
             player->SetDisconnected();
             return buffer;
         }
+
+        cout << "Message recvd buffer is now " << buffer << endl;
 
         if(buffer.length() > 1024){
             player->SetCheating();
@@ -134,6 +161,21 @@ string NetworkManager::GetResponse(const PlayerPtr& player){
     return buffer;
 }
 
+void NetworkManager::SendConfirm(const PlayerPtr& player, int number){
+    sendMessage(player, NUMBER_CONFIRM, to_string(number));
+}
+
+void NetworkManager::SendConfirmRoom(const PlayerPtr& player){
+    sendMessage(player, CONFIRM_ROOM, "");
+}
+
+void NetworkManager::SendConfirmBackFromSetup(const PlayerPtr& player){
+    sendMessage(player, CONFIRM_LEAVE_ROOMS_LOBBY, "");
+}
+
+void NetworkManager::SendConfirmBackFromRoom(const PlayerPtr& player){
+    sendMessage(player, CONFIRM_LEAVE_ROOM, "");
+}
 
 char NetworkManager::GetIdentifier(string message){
     return message[0];

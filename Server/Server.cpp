@@ -8,10 +8,12 @@
 #include <netinet/in.h>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "Game.h"
 #include "Utils.h"
 #include "Server.h"
 #include <chrono>
+#include <unordered_set>
 
 int Server::numberOfConnectedPlayers(){
     int count = playerSetups.size();
@@ -100,7 +102,7 @@ void Server::resolveSetUps(){
 
     //remove added players from setups
     Utils::RemoveIf(playerSetups,[](const PlayerSetupPtr& p){
-        return p->IsPlayerInitialized() || p->GetPlayer()->IsDisconnected() || p->GetPlayer()->IsCheating() || p->HasReconnected();
+        return p->IsPlayerInitialized() || p->GetPlayer()->IsDisconnected() || p->GetPlayer()->IsCheating() || p->HasReconnected() || p->IsPlayerToLeave();
     });
 }
 
@@ -172,12 +174,36 @@ Server::Server(int maxPlayers, int maxPendingConnections, int port, int numberOf
 }
 
 void Server::checkDisconnectedPlayers(){
-    for(auto& playerPtr : getAllPlayers()){
-        playerPtr->CheckDisconnected();
+
+    while(true){
+        std::this_thread::sleep_for (std::chrono::seconds(1));
+
+        pingThreadMutex.lock();
+        for(auto& playerPtr : getAllPlayers()){
+            playerPtr->CheckDisconnected();
+            if(playerPtr->IsFullDisconnected()){
+                string name = playerPtr->GetName();
+                cout << "removing " << name << " " << playerPtr->GetSocketId() << endl;
+                if(name != ""){
+                    if(names.find(name) != names.end()){
+                        names.erase(names.find(name));
+                    }
+                }
+            }
+        }
+        Utils::RemoveIf(playerSetups, [](const PlayerSetupPtr& p){
+            return p->GetPlayer()->IsFullDisconnected();
+        });
+
+        pingThreadMutex.unlock();
     }
 }
 
 void Server::MainLoop(){
+
+    //names.erase();
+
+    thread varname(&Server::checkDisconnectedPlayers, this);
 
     while (true) {
         //clear the socket set
@@ -188,9 +214,12 @@ void Server::MainLoop(){
 
         cout << "Setting socket set.." << endl;
 
+        pingThreadMutex.lock();
         setNames();
         int maxClientSocket = setSocketSet();
         maxSocket = max(serverSocket, maxClientSocket);
+
+        pingThreadMutex.unlock();
 
         cout << "Waiting for activity.." <<  " max is " << maxSocket << endl;
 
@@ -204,7 +233,8 @@ void Server::MainLoop(){
             }
         }
 
-        checkDisconnectedPlayers();
+
+        pingThreadMutex.lock();
 
         //If something happened on the master socket , then its an incoming connection
         if (FD_ISSET(serverSocket, &sockets)) {
@@ -213,6 +243,8 @@ void Server::MainLoop(){
         }
 
         ResolveMessage(&sockets);
+
+        pingThreadMutex.unlock();
 
         int a = 0;
         if(a + 1 > 3)

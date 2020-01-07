@@ -41,6 +41,7 @@ public:
     void Ping();
     void CheckDisconnected();
     bool IsRead();
+    bool IsFullDisconnected();
 };
 
 typedef shared_ptr<Player> PlayerPtr;

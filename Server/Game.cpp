@@ -68,12 +68,14 @@ void Game::moveFigurine(int x0, int y0, int x1, int y1){
     board->SetFigure(board->GetFigurine(x0, y0), x1, y1);
     board->SetFigure(0, x0, y0);
     NetworkManager::SendMove(GetOtherPlayer(), x0, y0, x1, y1);
+    NetworkManager::SendConfirmMove(GetCurrentPlayer(), x0, y0, x1, y1);
     tryToCrownFigurine(x1, y1);
 }
 
 void Game::deleteFigurine(int x, int y){
     board->SetFigure(0, x, y);
     NetworkManager::SendDelete(GetOtherPlayer(), x, y);
+    NetworkManager::SendDelete(GetCurrentPlayer(), x, 7 - y);
 }
 
 void Game::jumpFigurine(int x0, int y0, int x1, int y1){
@@ -107,6 +109,7 @@ void Game::tryToCrownFigurine(int x, int y){
     if(y == BOARD_DIMENSION - 1){
         board->SetFigure(2, x, y);
         NetworkManager::SendCrown(GetOtherPlayer(), x, y);
+        NetworkManager::SendCrown(GetCurrentPlayer(), x, 7 - y);
     }
 }
 
@@ -136,15 +139,22 @@ bool Game::ResolvePick(const string& message) {
         return false;
     }
 
-
     int figurine = board->GetFigurine(x, y);
 
+    cout << "picking " << endl;
     if (!Utils::IsFigurine(figurine))
         return false;
 
+    cout << "picking " << endl;
+
     if (!hasMoved){
+
+        cout << "picking " << endl;
         if (Utils::IsPlayer1(figurine)){
+            cout << "picking " << endl;
             setPickedField(x, y);
+            NetworkManager::SendPick(GetOtherPlayer(), x, y);
+            NetworkManager::SendConfirmPick(GetCurrentPlayer(), x, y);
             return true;
         }
     }

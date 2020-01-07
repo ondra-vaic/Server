@@ -25,6 +25,12 @@ void PlayerInGame::init(){
 
     commands[WAITING][FORFEIT] = bind(&PlayerInGame::setForfeited, this, _1);
     commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
+
+
+//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
+//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
+//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
+//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
 }
 
 void PlayerInGame::ResetState(){
@@ -64,7 +70,6 @@ bool PlayerInGame::HasForfeited(){
 }
 
 bool PlayerInGame::resolvePick(const MessagePtr& message){
-    cout << "----------------------- resolving pick ---------------"<< endl;
     return game->ResolvePick(message->GetData());
 }
 

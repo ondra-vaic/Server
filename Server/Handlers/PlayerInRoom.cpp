@@ -35,6 +35,7 @@ bool PlayerInRoom::stopWaitingGame(const MessagePtr& message){
 }
 
 bool PlayerInRoom::backToChoosingRoom(const MessagePtr& message){
+    NetworkManager::SendConfirmBackFromRoom(player);
     state = WANTS_TO_LEAVE;
     return message->GetData().empty();
 }

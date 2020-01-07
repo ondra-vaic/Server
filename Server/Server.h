@@ -7,6 +7,8 @@
 
 #include <netinet/in.h>
 #include <bits/stdc++.h>
+#include <mutex>
+#include <pthread.h>
 #include "Handlers/Room.h"
 #include "Handlers/PlayerSetup.h"
 #include "Game.h"
@@ -20,11 +22,11 @@ private:
     int maxSocket;
     int serverSocket;
     int addressLength;
-    int lastPeriodicMessageTime;
     fd_set sockets;
     vector<RoomPtr> rooms;
     vector<PlayerSetupPtr> playerSetups;
     unordered_set<string> names;
+    mutex pingThreadMutex;
 
     int numberOfConnectedPlayers();
     void handleNewPlayer(int newPlayer);

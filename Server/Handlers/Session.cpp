@@ -38,12 +38,14 @@ bool Session::TryReconnect(const PlayerPtr& player){
             player1->GetPlayer()->ResetErrors();
             player1->ResetState();
             player2->ResetState();
+            NetworkManager::SendOponentRc(player2->GetPlayer());
         }
         else{
             player2->GetPlayer()->SetSocketId(player->GetSocketId());
             player2->GetPlayer()->ResetErrors();
             player2->ResetState();
             player1->ResetState();
+            NetworkManager::SendOponentRc(player1->GetPlayer());
         }
 
         state = SESSION_ON;
@@ -67,6 +69,10 @@ void Session::ResolveMessage(fd_set* sockets){
 
     resolveCheaterLeaver(player1, player2);
     resolveCheaterLeaver(player2, player1);
+
+    if(player1->GetPlayer()->IsDisconnected() && player2->GetPlayer()->IsDisconnected()){
+        state = SESSION_ENDED;
+    }
 }
 
 void Session::resolveGameState(const PlayerInGamePtr& playerA, const PlayerInGamePtr& playerB){
@@ -91,6 +97,7 @@ void Session::resolveGameState(const PlayerInGamePtr& playerA, const PlayerInGam
     if(game->HasTurnEnded()){
         cout << "*********************** WAKE SEND **************************" << endl;
         NetworkManager::SendWake(playerB->GetPlayer());
+        NetworkManager::SendConfirmEndMove(playerA->GetPlayer());
         playerA->SetWaiting();
         playerB->SetPlaying();
         game->Switch();
@@ -103,8 +110,11 @@ void Session::resolveGameState(const PlayerInGamePtr& playerA, const PlayerInGam
 }
 
 void Session::resolveCheaterLeaver(const PlayerInGamePtr& playerA, const PlayerInGamePtr& playerB){
-    if(playerA->GetPlayer()->IsCheating()){
+    if(playerA->GetPlayer()->IsCheating() || playerA->GetPlayer()->IsFullDisconnected()){
         state = SESSION_ENDED;
+        NetworkManager::SendLoose(playerA->GetPlayer());
+        NetworkManager::SendWin(playerB->GetPlayer());
+        return;
     }
     if(playerA->GetPlayer()->IsDisconnected() && state != SESSION_DISCONNECTED){
         state = SESSION_DISCONNECTED;
@@ -114,6 +124,8 @@ void Session::resolveCheaterLeaver(const PlayerInGamePtr& playerA, const PlayerI
 
         playerB->SetStateBeforeDc();
         playerB->SetWaitingForReconnect();
+
+        NetworkManager::SendOponentDc(playerB->GetPlayer());
     }
 }
 

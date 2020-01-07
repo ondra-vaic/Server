@@ -54,6 +54,9 @@ void Room::resolveSessions(fd_set* sockets){
         if(session->IsEnded()){
             playersInRoom.push_back(make_shared<PlayerInRoom>(session->GetPlayer1()->GetPlayer()));
             playersInRoom.push_back(make_shared<PlayerInRoom>(session->GetPlayer2()->GetPlayer()));
+            cout << "---------- ------------- ----------" << endl;
+            cout << "---------- SESSION ENDED ----------" << endl;
+            cout << "---------- ------------- ----------" << endl;
         }
     }
 

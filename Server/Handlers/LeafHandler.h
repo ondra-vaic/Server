@@ -58,6 +58,7 @@ public:
 
             if(m->GetIdentifier() == PING){
                 player->Ping();
+                NetworkManager::SendConfirm(player, m->GetMessageNumber());
                 continue;
             }
 
@@ -70,6 +71,7 @@ public:
                     bool validFormat = commands[state][m->GetIdentifier()](m);
 
                     if(validFormat){
+                        NetworkManager::SendConfirm(player, m->GetMessageNumber());
                         return;
                     }
                     cout << " invalid format or information " << endl;

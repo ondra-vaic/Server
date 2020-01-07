@@ -34,6 +34,19 @@
 #define TRY_RECONNECT 'Z'
 #define RECONNECTED 'O'
 #define GAME_INFO 'G'
+
 #define PING 'P'
+#define NUMBER_CONFIRM 'C'
+#define CONFIRM_ROOM 'q'
+#define CONFIRM_LEAVE_ROOM 'Q'
+#define CONFIRM_LEAVE_ROOMS_LOBBY 'U'
+#define OPONENT_RC 'J'
+#define OPONENT_DC 'j'
+
+#define CONFIRM_MOVE 'h'
+#define CONFIRM_SELECT 'K'
+#define CONFIRM_END_TURN 'k'
+
+
 
 #endif //SERVER_IDENTIFIERS_H

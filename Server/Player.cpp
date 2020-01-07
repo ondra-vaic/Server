@@ -7,7 +7,8 @@
 #include "Player.h"
 #include "Utils.h"
 
-#define TIME_TO_DC 30
+#define TIME_TO_DC 4
+#define TIME_TO_FULL_DC 10
 
 Player::Player(int socketId){
     this->socketId = socketId;
@@ -98,4 +99,8 @@ void Player::CheckDisconnected(){
         cout << "---------- time out ---------" << endl;
         SetDisconnected();
     }
+}
+
+bool Player::IsFullDisconnected(){
+    return Utils::GetCurrentTime() - lastPingTime > TIME_TO_FULL_DC;
 }

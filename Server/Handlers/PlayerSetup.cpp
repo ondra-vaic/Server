@@ -39,10 +39,12 @@ void PlayerSetup::init(){
 
 bool PlayerSetup::exitGame(const MessagePtr& message){
     state = LEAVE;
+    cout << "State set " << endl;
     return message->GetData().empty();
 }
 
 bool PlayerSetup::backToChoosingName(const MessagePtr& message){
+    NetworkManager::SendConfirmBackFromSetup(player);
     state = SETTING_NAME;
     return message->GetData().empty();
 }
@@ -104,6 +106,7 @@ bool PlayerSetup::setRoom(const MessagePtr& message){
         if(room >= 0 && room < rooms.size()){
             player->SetRoom(room);
             state = ROOM_CHOSEN;
+            NetworkManager::SendConfirmRoom(player);
             return true;
         }
     }catch ( ... ){
