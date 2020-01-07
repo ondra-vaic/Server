@@ -15,11 +15,13 @@ private:
     int socketId;
     int room;
     string name;
+    string buffer;
     int sessionId;
     bool disconnected;
     bool cheating;
     bool read;
     int lastPingTime;
+    vector<string> readyMessages;
 
 public:
     explicit Player(int playerId);
@@ -29,6 +31,10 @@ public:
     int GetRoom();
     bool IsCheating();
     bool IsDisconnected();
+    void ConcatenateToBuffer(const string& message);
+    void CreateMessages();
+    vector<string> GetReadyMessages();
+    void ClearReadyMessages();
 
     void ResetErrors();
     void SetSocketId(int socketId);

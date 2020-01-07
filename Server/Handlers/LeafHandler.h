@@ -45,8 +45,10 @@ public:
         if(!FD_ISSET(player->GetSocketId(), sockets) || player->IsRead()){
             return;
         }
+        NetworkManager::GetResponse(player);
+        player->CreateMessages();
 
-        vector<string> splitMessages = NetworkManager::GetSplitMessages(player);
+        vector<string> splitMessages = player->GetReadyMessages();
         player->SetRead(true);
 
         if(player->IsDisconnected()){
@@ -72,7 +74,7 @@ public:
 
                     if(validFormat){
                         NetworkManager::SendConfirm(player, m->GetMessageNumber());
-                        return;
+                        continue;
                     }
                     cout << " invalid format or information " << endl;
                 }
@@ -82,7 +84,9 @@ public:
 
             //if state doesnt exist or identifier doesnt exit or is not valid format
             player->SetCheating();
+            return;
         }
+        player->ClearReadyMessages();
     }
 
     PlayerPtr GetPlayer(){

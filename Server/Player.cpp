@@ -52,6 +52,28 @@ bool Player::IsDisconnected(){
     return disconnected;
 }
 
+void Player::ConcatenateToBuffer(const string& message){
+    buffer += message;
+}
+
+void Player::CreateMessages(){
+    size_t position = 0;
+    string message;
+    while ((position = buffer.find('|')) != string::npos) {
+        message = buffer.substr(0, position);
+        readyMessages.push_back(message);
+        buffer.erase(0, position + 1);
+    }
+}
+
+vector<string> Player::GetReadyMessages(){
+    return readyMessages;
+}
+
+void Player::ClearReadyMessages(){
+    readyMessages.clear();
+}
+
 void Player::SetDisconnected(){
     cout << "Disconnect " << name << " " << GetSocketId() << endl;
     close(GetSocketId());

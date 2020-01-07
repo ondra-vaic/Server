@@ -126,39 +126,35 @@ void NetworkManager::SendConfirmEndMove(const PlayerPtr& player){
 
 void NetworkManager::sendMessage(const PlayerPtr& player, char identifier, const string& message){
     string completeMessage = string(1, identifier) + message + "|";
-    cout << "Sent [" << completeMessage << "]" << " to " << player->GetName() << " " << player->GetSocketId() << endl;
+
+    if(identifier != NUMBER_CONFIRM)
+        cout << "Sent [" << completeMessage << "]" << " to " << player->GetName() << " " << player->GetSocketId() << endl;
 
     if(send(player->GetSocketId(), completeMessage.c_str(), completeMessage.length(), 0) <= 0){
         player->SetDisconnected();
     }
 }
 
-string NetworkManager::GetResponse(const PlayerPtr& player){
+void NetworkManager::GetResponse(const PlayerPtr& player){
 
     string buffer;
 
-    while (buffer.back() != '|'){
+    char* response = new char[MAX_MESSAGE_LENGTH];
 
-        char* response = new char[MAX_MESSAGE_LENGTH];
-        if(recv(player->GetSocketId(), response, sizeof(response), 0) <= 0){
-            cout << "Empty message player will be disconnected..." <<endl;
-            player->SetDisconnected();
-            return buffer;
-        }
-
-        cout << "Message recvd buffer is now " << buffer << endl;
-
-        if(buffer.length() > 1024){
-            player->SetCheating();
-            return buffer;
-        }
-
-        string responseString(response);
-        buffer += responseString;
+    if(recv(player->GetSocketId(), response, sizeof(response), 0) <= 0){
+        cout << "Empty message player will be disconnected..." << endl;
+        player->SetDisconnected();
     }
 
-    cout << "<< [" << buffer << "] from " << player->GetName() << " " << player->GetSocketId() << endl;
-    return buffer;
+    if(buffer.length() > 1024){
+        player->SetCheating();
+    }
+
+    string responseString(response);
+    player->ConcatenateToBuffer(responseString);
+
+    if(responseString[0] != PING)
+        cout << "<< [" << responseString << "] from " << player->GetName() << " " << player->GetSocketId() << endl;
 }
 
 void NetworkManager::SendConfirm(const PlayerPtr& player, int number){
@@ -188,29 +184,4 @@ string NetworkManager::GetDataPart(const string& message){
 int NetworkManager::GetMessageNumber(const string& message)
 {
     return stoi(message.substr(1, message.find(',') - 1));
-}
-
-vector<string> NetworkManager::GetSplitMessages(const PlayerPtr& player){
-
-    vector<string> splitMessages;
-    string messages = NetworkManager::GetResponse(player);
-
-    if(player->IsDisconnected() || player->IsCheating())
-        return splitMessages;
-
-    try {
-        size_t position = 0;
-        string message;
-        while ((position = messages.find('|')) != string::npos) {
-            message = messages.substr(0, position);
-            splitMessages.push_back(message);
-            messages.erase(0, position + 1);
-        }
-
-    }
-    catch( ... ) {
-        Utils::Error(-1, "Incorrect message format");
-    }
-
-    return splitMessages;
 }

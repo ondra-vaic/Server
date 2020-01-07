@@ -26,11 +26,9 @@ void PlayerInGame::init(){
     commands[WAITING][FORFEIT] = bind(&PlayerInGame::setForfeited, this, _1);
     commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
 
-
-//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
-//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
-//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
-//    commands[WAITING][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
+    commands[DISCONNECTED][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
+    commands[FORFEITED][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
+    commands[WAITING_RECONNECT][GAME_INFO] = bind(&PlayerInGame::sendInfo, this, _1);
 }
 
 void PlayerInGame::ResetState(){

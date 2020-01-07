@@ -18,7 +18,7 @@ Message::Message(const string& rawMessage, const PlayerPtr& player){
     }
     catch ( ... ){
         player->SetCheating();
-        Utils::Error(-1, "Error parsing message");
+        //Utils::Error(-1, "Error parsing message");
     }
 }
 

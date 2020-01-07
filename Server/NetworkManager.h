@@ -13,11 +13,10 @@ class NetworkManager {
 
 
 public:
-    static string GetResponse(const PlayerPtr& player);
+    static void GetResponse(const PlayerPtr& player);
     static char GetIdentifier(string message);
     static string GetDataPart(const string& message);
     static int GetMessageNumber(const string& message);
-    static vector<string> GetSplitMessages(const PlayerPtr& player);
 
     static void SendCrown(const PlayerPtr& player, int x, int y);
     static void SendMove(const PlayerPtr& player, int x0, int y0, int x1, int y1);

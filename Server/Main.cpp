@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]) {
         string key;
         if (!(iss >> key >> val) || val < 0) {
             cout << "Error processing config file, make sure all values are set, all values are positive and the format is correct" <<endl;
-            break;
+            return 1;
         }
 
         if(key == "maxNumPlayers"){
@@ -55,6 +55,7 @@ int main(int argc, char const *argv[]) {
     }
     if(maxPlayers == -1 || maxPendingConnections == -1 || port == -1, numberOfRooms == -1){
         cout << "Error processing config file, make sure all values are set, all values are positive and the format is correct" <<endl;
+        return 1;
     }
 
     Server* server = new Server(maxPlayers, maxPendingConnections, port, numberOfRooms);
