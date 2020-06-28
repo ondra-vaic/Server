@@ -15,3 +15,6 @@
 * Odpojit klienta po zaslání nevalidní zprávy.
 * Odpojit klienta po zaslání zprávy, která by vedla k nedovolenému tahu.
 * Odpojit klienta po zaslání validní zprávy v nekorektním kontextu.
+
+
+Více informací a kompletní znění zadání najdete v dokumentaci [zde](UpsDoc.pdf).
