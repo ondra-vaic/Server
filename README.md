@@ -1,3 +1,18 @@
+# Checkers Game Server
+
+### This project involved the development of a checkers game server in C++. The corresponding client is created in Unity. 
+
+* Communication between the server and client is achieved through a text-based, unencrypted protocol over TCP.
+
+### Server is able to:
+* Concurrently serve requests from multiple clients
+* Automatically reconnect briefly disconnected clients to the game
+* Disconnect long-term disconnected clients
+* Detect connection failures
+* Disconnect clients after sending invalid messages
+* Disconnect clients after sending messages that would result in illegal moves
+* Disconnect clients after sending valid messages in incorrect contexts
+
 # Seminární práce pro předmět KIV/UPS
 
 ## Server pro hru dáma
